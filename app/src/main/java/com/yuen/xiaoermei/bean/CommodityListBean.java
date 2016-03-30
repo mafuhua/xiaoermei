@@ -54,6 +54,16 @@ public class CommodityListBean {
         private String pro_img;
         private String pro_name;
         private String pro_price;
+        private String pro_shelves;
+
+        public String getPro_shelves() {
+            return pro_shelves;
+        }
+
+        public void setPro_shelves(String pro_shelves) {
+            this.pro_shelves = pro_shelves;
+        }
+
         private String pro_inventory;
 
         public String getId() {

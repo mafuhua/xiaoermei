@@ -19,5 +19,6 @@ public class MyApplication extends Application {
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(true);
+
     }
 }

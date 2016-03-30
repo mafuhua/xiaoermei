@@ -22,6 +22,7 @@ import com.yuen.xiaoermei.utils.ContactURL;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -42,8 +43,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private MyAdapter adapter;
     private List<String> commodityDecKey = new ArrayList<>();
     private List<String> commodityDecValue = new ArrayList<>();
+    private List<String> commodityImageList = new ArrayList<>();
     private MyPagerAdapter myPagerAdapter;
-
+    private String commodityid;
+    private ImageOptions options;
     private void assignViews() {
         context = this;
         mVpCommodityDec = (ViewPager) findViewById(R.id.vp_commodity_dec);
@@ -54,35 +57,52 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvTitleDec.setText("商品详情");
+        myPagerAdapter = new MyPagerAdapter();
         mIvBtnAdd.setBackgroundResource(R.drawable.iconfontbianji2x);
         myPagerAdapter = new MyPagerAdapter();
         mVpCommodityDec.setAdapter(myPagerAdapter);
         mGvCommoditydec.setAdapter(adapter);
         mIvBtnAdd.setOnClickListener(this);
         mIvBtnBack.setOnClickListener(this);
+        options = new ImageOptions.Builder()
+                //设置使用缓存
+                .setUseMemCache(true)
+                // 图片缩放模式
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .build();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_dec);
+        Intent intent = getIntent();
+        commodityid = intent.getStringExtra("commodityid");
         assignViews();
         getCommodityList();
     }
 
     public void getCommodityList() {
-        RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC);
+        RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", result.toString());
+              //  Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 CommodityDecBean commodityDecBean = gson.fromJson(res, CommodityDecBean.class);
                 CommodityDecBean.DataBean commodityDecBeanData = commodityDecBean.getData();
+                //  CommodityDecBean.DataBean commodityDecBeanData = commodityDecBean.;
                 String pro_color = commodityDecBeanData.getPro_color();
                 String pro_h_price = commodityDecBeanData.getPro_h_price();
-                String pro_img = commodityDecBeanData.getPro_img();
+                List<CommodityDecBean.DataBean.ProImgBean> proImg = commodityDecBeanData.getPro_img();
+                for (int i = 0; i < proImg.size(); i++) {
+                    CommodityDecBean.DataBean.ProImgBean proImgBean = proImg.get(i);
+
+                    commodityImageList.add(proImgBean.getImg());
+                }
+                mVpCommodityDec.setAdapter(myPagerAdapter);
+
                 String pro_inventory = commodityDecBeanData.getPro_inventory();
                 String pro_kg = commodityDecBeanData.getPro_kg();
                 String pro_ml = commodityDecBeanData.getPro_ml();
@@ -92,10 +112,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 String pro_size = commodityDecBeanData.getPro_size();
                 String pro_taste = commodityDecBeanData.getPro_taste();
                 mTvCommodityDec.setText(pro_name);
-                if (pro_color.length() > 0) {
-                    commodityDecKey.add("颜色:");
-                    commodityDecValue.add(pro_color);
-                }
+
                 if (pro_h_price.length() > 0) {
                     commodityDecKey.add("活动价:");
                     commodityDecValue.add(pro_h_price);
@@ -112,6 +129,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                     commodityDecKey.add("重量:");
                     commodityDecValue.add(pro_kg);
                 }
+                if (pro_color.length() > 0) {
+                    commodityDecKey.add("颜色:");
+                    commodityDecValue.add(pro_color);
+                }
                 if (pro_ml.length() > 0) {
                     commodityDecKey.add("体积:");
                     commodityDecValue.add(pro_ml);
@@ -124,6 +145,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 if (pro_size.length() > 0) {
                     commodityDecKey.add("尺寸:");
                     commodityDecValue.add(pro_size);
+
                 }
                 if (pro_taste.length() > 0) {
                     commodityDecKey.add("味道:");
@@ -166,7 +188,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(context);
-            imageView.setBackgroundResource(R.drawable.shangpintu2x);
+           /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                    ViewGroup.LayoutParams.FILL_PARENT);
+            imageView .setLayoutParams(mParams);*/
+            x.image().bind(imageView, commodityImageList.get(position));
             container.addView(imageView);
             return imageView;
         }
@@ -178,7 +203,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         public int getCount() {
-            return 6;
+            return commodityImageList.size();
         }
 
         @Override

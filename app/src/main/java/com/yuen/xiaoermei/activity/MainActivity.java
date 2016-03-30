@@ -1,5 +1,7 @@
 package com.yuen.xiaoermei.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -14,6 +16,10 @@ import com.yuen.xiaoermei.fragment.MenuFragment;
 public class MainActivity extends SlidingFragmentActivity {
 
     private SlidingMenu slidingMenu;
+    public SharedPreferences sharedPreferences;
+    public  static String username;
+    public static String userid;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,13 @@ public class MainActivity extends SlidingFragmentActivity {
         //替换菜单和内容Fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment(),"HOME").commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.menu, new MenuFragment(),"MENU").commit();
+
+
+
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+        userid = sharedPreferences.getString("id", "");
+
 
     }
 

@@ -3,7 +3,7 @@ package com.yuen.xiaoermei.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
+import com.yuen.xiaoermei.baseclass.BaseActivity;
 import com.yuen.xiaoermei.bean.LoginBean;
 import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.XUtils;
@@ -21,7 +22,7 @@ import org.xutils.common.Callback;
 
 import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText mEtLoginUsername;
     private EditText mEtLoginPassword;
     private CheckBox mRbLoginRememberPassword;
@@ -46,7 +47,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         assignViews();
-        if (sharedPreferences.getString("username","").equals("admin") && sharedPreferences.getString("password","").equals("123456")) {
+        if (!TextUtils.isEmpty(sharedPreferences.getString("username","")) && !TextUtils.isEmpty(sharedPreferences.getString("password", "")) ) {
+          //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -75,21 +77,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 HashMap<String, String> map = new HashMap<String, String>();
                 map.put("name", "admin");
                 map.put("password", "123456");
+                sharedPreferences.edit().putString("username", "admin")
+                        .putString("password", "123456").apply();
                 XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("mafuhua", result.toString());
+                        //Log.d("mafuhua", result.toString());
                         String res = result.toString();
                         Gson gson = new Gson();
                         LoginBean loginBean = gson.fromJson(res, LoginBean.class);
+                        LoginBean.DataBean dataBean = loginBean.getData();
                         /**
                          * getcode
                          * 店铺是0,品牌是1
                          */
                         if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
-                            sharedPreferences.edit().putString("username", "admin")
-                                    .putString("password", "123456")
-                                    .putString("tel", "15821972617")
+                            sharedPreferences.edit()
+                                    .putString("tel", dataBean.getTel())
+                                    .putString("id", dataBean.getId())
                                     .apply();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);

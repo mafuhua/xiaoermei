@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/iv_menuitem_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/ic_launcher"/>
 
         <TextView
@@ -27,7 +27,7 @@
 
         <ImageView
             android:layout_width="10dp"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:padding="5dp"

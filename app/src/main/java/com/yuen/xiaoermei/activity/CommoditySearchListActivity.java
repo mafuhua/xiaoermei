@@ -3,9 +3,6 @@ package com.yuen.xiaoermei.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +14,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
@@ -34,9 +30,7 @@ import java.util.List;
 
 public class CommoditySearchListActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mEtInputSearch;
-    private ImageView mIvBtnSearch;
     private GridView mGvCommoditylist;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
@@ -50,22 +44,18 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
     private List<String> proNameList = new ArrayList<>();
     private List<String> proInventoryList = new ArrayList<>();
     private ImageOptions options;
-
+    private String tvsearch;
     private void assignViews() {
         context = this;
         mEtInputSearch = (EditText) findViewById(R.id.et_input_search);
-        mIvBtnSearch = (ImageView) findViewById(R.id.iv_btn_search);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mGvCommoditylist = (GridView) findViewById(R.id.gv_commoditylist);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
-        mIvBtnAdd.setOnClickListener(this);
+        mIvBtnAdd.setVisibility(View.GONE);
         mIvBtnBack.setOnClickListener(this);
-        mIvBtnSearch.setOnClickListener(this);
         adapter = new MyAdapter();
-
         mGvCommoditylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -74,58 +64,26 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
                 context.startActivity(intent);
             }
         });
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
-            @Override
-            public void onRefresh() {
-                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        mHandler.sendEmptyMessage(1);
-                    }
-                }).start();
-
-            }
-        });
         options = new ImageOptions.Builder()
                 //设置使用缓存
                 .setUseMemCache(true)
                 .build();
     }
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
 
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    adapter.notifyDataSetChanged();
-                    //swipeRefreshLayout.setEnabled(false);
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_commodity_list);
+        setContentView(R.layout.activity_commodity_search_list);
+        Intent intent = getIntent();
+        tvsearch = intent.getStringExtra("tvsearch");
         assignViews();
         getCommodityList();
 
     }
 
     public void getCommodityList() {
-        RequestParams params = new RequestParams(ContactURL.COMMODITY_LIST);
+        RequestParams params = new RequestParams(ContactURL.COMMODITY_SEARCH_LIST+MainActivity.userid+"/pro_name/"+tvsearch);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

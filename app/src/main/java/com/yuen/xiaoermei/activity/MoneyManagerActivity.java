@@ -1,5 +1,7 @@
 package com.yuen.xiaoermei.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -27,9 +29,10 @@ public class MoneyManagerActivity extends BaseActivity implements View.OnClickLi
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
-
+    private SharedPreferences sharedPreferences;
 
     private void assignViews() {
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -41,8 +44,8 @@ public class MoneyManagerActivity extends BaseActivity implements View.OnClickLi
         mRlMoneyCard = (RelativeLayout) findViewById(R.id.rl_money_card);
         mRlMoneyOut = (RelativeLayout) findViewById(R.id.rl_money_out);
         mTvTitleDec.setText("财务管理");
-        mTvUserName.setText(username);
-        mTvUserPhone.setText(telphone);
+        mTvUserName.setText(sharedPreferences.getString("username", ""));
+        mTvUserPhone.setText(sharedPreferences.getString("tel", ""));
         mIvBtnAdd.setVisibility(View.GONE);
         mRlMoneyCard.setOnClickListener(this);
         mRlMoneyOut.setOnClickListener(this);

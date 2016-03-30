@@ -59,7 +59,7 @@ public class MyAdapter extends CommonAdapter<String> {
                 // 已经选择过该图片
                 if (mSelectedImage.contains(mDirPath + "/" + item)) {
                     mSelectedImage.remove(mDirPath + "/" + item);
-
+                    MySelectedImage.remove(mDirPath + "/" + item);
                     mSelect.setImageResource(R.drawable.picture_unselected);
                     mImageView.setColorFilter(null);
                 } else

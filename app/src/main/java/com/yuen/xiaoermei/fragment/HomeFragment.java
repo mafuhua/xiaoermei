@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.CommodityListActivity;
 import com.yuen.xiaoermei.activity.MainActivity;
-import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.MarketingSchoolActivity;
 import com.yuen.xiaoermei.activity.OpenShopNoticeActivity;
 

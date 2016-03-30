@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:text="店铺公告"
         android:textSize="22sp"/>
 
     <ScrollView
@@ -24,18 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:padding="10dp"
-            android:text="       路由器被蹭网后，我有被黑的风险吗？Evi1m0，来
-        自知道创宇，邪红色信息安全组织创始人
-其实这个问题可以理解为：蹭网之后，能做些什么？
-不少人的八卦心窥探欲还是很强烈的，强烈到让人恐惧。所以很多人
-喜欢看一些八卦文章，比如：如何优雅的窥探别人？
-通常这样的文章很容易火起来，因为不少人都喜欢看而且百看不厌。
-最近路由安全沸沸扬扬，可以翻阅我微信公众号历史文章查看关于路由安
-全的文章以及央视当时的采访。鉴于天时地利人和，最后我成功的在现实生活中上
-演了这样一场精彩好戏，为了满足众人的欲望，我就写成故事。大家好好琢磨琢磨
-蹭网之后，我们还能做些什么？
-声明： 这是一个虚构故事，图片均加万恶马赛克。"
-
             android:textSize="22sp"/>
 
 

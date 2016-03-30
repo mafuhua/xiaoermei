@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +19,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.bean.ShopDistanceBean;
+import com.yuen.xiaoermei.bean.ShopFreightBean;
+import com.yuen.xiaoermei.bean.ShopTimeBean;
+import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.XUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.HashMap;
 
@@ -40,8 +53,6 @@ public class ShopManagerActivity extends BaseActivity {
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
-
-    private SharedPreferences sharedPreferences;
     private HashMap<Integer, String> settingMap = new HashMap<>();
 
     private void assignViews() {
@@ -56,13 +67,13 @@ public class ShopManagerActivity extends BaseActivity {
         mLvShopManager = (ListView) findViewById(R.id.lv_shop_manager);
         mTvTitleDec.setText("店铺管理");
         mIvBtnAdd.setVisibility(View.GONE);
-        mTvUserName.setText(username);
         mIvBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goBack();
             }
         });
+        mTvUserName.setText(MainActivity.username);
         myAdapter = new MyAdapter();
         mLvShopManager.setAdapter(myAdapter);
         mLvShopManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,6 +116,107 @@ public class ShopManagerActivity extends BaseActivity {
         setContentView(R.layout.activity_shop_manager);
         toNext();
         assignViews();
+        getShopTime();
+        getShopDistance();
+        getShopFreight();
+    }
+
+    public void getShopDistance() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_DISTANCE + MainActivity.userid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result.toString());
+                String res = result.toString();
+                Gson gson = new Gson();
+                ShopDistanceBean shopDistanceBean = gson.fromJson(res, ShopDistanceBean.class);
+                String shop_distance = shopDistanceBean.getData().getShop_distance();
+                settingMap.put(3, shop_distance + "km");
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+
+    public void getShopFreight() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_FREIGHT + MainActivity.userid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                // Log.d("mafuhua", "result"+result.toString());
+                String res = result.toString();
+                Gson gson = new Gson();
+                ShopFreightBean shopFreightBean = gson.fromJson(res, ShopFreightBean.class);
+                String store_freight = shopFreightBean.getData().getShop_freight();
+                settingMap.put(4, store_freight + "元");
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    public void getShopTime() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_TIME + MainActivity.userid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                //  Log.d("mafuhua", result.toString());
+                String res = result.toString();
+                Gson gson = new Gson();
+                ShopTimeBean shopTimeBean = gson.fromJson(res, ShopTimeBean.class);
+                String starttime = shopTimeBean.getData().getShop_time();
+                String endtime = shopTimeBean.getData().getShop_etime();
+                settingMap.put(0, starttime + ":00 - " + endtime + ":00");
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
@@ -120,14 +232,21 @@ public class ShopManagerActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("请输入" + str);
         final EditText editText = new EditText(context);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         // editText.setHint(hint);
         builder.setView(editText);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String weight = editText.getText().toString().trim();
+                if (position == 3) {
+                    setAddDistance(weight);
+                } else {
+                    setAddFreight(weight);
+                }
                 settingMap.put(position, weight + hint);
                 myAdapter.notifyDataSetChanged();
+
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -140,22 +259,42 @@ public class ShopManagerActivity extends BaseActivity {
         dialog.show();
     }
 
+
     private void showSettingTimeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("请输入营业时间");
+        builder.setMessage("请输入0-24之间的整数");
         View view = getLayoutInflater().inflate(R.layout.dialog_setting_time, null);
         final EditText et_input_start = (EditText) view.findViewById(R.id.et_input_start);
         final EditText et_input_end = (EditText) view.findViewById(R.id.et_input_end);
         builder.setView(view);
-
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String etstart = et_input_start.getText().toString().trim();
                 String etend = et_input_end.getText().toString().trim();
-                settingMap.put(0, etstart + " - " + etend);
-                myAdapter.notifyDataSetChanged();
+                if (!TextUtils.isEmpty(etstart) && !TextUtils.isEmpty(etend)) {
+                    if (Integer.parseInt(etend, 10) > 24 || Integer.parseInt(etstart, 10) > 24) {
+                        Toast.makeText(context, "时间不能大于24", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (Integer.parseInt(etend, 10) < 0 || Integer.parseInt(etstart, 10) < 0) {
+                        Toast.makeText(context, "时间不能小于0", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        settingMap.put(0, etstart + ":00 - " + etend + ":00");
+                        myAdapter.notifyDataSetChanged();
+                        setAddTime(etstart, etend);
+                    }
+                } else {
+                    Toast.makeText(context, "时间不能为空", Toast.LENGTH_SHORT).show();
+
+                }
+
+
             }
+
+
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -167,6 +306,94 @@ public class ShopManagerActivity extends BaseActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    private void setAddTime(String etstart, String etend) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("user_id", MainActivity.userid);
+        map.put("shop_etime", etend);
+        map.put("shop_time", etstart);
+        XUtils.xUtilsPost(ContactURL.SHOP_ADD_TIME, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result.toString());
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                cex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void setAddDistance(String distance) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("user_id", MainActivity.userid);
+        map.put("shop_distance", distance);
+        XUtils.xUtilsPost(ContactURL.SHOP_ADD_DISTANCE, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result.toString());
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                cex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void setAddFreight(String freight) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("user_id", MainActivity.userid);
+        map.put("shop_freight", freight);
+        XUtils.xUtilsPost(ContactURL.SHOP_ADD_FREIGHT, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                //   Log.d("mafuhua", result.toString());
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                cex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     class MyAdapter extends BaseAdapter {
