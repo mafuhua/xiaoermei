@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/et_input_start"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/yuanjiaojuxing"
+        android:inputType="time"
+        android:hint="请输入开始时间" />
+
+    <EditText
+        android:layout_margin="10dp"
+        android:id="@+id/et_input_end"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:inputType="time"
+        android:background="@drawable/yuanjiaojuxing"
+        android:hint="请输入结束时间" />
+
+</LinearLayout>

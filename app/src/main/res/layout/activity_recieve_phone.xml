@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号:"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:background="@drawable/shoujihao2x"
+            android:id="@+id/et_recieve_phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证码:"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_recieve_test_num"
+            android:layout_width="0dp"
+            android:background="@drawable/yanzhengma"
+            android:layout_height="40dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/iv_recieve_test_num"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@drawable/yangzhengma2x"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_btn_recieve_tijiao"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/tijiao"/>
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_open_shopnotice_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:text="开店须知"
+                android:id="@+id/tv_open_shopnotice_left"
+                android:textColor="@color/titlebar_bg"
+                android:textSize="18sp"/>
+
+            <View
+                android:id="@+id/line_open_shopnotice_left"
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:background="@color/titlebar_bg"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:background="@color/titlebar_bg"/>
+
+        <LinearLayout
+            android:id="@+id/ll_open_shopnotice_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_open_shopnotice_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:text="配送须知"
+                android:textSize="18sp"/>
+
+            <View
+                android:background="@color/titlebar_bg"
+                android:id="@+id/line_open_shopnotice_right"
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_open_shopnotice_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+    </ListView>
+
+</LinearLayout>

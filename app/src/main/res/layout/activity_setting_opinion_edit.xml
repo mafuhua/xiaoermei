@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <EditText
+            android:id="@+id/et_setting_opnion_content"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/dajuxing22x"
+            android:padding="20dp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_btn_setting_opnion_tijiao"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/tijiao"/>
+</LinearLayout>

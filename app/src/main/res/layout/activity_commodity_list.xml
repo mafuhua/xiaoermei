@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/sousuo2x">
+        <MultiAutoCompleteTextView
+            android:id="@+id/et_input_search"
+            android:layout_width="wrap_content"
+            android:background="@null"
+            android:hint="请输入商品名"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/sousuo12x"/>
+    </RelativeLayout>
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gv_commoditylist"
+        android:numColumns="2"
+        android:layout_gravity="center_horizontal"/>
+
+
+</LinearLayout>

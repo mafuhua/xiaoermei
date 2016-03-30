@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.yuen.xiaoermei"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application
+        android:name=".utils.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_login">
+        </activity>
+        <activity
+            android:name=".activity.CommodityListActivity"
+            android:label="@string/title_activity_commodity_list">
+        </activity>
+        <activity
+            android:name=".activity.CommodityDecActivity"
+            android:label="@string/title_activity_commodity_dec">
+        </activity>
+        <activity
+            android:name=".activity.ShopNoticeActivity"
+            android:label="@string/title_activity_shop_notice">
+        </activity>
+        <activity
+            android:name=".activity.ShopNoticeEditActivity"
+            android:label="@string/title_activity_shop_notice_edit">
+        </activity>
+        <activity
+            android:name=".activity.MarketingSchoolActivity"
+            android:label="@string/title_activity_shop_notice_edit">
+        </activity>
+        <activity
+            android:name=".activity.SettingOpinionEditActivity"
+            android:label="@string/title_activity_shop_notice_edit">
+        </activity>
+        <activity
+            android:name=".activity.SettingOurActivity"
+            android:label="@string/title_activity_shop_notice_edit">
+        </activity>
+        <activity
+            android:name=".activity.RecievePhoneActivity"
+            android:label="@string/title_activity_recieve_phone">
+        </activity>
+        <activity
+            android:name=".activity.ShopManagerActivity"
+            android:label="@string/title_activity_shop_manager">
+        </activity>
+        <activity
+            android:name=".activity.OrderManagerActivity"
+            android:label="@string/title_activity_order_manager">
+        </activity>
+        <activity
+            android:name=".activity.MoneyManagerActivity"
+            android:label="@string/title_activity_money_manager">
+        </activity>
+        <activity
+            android:name=".activity.ClientManagerActivity"
+            android:label="@string/title_activity_client_manager">
+        </activity>
+        <activity
+            android:name=".activity.DataManagerActivity"
+            android:label="@string/title_activity_data_manager">
+        </activity>
+        <activity
+            android:name=".activity.MessagerMangerActivity"
+            android:label="@string/title_activity_messager_manger">
+        </activity>
+        <activity
+            android:name=".activity.RecievePhoneListActivity"
+            android:label="@string/title_activity_recieve_phone_list">
+        </activity>
+        <activity
+            android:name=".activity.OpenShopNoticeActivity"
+            android:label="@string/title_activity_open_shop_notice">
+        </activity>
+        <activity
+            android:name=".activity.CommodityEditDecActivity"
+            android:label="@string/title_activity_commodity_edit_dec">
+        </activity>
+        <activity
+            android:name="xlkd.provinceslinkage.ProvinceLinkActivity"
+            android:label="@string/title_activity_shop_manager_edit_address">
+        </activity>
+        <activity
+            android:name=".activity.MyInfomationActivity"
+            android:label="@string/title_activity_my_infomation"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity android:name="zhy.imageloader.SelectorImageActivity"/>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+    </application>
+
+</manifest>

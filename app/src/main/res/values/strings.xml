@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">xiaoermei</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_commodity_list">CommodityListActivity</string>
+    <string name="title_activity_commodity_dec">CommodityDecActivity</string>
+    <string name="title_activity_shop_notice">ShopNoticeActivity</string>
+    <string name="title_activity_shop_notice_edit">ShopNoticeEditActivity</string>
+    <string name="title_activity_recieve_phone">RecievePhoneActivity</string>
+    <string name="title_activity_shop_manager">ShopManagerActivity</string>
+    <string name="title_activity_order_manager">OrderManagerActivity</string>
+    <string name="title_activity_money_manager">MoneyManagerActivity</string>
+    <string name="title_activity_client_manager">ClientManagerActivity</string>
+    <string name="title_activity_data_manager">DataManagerActivity</string>
+    <string name="title_activity_messager_manger">MessagerMangerActivity</string>
+    <string name="title_activity_recieve_phone_list">RecievePhoneListActivity</string>
+    <string name="title_activity_open_shop_notice">OpenShopNoticeActivity</string>
+    <string name="title_activity_commodity_edit_dec">CommodityEditDecActivity</string>
+    <string name="title_activity_shop_manager_edit_address">ShopManagerEditAddress</string>
+    <string name="title_activity_my_infomation">MyInfomationActivity</string>
+    <string name="title_activity_setting">SettingActivity</string>
+</resources>

@@ -1,0 +1,89 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="总客户"
+        android:textSize="18sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/jucing2x">
+
+        <ImageView
+            android:id="@+id/iv_zongkehu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:background="@drawable/zongkehu2x"/>
+
+        <TextView
+            android:id="@+id/tv_zongkehu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_zongkehu"
+            android:padding="5dp"
+            android:text="目前总客户"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_client_now_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/iv_zongkehu"
+            android:padding="5dp"
+            android:text="300"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:text="新增客户"
+        android:textSize="18sp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/jucing2x">
+
+        <ImageView
+            android:id="@+id/iv_zongkehu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:background="@drawable/xinzengkehu2x"/>
+
+        <TextView
+            android:id="@+id/tv_zongkehu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/iv_zongkehu2"
+            android:padding="5dp"
+            android:text="目前总客户"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_client_new_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/iv_zongkehu2"
+            android:padding="5dp"
+            android:text="300"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+</LinearLayout>

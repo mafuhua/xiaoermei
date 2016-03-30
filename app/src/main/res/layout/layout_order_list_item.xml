@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:background="#66848484"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_order_list_unsend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="待发送"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="2016.3.01"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#66848484"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/iv_order_shop_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shangpintu2x"/>
+
+
+        <TextView
+            android:id="@+id/tv_order_list_shopname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_order_shop_image"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:text="日本进口牛奶面包"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_list_shopname"
+            android:layout_toRightOf="@id/iv_order_shop_image"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:text="分类:"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_classname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_order_list_shopname"
+            android:layout_toRightOf="@id/tv_order_list_class"
+            android:padding="10dp"
+            android:paddingRight="10dp"
+            android:text="食品"/>
+
+
+        <TextView
+            android:id="@+id/tv_order_list_presentprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="260"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_currentprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:text="240"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_order_list_presentprice"
+            android:padding="10dp"
+            android:text="*1"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:background="#66848484"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_order_list_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="收货人:"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_peoplename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_order_list_people"
+            android:padding="10dp"
+            android:text="小虾米"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="15136105241"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_order_list_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:text="收货地址:"/>
+
+        <TextView
+            android:id="@+id/tv_order_list_peopleaddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_order_list_address"
+            android:padding="10dp"
+            android:text="小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米小虾米"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
