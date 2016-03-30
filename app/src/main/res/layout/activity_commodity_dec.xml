@@ -5,6 +5,7 @@
 
     <include layout="@layout/layout_title_bar"/>
 
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_commodity_dec"
         android:layout_width="fill_parent"
@@ -17,10 +18,25 @@
         android:padding="15dp"
         android:textSize="14sp"/>
 
+
     <GridView
         android:id="@+id/gv_commoditydec"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:numColumns="2"/>
+
+    <ScrollView
+        android:scrollbars="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_commodity_dec_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="5d465f4sd45"/>
+    </ScrollView>
+
 </LinearLayout>

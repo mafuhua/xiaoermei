@@ -89,6 +89,8 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     private EditText mEtProductTaste;
     private String pro_shelves = "0";
     private String pro_brand;
+    private String type_id1;
+    private String type_id2;
     private String type_id;
     private String resultid;
 
@@ -161,7 +163,9 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList1.get(pos - 1), 1);
                 spinner2.setVisibility(View.VISIBLE);
                 spinner3.setVisibility(View.GONE);
-                type_id = ShopTypeFirstIDList1.get(pos - 1);
+                type_id1 = ShopTypeFirstIDList1.get(pos - 1);
+                type_id = type_id1;
+                Log.d("mafuhua", "你点击的是:" + type_id);
             }
 
             @Override
@@ -177,7 +181,10 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 Log.d("mafuhua", ContactURL.SHOP_TYPE + ShopTypeFirstIDList2.get(pos - 1) + "你点击的是:" + pos);
                 spinner3.setVisibility(View.VISIBLE);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList2.get(pos - 1), 2);
-                type_id = ShopTypeFirstIDList2.get(pos - 1);
+                type_id = "";
+                type_id2 = type_id1+","+ShopTypeFirstIDList2.get(pos - 1);
+                type_id = type_id2;
+                Log.d("mafuhua",  "你点击的是:" + type_id);
             }
 
             @Override
@@ -192,8 +199,8 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 if (pos == 0) return;
                 Log.d("mafuhua", ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1) + "你点击的是:" + pos);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1), 3);
-                Toast.makeText(context, ShopTypeFirstIDList3.get(pos - 1) + "id", Toast.LENGTH_SHORT).show();
-                type_id = ShopTypeFirstIDList3.get(pos - 1);
+                type_id = type_id2+","+ShopTypeFirstIDList3.get(pos - 1);
+                Log.d("mafuhua",  "你点击的是:" + type_id);
             }
 
             @Override
@@ -456,7 +463,6 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:
-
                 String pro_name = mEtProductName.getText().toString().trim();
                 String pro_price = mEtProductPrice.getText().toString().trim();
                 String pro_h_price = mEtProductActivePrice.getText().toString().trim();
@@ -479,16 +485,18 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
 
                 HashMap<String, String> map = new HashMap<String, String>();
-                /*if (TextUtils.isEmpty(pro_brand) || TextUtils.isEmpty(pro_shelves) || TextUtils.isEmpty(type_id)) {
+                if (TextUtils.isEmpty(pro_brand)) {
                     pro_brand = "";
-                    pro_shelves = "";
+                }if (TextUtils.isEmpty(pro_shelves)) {
                     type_id = "";
-                }*/
+                }if (TextUtils.isEmpty(type_id)) {
+                    type_id = "";
+                }
                 map.put("pro_name", pro_name);
                 map.put("pro_shelves", pro_shelves);
                 map.put("brand_id", pro_brand);
                 map.put("type_id", type_id);
-                Log.d("mafuhua","type_id"+ type_id);
+                Log.d("mafuhua", "type_id" + type_id);
                 map.put("pro_price", pro_price);
                 map.put("pro_h_price", pro_h_price);
                 map.put("pro_inventory", pro_inventory);

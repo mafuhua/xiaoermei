@@ -47,10 +47,13 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private MyPagerAdapter myPagerAdapter;
     private String commodityid;
     private ImageOptions options;
+    private TextView mTvCommodityDecContent;
+
     private void assignViews() {
         context = this;
         mVpCommodityDec = (ViewPager) findViewById(R.id.vp_commodity_dec);
         mTvCommodityDec = (TextView) findViewById(R.id.tv_commodity_dec);
+        mTvCommodityDecContent = (TextView) findViewById(R.id.tv_commodity_dec_content);
         mGvCommoditydec = (GridView) findViewById(R.id.gv_commoditydec);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
@@ -111,6 +114,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 String pro_price = commodityDecBeanData.getPro_price();
                 String pro_size = commodityDecBeanData.getPro_size();
                 String pro_taste = commodityDecBeanData.getPro_taste();
+                String pro_content = commodityDecBeanData.getPro_content();
                 mTvCommodityDec.setText(pro_name);
 
                 if (pro_h_price.length() > 0) {
@@ -151,6 +155,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                     commodityDecKey.add("味道:");
                     commodityDecValue.add(pro_taste);
                 }
+                mTvCommodityDecContent.setText(pro_content);
                 adapter = new MyAdapter();
                 mGvCommoditydec.setAdapter(adapter);
             }
