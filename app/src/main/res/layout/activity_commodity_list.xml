@@ -37,7 +37,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <GridView
+        <in.srain.cube.views.GridViewWithHeaderAndFooter
             android:id="@+id/gv_commoditylist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

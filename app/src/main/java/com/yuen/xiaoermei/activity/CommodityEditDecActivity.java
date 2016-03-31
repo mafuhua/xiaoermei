@@ -1,5 +1,6 @@
 package com.yuen.xiaoermei.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xiaoermei.R;
+import com.yuen.xiaoermei.bean.CommodityAddImagBean;
 import com.yuen.xiaoermei.bean.ShopBrandBean;
 import com.yuen.xiaoermei.bean.ShopTypeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
@@ -93,6 +95,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     private String type_id2;
     private String type_id;
     private String resultid;
+    private ProgressDialog mypDialog;
 
     private void assignViews() {
         context = this;
@@ -376,7 +379,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String url = "http://192.168.2.128/xiaoermei/shop/add_img";
+        String url = ContactURL.BASE_URL+"/shop/add_img";
 
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
@@ -394,7 +397,13 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                Log.d("mafuhua", new String(responseBody));
+                String response = new String(responseBody);
+                Log.d("mafuhua", "responseBody"+response);
+                Gson gson = new Gson();
+                CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
+                int status = commodityAddImagBean.getStatus();
+                    mypDialog.dismiss();
+
             }
 
             @Override
@@ -463,6 +472,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:
+                addcommoditydia();
                 String pro_name = mEtProductName.getText().toString().trim();
                 String pro_price = mEtProductPrice.getText().toString().trim();
                 String pro_h_price = mEtProductActivePrice.getText().toString().trim();
@@ -537,7 +547,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
                     }
                 });
-                sendComPic();
+                //sendComPic();
                 // finish();
                 break;
             case R.id.iv_btn_add_selector_image:
@@ -546,7 +556,22 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 break;
         }
     }
+    private void addcommoditydia() {
+        mypDialog = new ProgressDialog(context);
+        //实例化
+        mypDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        //设置进度条风格，风格为圆形，旋转的
+        //设置ProgressDialog 标题
+        mypDialog.setMessage("正在提交");
+        //设置ProgressDialog 提示信息
+        mypDialog.setIndeterminate(false);
+        //设置ProgressDialog 的进度条是否不明确
+        mypDialog.setCancelable(true);
+        //设置ProgressDialog 是否可以按退回按键取消
+        mypDialog.show();
+        //让ProgressDialog显示
 
+    }
     class MyAdapter extends BaseAdapter {
 
         @Override

@@ -43,6 +43,8 @@
                 android:id="@+id/tv_commodity_price"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"/>
 
@@ -50,6 +52,8 @@
                 android:id="@+id/tv_commodity_inventory"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"/>
         </LinearLayout>
