@@ -57,6 +57,7 @@ public class ShopNoticeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 intent = new Intent(context, ShopNoticeEditActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 context.startActivity(intent);
             }
         });

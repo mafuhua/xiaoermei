@@ -60,6 +60,7 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, CommodityDecActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra("commodityid", proIDList.get(position));
                 context.startActivity(intent);
             }
@@ -134,7 +135,9 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
                 finish();
                 break;
             case R.id.iv_btn_add:
-                startActivity(new Intent(context, CommodityEditDecActivity.class));
+                Intent intent = new Intent(context, CommodityEditDecActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
                 break;
             case R.id.iv_btn_search:
                 String tvsearch = mEtInputSearch.getText().toString().trim();

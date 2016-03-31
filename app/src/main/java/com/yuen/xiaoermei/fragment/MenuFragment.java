@@ -65,36 +65,46 @@ public class MenuFragment extends BaseFragment {
                 switch (position){
                     case 0:
                         intent = new Intent(getActivity(), ShopManagerActivity.class);
+                        /**
+                         * 防止activity重复打开
+                         */
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 1:
                         intent = new Intent(getActivity(), OrderManagerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 2:
                         intent = new Intent(getActivity(), MoneyManagerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 3:
                         intent = new Intent(getActivity(), ClientManagerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 4:
                         intent = new Intent(getActivity(), DataManagerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 5:
                         intent = new Intent(getActivity(), MessagerMangerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;
                     case 6:
                         intent = new Intent(getActivity(), SettingActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
 
                         break;

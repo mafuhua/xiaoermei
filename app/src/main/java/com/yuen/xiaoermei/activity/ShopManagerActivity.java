@@ -87,11 +87,13 @@ public class ShopManagerActivity extends BaseActivity {
                         break;
                     case 1:
                         intent = new Intent(context, ShopNoticeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
 
                         break;
                     case 2:
                         intent = new Intent(context, ProvinceLinkActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
                         break;
                     case 3:
@@ -102,10 +104,19 @@ public class ShopManagerActivity extends BaseActivity {
                         break;
                     case 5:
                         intent = new Intent(context, RecievePhoneListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         context.startActivity(intent);
                         break;
 
                 }
+            }
+        });
+        mLayoutTitleUsericon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MyInfomationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                context.startActivity(intent);
             }
         });
     }

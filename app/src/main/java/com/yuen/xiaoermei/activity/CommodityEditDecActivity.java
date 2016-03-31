@@ -552,6 +552,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 break;
             case R.id.iv_btn_add_selector_image:
                 Intent intent = new Intent(context, SelectorImageActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(intent, 100);
                 break;
         }

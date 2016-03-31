@@ -96,6 +96,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, CommodityDecActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra("commodityid", proIDList.get(position));
                 context.startActivity(intent);
             }
@@ -226,11 +227,14 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.iv_btn_add:
-                startActivity(new Intent(context, CommodityEditDecActivity.class));
+                Intent intent1 = new Intent(context, CommodityEditDecActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent1);
                 break;
             case R.id.iv_btn_search:
                 String tvsearch = mEtInputSearch.getText().toString().trim();
                 Intent intent = new Intent(context, CommoditySearchListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra("tvsearch", tvsearch);
                 startActivity(intent);
                 /*if (proNameList.contains(tvsearch)) {

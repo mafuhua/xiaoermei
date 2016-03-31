@@ -7,7 +7,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="15dp"
-        android:background="#66848484"/>
+        android:background="@color/grey_line"/>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -33,7 +33,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"
-        android:background="#66848484"/>
+        android:background="@color/grey_line"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -107,7 +107,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.5dp"
-        android:background="#66848484"/>
+        android:background="@color/grey_line"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

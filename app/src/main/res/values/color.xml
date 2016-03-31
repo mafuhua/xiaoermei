@@ -2,4 +2,5 @@
 <resources>
     <color name="titlebar_bg">#FEBB24</color>
     <color name="text_line">#55330000</color>
+    <color name="grey_line">#66848484</color>
 </resources>

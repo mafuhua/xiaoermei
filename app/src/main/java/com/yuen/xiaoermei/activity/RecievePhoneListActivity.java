@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,7 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
+import com.yuen.xiaoermei.bean.ShopPhoneNumBean;
+import com.yuen.xiaoermei.utils.ContactURL;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +38,10 @@ public class RecievePhoneListActivity extends AppCompatActivity {
     private MyAdapter myAdapter;
     private Context context;
     private List<String> phonelist = new ArrayList<>();
+    private List<String> phoneIDlist = new ArrayList<>();
 
     private void assignViews() {
         context = this;
-        phonelist.add(0, "15136405241");
-        phonelist.add(1, "15136405241");
-        phonelist.add(2, "15136405241");
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -66,7 +72,9 @@ public class RecievePhoneListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         phonelist.remove(position);
-                        myAdapter.notifyDataSetChanged();
+                        String telid = phoneIDlist.get(position);
+                        delShopPhoneNum(telid);
+                        // myAdapter.notifyDataSetChanged();
                         dialog.dismiss();
 
                     }
@@ -88,6 +96,85 @@ public class RecievePhoneListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recieve_phone_list);
         assignViews();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        phonelist.clear();
+        phoneIDlist.clear();
+        getShopPhoneNum();
+    }
+
+    public void getShopPhoneNum() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_PHONENUM + MainActivity.userid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result.toString());
+                String res = result.toString();
+                Gson gson = new Gson();
+                ShopPhoneNumBean shopPhoneNumBean = gson.fromJson(res, ShopPhoneNumBean.class);
+                List<ShopPhoneNumBean.DataBean> shopPhoneNumBeanData = shopPhoneNumBean.getData();
+                for (int i = 0; i < shopPhoneNumBeanData.size(); i++) {
+
+                    ShopPhoneNumBean.DataBean dataBean = shopPhoneNumBeanData.get(i);
+                    String tel = dataBean.getTel();
+                    String telid = dataBean.getId();
+                    phonelist.add(tel);
+                    phoneIDlist.add(telid);
+                }
+
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+
+    public void delShopPhoneNum(String id) {
+        RequestParams params = new RequestParams(ContactURL.SHOP_DEL_PHONENUM + id);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", result.toString());
+                String res = result.toString();
+
+                myAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     class MyAdapter extends BaseAdapter {

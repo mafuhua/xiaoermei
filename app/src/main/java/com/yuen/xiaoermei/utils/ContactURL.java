@@ -76,4 +76,28 @@ public class ContactURL {
      * 公告保存
      */
     public static String SHOP_ADD_GG = BASE_URL + "shop/store_add_gg";
+    /**
+     * 店铺地址调取
+     */
+    public static String SHOP_GET_ADDRESS = BASE_URL + "shop/store_adds/user_id/";
+    /**
+     * 接单手机号调取
+     */
+    public static String SHOP_GET_PHONENUM = BASE_URL + "shop/store_tel/user_id/";
+    /**
+     * 店铺地址保存
+     */
+    public static String SHOP_ADD_ADDRESS = BASE_URL + "shop/store_add_adds";
+    /**
+     * 删除接单手机
+     */
+    public static String SHOP_DEL_PHONENUM = BASE_URL + "shop/store_del_tel/id/";
+    /**
+     * 短信接口
+     */
+    public static String SHOP_GET_DUANXIN = BASE_URL + "shop/duanxin";
+    /**
+     * 添加手机号
+     */
+    public static String SHOP_ADD_TEL = BASE_URL + "shop/store_add_tel";
 }

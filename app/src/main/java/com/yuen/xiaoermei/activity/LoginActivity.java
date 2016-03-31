@@ -97,11 +97,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                     .putString("id", dataBean.getId())
                                     .apply();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
                             finish();
                         }
                         if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
                             finish();
                         } else {
