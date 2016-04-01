@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+   <!-- xmlns:zhy="http://schemas.android.com/apk/res-auto"-->
     <include layout="@layout/layout_title_bar"/>
 
     <RelativeLayout
@@ -21,8 +22,11 @@
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/w2x"/>
+            android:layout_marginRight="20dp" />
+          <!--  zhy:src="@drawable/icon"
+            zhy:type="circle"-->
+
+
 
         <TextView
             android:id="@+id/tv_user_name"

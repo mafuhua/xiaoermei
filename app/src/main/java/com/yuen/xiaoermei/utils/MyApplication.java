@@ -15,7 +15,6 @@ public class MyApplication extends Application {
         super.onCreate();
         // 初始化
         context = this;
-
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(true);
