@@ -43,6 +43,7 @@ import java.io.IOException;
 import piccutdemo.RoundImageView;
 
 public class MyInfomationActivity extends AppCompatActivity implements View.OnClickListener {
+    private final String ACTION_NAME = "geticon";
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
     private TextView mTvTitleDec;
@@ -60,6 +61,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private Button btn_login_out;
     private Context context;
     private File destDir;
+    private SharedPreferences sharedPreferences;
 
     private void assignViews() {
         context = this;
@@ -96,6 +98,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_infomation);
         assignViews();
+
         iv_user_icon.setType(RoundImageView.TYPE_ROUND);
         iv_user_icon.setBorderRadius(60);
         getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
@@ -107,7 +110,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         super.onResume();
         getShopInfo(ContactURL.SHOP_GET_NICK, 1);
         getShopInfo(ContactURL.SHOP_GET_SHOPTITILE, 2);
-       //
+        //
     }
 
     /**
@@ -271,7 +274,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
          */
         File externalStorageDirectory = Environment.getExternalStorageDirectory();
         destDir = new File(externalStorageDirectory + "/imagcacahe/");
-       // Log.d("mafuhua", "externalStorageDirectory:" + destDir);
+        // Log.d("mafuhua", "externalStorageDirectory:" + destDir);
         if (!destDir.exists()) {
             destDir.mkdirs();
         }
@@ -330,7 +333,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
         File file = new File(path);
-      //  Log.d("mafuhua", path + "**************");
+        //  Log.d("mafuhua", path + "**************");
         try {
             rp.put("img", file);
             rp.add("shou_img", MainActivity.shop_imgs);
@@ -345,13 +348,13 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-               // Log.d("mafuhua", "responseBody" + response);
+                // Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
                 IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
                 if (iconResultBean.getStatus().equals("0")) {
                     Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
                     getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
-                }else {
+                } else {
                     Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -364,14 +367,14 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 
         });
     }
-    private SharedPreferences sharedPreferences;
+
     public void getUserIcon(String url) {
         RequestParams params = new RequestParams(url);
-      //  Log.d("mafuhua", url);
+        //  Log.d("mafuhua", url);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              //  Log.d("mafuhua", "result" + result.toString());
+                //  Log.d("mafuhua", "result" + result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 UserIconBean userIconBean = gson.fromJson(res, UserIconBean.class);
@@ -382,7 +385,9 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
                     sharedPreferences.edit()
                             .putString("show_img", shop_imgs)
                             .apply();
-
+                    Intent mIntent = new Intent(ACTION_NAME);
+                    //发送广播
+                    sendBroadcast(mIntent);
                 }
 
 
@@ -404,12 +409,13 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
+
     public void getShopInfo(String url, final int type) {
         RequestParams params = new RequestParams(url + MainActivity.userid);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-               // Log.d("mafuhua", "result" + result.toString());
+                // Log.d("mafuhua", "result" + result.toString());
                 String res = result.toString();
               /*  Gson gson = new Gson();
                 ShopFreightBean shopFreightBean = gson.fromJson(res, ShopFreightBean.class);
@@ -454,4 +460,6 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         String shop_title = shopTitleBean.getData().getShop_title();
         et_user_shop_name.setText(shop_title);
     }
+
+
 }

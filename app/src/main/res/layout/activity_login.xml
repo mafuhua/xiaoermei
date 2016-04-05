@@ -65,6 +65,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:hint="密码"
+            android:inputType="textPassword"
             android:background="@null"
             android:textSize="18sp"/>
     </LinearLayout>

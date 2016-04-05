@@ -3,7 +3,6 @@ package com.yuen.xiaoermei.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -25,19 +24,23 @@ import java.util.HashMap;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private EditText mEtLoginUsername;
     private EditText mEtLoginPassword;
-    private CheckBox mRbLoginRememberPassword;
+    private CheckBox mCbLoginRememberPassword;
     private TextView mTvLoginForgetPassword;
     private ImageView mIvBtnLogin;
     private SharedPreferences sharedPreferences;
+    private String username;
+    private String password;
 
     private void assignViews() {
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         mEtLoginUsername = (EditText) findViewById(R.id.et_login_username);
         mEtLoginPassword = (EditText) findViewById(R.id.et_login_password);
-        mRbLoginRememberPassword = (CheckBox) findViewById(R.id.cb_login_remember_password);
+        mCbLoginRememberPassword = (CheckBox) findViewById(R.id.cb_login_remember_password);
         mTvLoginForgetPassword = (TextView) findViewById(R.id.tv_login_forget_password);
         mIvBtnLogin = (ImageView) findViewById(R.id.iv_btn_login);
         mIvBtnLogin.setOnClickListener(this);
+        mCbLoginRememberPassword.setOnClickListener(this);
+        mTvLoginForgetPassword.setOnClickListener(this);
 
 
     }
@@ -47,12 +50,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         assignViews();
-        if (!TextUtils.isEmpty(sharedPreferences.getString("username", "")) && !TextUtils.isEmpty(sharedPreferences.getString("password", ""))) {
+        boolean rempsw = sharedPreferences.getBoolean("rempsw", false);
+        mCbLoginRememberPassword.setChecked(rempsw);
+        username = sharedPreferences.getString("username", "");
+        password = sharedPreferences.getString("password", "");
+        if (rempsw) {
+            mEtLoginUsername.setText(username);
+            mEtLoginPassword.setText(password);
+        }
+      /*  if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
             //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
 
 
     }
@@ -72,15 +83,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
 
                 }*/
-
-
                 login();
+                break;
+            case R.id.cb_login_remember_password:
+                if (mCbLoginRememberPassword.isChecked()) {
+                    sharedPreferences.edit().putBoolean("rempsw", false).apply();
+                    mCbLoginRememberPassword.setChecked(false);
+                }
+                mCbLoginRememberPassword.setChecked(true);
+                sharedPreferences.edit().putBoolean("rempsw", true).apply();
 
+                break;
+            case R.id.tv_login_forget_password:
 
                 break;
         }
     }
-
 
 
     private void login() {
@@ -91,7 +109,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              //  Log.d("mafuhua", result.toString());
+                //  Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 sharedPreferences.edit().putString("username", "admin")
                         .putString("password", "123456").apply();

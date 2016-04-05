@@ -1,9 +1,11 @@
 package com.yuen.xiaoermei.activity;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
@@ -139,6 +141,8 @@ public class ShopManagerActivity extends BaseActivity {
         setContentView(R.layout.activity_shop_manager);
         toNext();
         assignViews();
+        //注册广播
+        registerBoradcastReceiver();
         getShopTime();
         getShopDistance();
         getShopFreight();
@@ -465,5 +469,31 @@ public class ShopManagerActivity extends BaseActivity {
                 tvshopmanagerright = (TextView) root.findViewById(R.id.tv_shop_manager_right);
             }
         }
+    }
+    private final String ACTION_NAME = "geticon";
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(ACTION_NAME)){
+                sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+                //Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
+                x.image().bind(mIvUserIcon,sharedPreferences.getString("show_img", ""));
+                //Toast.makeText(context, "处理action名字相对应的广播", 200).show();
+            }
+        }
+
+    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
+    }
+
+    public void registerBoradcastReceiver(){
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION_NAME);
+        //注册广播
+        registerReceiver(mBroadcastReceiver, myIntentFilter);
     }
 }
