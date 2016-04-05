@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.bean.CommodityDecBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -73,7 +74,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 //设置使用缓存
                 .setUseMemCache(true)
                 // 图片缩放模式
-                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                .setImageScaleType(ImageView.ScaleType.FIT_XY)
                 .build();
     }
 
@@ -81,6 +82,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_dec);
+        SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         commodityid = intent.getStringExtra("commodityid");
         assignViews();
@@ -267,10 +269,12 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
            /* LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                     ViewGroup.LayoutParams.FILL_PARENT);
             imageView .setLayoutParams(mParams);*/
-            x.image().bind(imageView, commodityImageList.get(position));
+            x.image().bind(imageView, commodityImageList.get(position), options);
+
             container.addView(imageView);
             return imageView;
         }

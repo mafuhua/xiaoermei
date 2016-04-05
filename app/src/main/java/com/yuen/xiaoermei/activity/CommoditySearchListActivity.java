@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.bean.CommodityListBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -76,6 +77,7 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_search_list);
+        SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         tvsearch = intent.getStringExtra("tvsearch");
         assignViews();

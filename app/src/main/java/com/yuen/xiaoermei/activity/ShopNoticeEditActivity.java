@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -34,7 +35,6 @@ public class ShopNoticeEditActivity extends BaseActivity {
     private ImageView mIvBtnAdd;
 
 
-
     private void assignViews() {
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
@@ -50,11 +50,11 @@ public class ShopNoticeEditActivity extends BaseActivity {
             public void onClick(View v) {
                 String title = mEtShopNoticeTitle.getText().toString();
                 String content = mEtShopNoticeContent.getText().toString();
-                if (TextUtils.isEmpty(title)||TextUtils.isEmpty(content)) {
+                if (TextUtils.isEmpty(title) || TextUtils.isEmpty(content)) {
                     Toast.makeText(ShopNoticeEditActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                setAddGG(title,content);
+                setAddGG(title, content);
                 finish();
             }
         });
@@ -70,9 +70,11 @@ public class ShopNoticeEditActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_notice_edit);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
     }
+
     private void setAddGG(String title, String content) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("user_id", MainActivity.userid);
@@ -102,9 +104,10 @@ public class ShopNoticeEditActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK&&event.getAction()== MotionEvent.ACTION_UP) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == MotionEvent.ACTION_UP) {
 
             goBack();
             return true;

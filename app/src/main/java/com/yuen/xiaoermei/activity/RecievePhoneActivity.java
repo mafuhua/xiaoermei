@@ -19,6 +19,7 @@ import com.yuen.xiaoermei.baseclass.BaseActivity;
 import com.yuen.xiaoermei.bean.ShopPhoneNumSuccBean;
 import com.yuen.xiaoermei.bean.ShopYanZhengMaBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -64,6 +65,7 @@ public class RecievePhoneActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recieve_phone);
+        SysExitUtil.activityList.add(this);
         assignViews();
     }
 

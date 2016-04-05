@@ -32,6 +32,7 @@ import com.yuen.xiaoermei.bean.CommodityAddImagBean;
 import com.yuen.xiaoermei.bean.ShopBrandBean;
 import com.yuen.xiaoermei.bean.ShopTypeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -240,6 +241,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_edit_dec);
+        SysExitUtil.activityList.add(this);
         assignViews();
         getSHOP_BRAND();
         getSHOP_TYPE(ContactURL.SHOP_TYPE + "0", 0);

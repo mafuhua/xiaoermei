@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 public class OrderManagerActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mLlBtnOrderUnsend;
@@ -60,6 +61,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_manager);
+        SysExitUtil.activityList.add(this);
         assignViews();
         toNext();
     }

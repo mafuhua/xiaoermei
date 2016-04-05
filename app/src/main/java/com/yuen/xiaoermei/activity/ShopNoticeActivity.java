@@ -17,6 +17,7 @@ import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
 import com.yuen.xiaoermei.bean.ShopGGBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -67,6 +68,7 @@ public class ShopNoticeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_notice);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
 

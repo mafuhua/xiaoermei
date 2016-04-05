@@ -29,6 +29,7 @@ import com.yuen.xiaoermei.bean.ShopNameBean;
 import com.yuen.xiaoermei.bean.ShopTitleBean;
 import com.yuen.xiaoermei.bean.UserIconBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -98,7 +99,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_infomation);
         assignViews();
-
+        SysExitUtil.activityList.add(this);
         iv_user_icon.setType(RoundImageView.TYPE_ROUND);
         iv_user_icon.setBorderRadius(60);
         getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);

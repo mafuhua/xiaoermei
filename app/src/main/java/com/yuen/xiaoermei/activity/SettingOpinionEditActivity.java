@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 /**
  * 意见反馈编辑
@@ -47,6 +48,7 @@ public class SettingOpinionEditActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_opinion_edit);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 /**
  * 财务管理
@@ -57,6 +58,7 @@ public class MoneyManagerActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_money_manager);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
     }

@@ -10,6 +10,7 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.fragment.HomeFragment;
 import com.yuen.xiaoermei.fragment.MenuFragment;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 /**
  * 主页面
@@ -65,7 +66,7 @@ public class MainActivity extends SlidingFragmentActivity {
             }
         }*/
 
-
+        SysExitUtil.activityList.add(this);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 public class MessagerMangerActivity extends BaseActivity {
 
@@ -14,6 +15,7 @@ public class MessagerMangerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messager_manger);
         toNext();
+        SysExitUtil.activityList.add(this);
     }
 
     @Override

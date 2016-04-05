@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.bean.ShopNoticeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -148,6 +149,7 @@ public class OpenShopNoticeActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_shop_notice);
+        SysExitUtil.activityList.add(this);
         assignViews();
         getLeftNotice();
     }

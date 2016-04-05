@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 /**
  * 数据管理
@@ -64,6 +65,7 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_manager);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
 

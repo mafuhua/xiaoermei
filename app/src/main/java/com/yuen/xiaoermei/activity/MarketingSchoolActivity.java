@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 /**
  * 开店须知
@@ -49,6 +50,7 @@ public class MarketingSchoolActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_notice);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
     }

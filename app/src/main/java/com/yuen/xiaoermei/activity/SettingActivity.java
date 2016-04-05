@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -31,9 +32,10 @@ public class SettingActivity extends BaseActivity {
     private ImageView mIvBtnAdd;
     private Context context;
     private MyAdapter myAdapter;
-
+    private SharedPreferences sharedPreferences;
     private void assignViews() {
         context = this;
+        sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -144,6 +146,12 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                sharedPreferences.edit().putString("lgusername", "")
+                        .putString("lgpassword", "").apply();
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                finish();
 
             }
         });

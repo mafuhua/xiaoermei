@@ -31,6 +31,7 @@ import com.yuen.xiaoermei.bean.ShopDistanceBean;
 import com.yuen.xiaoermei.bean.ShopFreightBean;
 import com.yuen.xiaoermei.bean.ShopTimeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -139,6 +140,7 @@ public class ShopManagerActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_manager);
+        SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
         //注册广播

@@ -17,6 +17,7 @@ import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.bean.ShopNameBean;
 import com.yuen.xiaoermei.bean.ShopTitleBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -50,6 +51,7 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_my_infomation);
+        SysExitUtil.activityList.add(this);
         name = getIntent().getStringExtra("name");
         flag = getIntent().getStringExtra("flag");
         assignViews();

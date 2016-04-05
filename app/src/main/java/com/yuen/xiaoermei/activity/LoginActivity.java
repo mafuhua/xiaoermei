@@ -15,6 +15,7 @@ import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
 import com.yuen.xiaoermei.bean.LoginBean;
 import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
@@ -58,14 +59,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             mEtLoginUsername.setText(username);
             mEtLoginPassword.setText(password);
         }
-      /*  if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(password)) {
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if ((sharedPreferences.getString("lgusername", "").length() > 1) && (sharedPreferences.getString("lgusername", "").length() > 1)) {
             //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }*/
-
-
+        }
     }
 
     @Override
@@ -86,13 +92,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 login();
                 break;
             case R.id.cb_login_remember_password:
-                if (mCbLoginRememberPassword.isChecked()) {
-                    sharedPreferences.edit().putBoolean("rempsw", false).apply();
-                    mCbLoginRememberPassword.setChecked(false);
-                }
-                mCbLoginRememberPassword.setChecked(true);
-                sharedPreferences.edit().putBoolean("rempsw", true).apply();
+                if (!mCbLoginRememberPassword.isChecked()) {
+                    sharedPreferences.edit().putBoolean("rempsw", false).putString("lgusername", "")
+                            .putString("lgpassword", "").apply();
+                } else {
+                    sharedPreferences.edit().putBoolean("rempsw", true).apply();
 
+                }
                 break;
             case R.id.tv_login_forget_password:
 
@@ -113,6 +119,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String res = result.toString();
                 sharedPreferences.edit().putString("username", "admin")
                         .putString("password", "123456").apply();
+                sharedPreferences.edit().putString("lgusername", "admin")
+                        .putString("lgpassword", "123456").apply();
                 Gson gson = new Gson();
                 LoginBean loginBean = gson.fromJson(res, LoginBean.class);
                 LoginBean.DataBean dataBean = loginBean.getData();
@@ -157,6 +165,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SysExitUtil.exit();
     }
 
 }
