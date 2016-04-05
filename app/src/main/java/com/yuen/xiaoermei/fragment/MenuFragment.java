@@ -15,11 +15,17 @@ import android.widget.Toast;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.ClientManagerActivity;
 import com.yuen.xiaoermei.activity.DataManagerActivity;
+import com.yuen.xiaoermei.activity.MainActivity;
 import com.yuen.xiaoermei.activity.MessagerMangerActivity;
 import com.yuen.xiaoermei.activity.MoneyManagerActivity;
 import com.yuen.xiaoermei.activity.OrderManagerActivity;
 import com.yuen.xiaoermei.activity.SettingActivity;
 import com.yuen.xiaoermei.activity.ShopManagerActivity;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
+
+import piccutdemo.RoundImageView;
 
 /**
  * Created by Administrator on 2016/3/18.
@@ -29,14 +35,16 @@ public class MenuFragment extends BaseFragment {
     private Integer[] menuIcon = new Integer[]{R.drawable.iconfontshangpi, R.drawable.iconfontdingdan2x,
             R.drawable.iconfontcaiwu2x, R.drawable.iconfontkehuguanli2x, R.drawable.iconfonttongji2x,
             R.drawable.iconfontxiaoxi2x,R.drawable.iconfontshezhi2x};
-    private ImageView mIvUserIcon;
+    private RoundImageView mIvUserIcon;
     private TextView mTvUserName;
     private ListView mLvLeftMenu;
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
+    private ImageOptions options;
+
     private void assignViews(View view) {
         sharedPreferences = getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
-        mIvUserIcon = (ImageView) view.findViewById(R.id.iv_user_icon);
+        mIvUserIcon = (RoundImageView) view.findViewById(R.id.iv_user_icon);
         mTvUserName = (TextView) view.findViewById(R.id.tv_user_name);
         mLvLeftMenu = (ListView) view.findViewById(R.id.lv_left_menu);
         String username = sharedPreferences.getString("username", "");
@@ -44,15 +52,22 @@ public class MenuFragment extends BaseFragment {
         mIvUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"点我干嘛", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "点我干嘛", Toast.LENGTH_SHORT).show();
             }
         });
+       // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
+        options = new ImageOptions.Builder()
+                //设置使用缓存
+                .setUseMemCache(true)
+                .build();
     }
 
     @Override
     public View initView() {
         View view = View.inflate(getActivity(), R.layout.layout_left_menu, null);
         assignViews(view);
+        mIvUserIcon.setType(RoundImageView.TYPE_ROUND);
+        mIvUserIcon.setBorderRadius(60);
         myAdapter = new MyAdapter();
         mLvLeftMenu.setAdapter(myAdapter);
         mLvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,6 +134,13 @@ public class MenuFragment extends BaseFragment {
     @Override
     public void initData() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
+        x.image().bind(mIvUserIcon, MainActivity.shop_imgs,options);
     }
 
     class MyAdapter extends BaseAdapter {

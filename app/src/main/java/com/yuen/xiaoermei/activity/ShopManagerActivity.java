@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -36,6 +37,7 @@ import org.xutils.x;
 
 import java.util.HashMap;
 
+import piccutdemo.RoundImageView;
 import xlkd.provinceslinkage.ProvinceLinkActivity;
 
 /**
@@ -45,7 +47,7 @@ public class ShopManagerActivity extends BaseActivity {
     private String[] shopItemString = new String[]{"营业时间", "店铺公告", "店铺地址", "配送距离", "配送费", "接单手机号"};
     private ListView mLvShopManager;
     private LinearLayout mLayoutTitleUsericon;
-    private ImageView mIvUserIcon;
+    private RoundImageView mIvUserIcon;
     private TextView mTvUserName;
     private MyAdapter myAdapter;
     private Context context;
@@ -54,6 +56,14 @@ public class ShopManagerActivity extends BaseActivity {
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
     private HashMap<Integer, String> settingMap = new HashMap<>();
+    public SharedPreferences sharedPreferences;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
+        //Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
+        x.image().bind(mIvUserIcon,sharedPreferences.getString("show_img", ""));
+    }
 
     private void assignViews() {
         context = this;
@@ -62,7 +72,7 @@ public class ShopManagerActivity extends BaseActivity {
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mLayoutTitleUsericon = (LinearLayout) findViewById(R.id.layout_title_usericon);
-        mIvUserIcon = (ImageView) findViewById(R.id.iv_user_icon);
+        mIvUserIcon = (RoundImageView) findViewById(R.id.iv_user_icon);
         mTvUserName = (TextView) findViewById(R.id.tv_user_name);
         mLvShopManager = (ListView) findViewById(R.id.lv_shop_manager);
         mTvTitleDec.setText("店铺管理");
@@ -76,6 +86,8 @@ public class ShopManagerActivity extends BaseActivity {
         mTvUserName.setText(MainActivity.username);
         myAdapter = new MyAdapter();
         mLvShopManager.setAdapter(myAdapter);
+        mIvUserIcon.setType(RoundImageView.TYPE_ROUND);
+        mIvUserIcon.setBorderRadius(60);
         mLvShopManager.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             private Intent intent;
 
@@ -137,7 +149,7 @@ public class ShopManagerActivity extends BaseActivity {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", result.toString());
+               // Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 ShopDistanceBean shopDistanceBean = gson.fromJson(res, ShopDistanceBean.class);

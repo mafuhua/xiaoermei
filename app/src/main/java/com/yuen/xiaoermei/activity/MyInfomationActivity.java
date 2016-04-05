@@ -1,28 +1,46 @@
 package com.yuen.xiaoermei.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xiaoermei.R;
+import com.yuen.xiaoermei.bean.IconResultBean;
+import com.yuen.xiaoermei.bean.ShopNameBean;
+import com.yuen.xiaoermei.bean.ShopTitleBean;
+import com.yuen.xiaoermei.bean.UserIconBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import piccutdemo.CustomImageView;
+import piccutdemo.RoundImageView;
 
 public class MyInfomationActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout mLayoutTitleBar;
@@ -30,7 +48,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
     private LinearLayout layout_title_bar;
-    private ImageView iv_user_icon;
+    private RoundImageView iv_user_icon;
     private TextView tv_user_name;
     private RelativeLayout rl_user_icon;
     private TextView et_user_nickname;
@@ -40,15 +58,18 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
     private TextView et_user_num;
     private RelativeLayout rl_user_num;
     private Button btn_login_out;
-
+    private Context context;
+    private File destDir;
 
     private void assignViews() {
+        context = this;
+        sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         layout_title_bar = (LinearLayout) findViewById(R.id.layout_title_bar);
-        iv_user_icon = (ImageView) findViewById(R.id.iv_user_icon);
+        iv_user_icon = (RoundImageView) findViewById(R.id.iv_user_icon);
         tv_user_name = (TextView) findViewById(R.id.tv_user_name);
         rl_user_icon = (RelativeLayout) findViewById(R.id.rl_user_icon);
         et_user_nickname = (TextView) findViewById(R.id.et_user_nickname);
@@ -58,9 +79,14 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         et_user_num = (TextView) findViewById(R.id.et_user_num);
         rl_user_num = (RelativeLayout) findViewById(R.id.rl_user_num);
         btn_login_out = (Button) findViewById(R.id.btn_login_out);
+        btn_login_out.setVisibility(View.GONE);
         mIvBtnAdd.setVisibility(View.GONE);
         mTvTitleDec.setText("我的资料");
+        et_user_num.setText(MainActivity.username);
         mIvBtnBack.setOnClickListener(this);
+        rl_user_nickname.setOnClickListener(this);
+        rl_user_num.setOnClickListener(this);
+        rl_user_shop_name.setOnClickListener(this);
         iv_user_icon.setOnClickListener(this);
         btn_login_out.setOnClickListener(this);
     }
@@ -70,8 +96,18 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_infomation);
         assignViews();
+        iv_user_icon.setType(RoundImageView.TYPE_ROUND);
+        iv_user_icon.setBorderRadius(60);
+        getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
+        x.image().bind(iv_user_icon, MainActivity.shop_imgs);
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getShopInfo(ContactURL.SHOP_GET_NICK, 1);
+        getShopInfo(ContactURL.SHOP_GET_SHOPTITILE, 2);
+       //
     }
 
     /**
@@ -165,7 +201,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
      */
     public void startPhotoZoom(Uri uri) {
         /*
-		 * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
+         * 至于下面这个Intent的ACTION是怎么知道的，大家可以看下自己路径下的如下网页
 		 * yourself_sdk_path/docs/reference/android/content/Intent.html
 		 * 直接在里面Ctrl+F搜：CROP ，之前小马没仔细看过，其实安卓系统早已经有自带图片裁剪功能,
 		 * 是直接调本地库的，小马不懂C C++  这个不做详细了解去了，有轮子就用轮子，不再研究轮子是怎么
@@ -194,11 +230,14 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
         Bundle extras = picdata.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(photo, 140, 140, false);
+            iv_user_icon.setImageBitmap(photo);
+            saveBitmapFile(photo);
+
+           /* Bitmap scaledBitmap = Bitmap.createScaledBitmap(photo, 65, 65, false);
             Bitmap circleImage = CustomImageView.createCircleImage(scaledBitmap, 70);
-           /* circleImage.setHeight(70);
-            circleImage.setWidth(70);*/
-            Drawable drawable = new BitmapDrawable(circleImage);
+           *//* circleImage.setHeight(70);
+            circleImage.setWidth(70);*//*
+            Drawable drawable = new BitmapDrawable(circleImage);*/
 
             /**
              * 下面注释的方法是将裁剪之后的图片以Base64Coder的字符方式上
@@ -206,7 +245,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
              */
 
 			/*ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+            photo.compress(Bitmap.CompressFormat.JPEG, 60, stream);
 			byte[] b = stream.toByteArray();
 			// 将图片流以字符串形式存储下来
 
@@ -220,14 +259,38 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 			Drawable drawable = new BitmapDrawable(dBitmap);
 			*/
             //  iv_user_icon.setBackgroundDrawable(drawable);
-            iv_user_icon.setImageBitmap(circleImage);
+            //  iv_user_icon.setImageBitmap(circleImage);
             // iv_user_icon.setBackground(CustomImageView.createCircleImage(photo,70));
             //iv.setBackgroundDrawable(drawable);
         }
     }
 
+    public void saveBitmapFile(Bitmap bitmap) {
+        /**
+         * 创建文件夹存放压缩文件
+         */
+        File externalStorageDirectory = Environment.getExternalStorageDirectory();
+        destDir = new File(externalStorageDirectory + "/imagcacahe/");
+       // Log.d("mafuhua", "externalStorageDirectory:" + destDir);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        File file = new File(destDir + "01.jpg");//将要保存图片的路径
+
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sendimg(file.getPath());
+    }
+
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.btn_login_out:
                 break;
@@ -235,9 +298,160 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
                 ShowPickDialog();
 
                 break;
+            case R.id.rl_user_nickname:
+                intent = new Intent(context, EditMyInfomationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.putExtra("name", "修改昵称");
+                intent.putExtra("flag", "1");
+                startActivity(intent);
+
+
+                break;
+            case R.id.rl_user_shop_name:
+                intent = new Intent(context, EditMyInfomationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.putExtra("name", "修改店铺名");
+                intent.putExtra("flag", "2");
+                startActivity(intent);
+
+                break;
             case R.id.iv_btn_back:
                 finish();
                 break;
         }
+    }
+
+    private void sendimg(String path) {
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        String url = ContactURL.SHOP_EDIT_TOU;
+
+        com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
+
+        File file = new File(path);
+      //  Log.d("mafuhua", path + "**************");
+        try {
+            rp.put("img", file);
+            rp.add("shou_img", MainActivity.shop_imgs);
+            rp.add("user_id", MainActivity.userid);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        client.post(url, rp, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                String response = new String(responseBody);
+               // Log.d("mafuhua", "responseBody" + response);
+                Gson gson = new Gson();
+                IconResultBean iconResultBean = gson.fromJson(response, IconResultBean.class);
+                if (iconResultBean.getStatus().equals("0")) {
+                    Toast.makeText(context, "上传成功", Toast.LENGTH_SHORT).show();
+                    getUserIcon(ContactURL.SHOP_STORE_TOU + MainActivity.userid);
+                }else {
+                    Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+
+
+        });
+    }
+    private SharedPreferences sharedPreferences;
+    public void getUserIcon(String url) {
+        RequestParams params = new RequestParams(url);
+      //  Log.d("mafuhua", url);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+              //  Log.d("mafuhua", "result" + result.toString());
+                String res = result.toString();
+                Gson gson = new Gson();
+                UserIconBean userIconBean = gson.fromJson(res, UserIconBean.class);
+                String shop_img = userIconBean.getData().getShop_img();
+                if (shop_img.length() > 0) {
+
+                    String shop_imgs = userIconBean.getData().getShop_imgs();
+                    sharedPreferences.edit()
+                            .putString("show_img", shop_imgs)
+                            .apply();
+
+                }
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    public void getShopInfo(String url, final int type) {
+        RequestParams params = new RequestParams(url + MainActivity.userid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+               // Log.d("mafuhua", "result" + result.toString());
+                String res = result.toString();
+              /*  Gson gson = new Gson();
+                ShopFreightBean shopFreightBean = gson.fromJson(res, ShopFreightBean.class);
+                String store_freight = shopFreightBean.getData().getShop_freight();
+                settingMap.put(4, store_freight + "元");
+                myAdapter.notifyDataSetChanged();*/
+                if (type == 1) {
+                    parseJson(res);
+                } else if (type == 2) {
+                    parseJson2(res);
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void parseJson(String res) {
+        Gson gson = new Gson();
+        ShopNameBean shopNameBean = gson.fromJson(res, ShopNameBean.class);
+        String shop_name = shopNameBean.getData().getShop_name();
+        et_user_nickname.setText(shop_name);
+    }
+
+    private void parseJson2(String res) {
+        Gson gson = new Gson();
+        ShopTitleBean shopTitleBean = gson.fromJson(res, ShopTitleBean.class);
+        String shop_title = shopTitleBean.getData().getShop_title();
+        et_user_shop_name.setText(shop_title);
     }
 }

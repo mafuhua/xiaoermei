@@ -10,6 +10,14 @@
         android:layout_height="150dp"
         android:background="@drawable/qa12x">
         <include layout="@layout/layout_title_usericon"/>
+        <ImageView
+            android:id="@+id/iv_shop_item_image"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="10dp"
+            android:background="@drawable/iconfontjiantu2x"
+            android:layout_marginRight="5dp"
+            android:layout_height="15dp"/>
     </RelativeLayout>
 
     <ListView

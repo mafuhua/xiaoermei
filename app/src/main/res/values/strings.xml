@@ -21,4 +21,5 @@
     <string name="title_activity_shop_manager_edit_address">ShopManagerEditAddress</string>
     <string name="title_activity_my_infomation">MyInfomationActivity</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="title_activity_edit_my_infomation">EditMyInfomationActivity</string>
 </resources>

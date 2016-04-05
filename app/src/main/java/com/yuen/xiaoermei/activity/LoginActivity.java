@@ -47,8 +47,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         assignViews();
-        if (!TextUtils.isEmpty(sharedPreferences.getString("username","")) && !TextUtils.isEmpty(sharedPreferences.getString("password", "")) ) {
-          //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
+        if (!TextUtils.isEmpty(sharedPreferences.getString("username", "")) && !TextUtils.isEmpty(sharedPreferences.getString("password", ""))) {
+            //  Log.d("mafuhua", "******"+sharedPreferences.getString("username", ""));
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -74,62 +74,71 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }*/
 
 
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name", "admin");
-                map.put("password", "123456");
-                sharedPreferences.edit().putString("username", "admin")
-                        .putString("password", "123456").apply();
-                XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        //Log.d("mafuhua", result.toString());
-                        String res = result.toString();
-                        Gson gson = new Gson();
-                        LoginBean loginBean = gson.fromJson(res, LoginBean.class);
-                        LoginBean.DataBean dataBean = loginBean.getData();
-                        /**
-                         * getcode
-                         * 店铺是0,品牌是1
-                         */
-                        if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
-                            sharedPreferences.edit()
-                                    .putString("tel", dataBean.getTel())
-                                    .putString("id", dataBean.getId())
-                                    .apply();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            finish();
-                        }
-                        if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            finish();
-                        } else {
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("mafuhua", isOnCallback + "");
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-                        cex.printStackTrace();
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
+                login();
 
 
                 break;
         }
     }
+
+
+
+    private void login() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("name", "admin");
+        map.put("password", "123456");
+
+        XUtils.xUtilsPost(ContactURL.LOGIN_URL, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+              //  Log.d("mafuhua", result.toString());
+                String res = result.toString();
+                sharedPreferences.edit().putString("username", "admin")
+                        .putString("password", "123456").apply();
+                Gson gson = new Gson();
+                LoginBean loginBean = gson.fromJson(res, LoginBean.class);
+                LoginBean.DataBean dataBean = loginBean.getData();
+                /**
+                 * getcode
+                 * 店铺是0,品牌是1
+                 */
+                if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
+                    sharedPreferences.edit()
+                            .putString("tel", dataBean.getTel())
+                            .putString("id", dataBean.getId())
+                            .putString("show_img", dataBean.getShop_img())
+                            .apply();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                }
+                if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                    finish();
+                } else {
+
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("mafuhua", isOnCallback + "");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                cex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
 }

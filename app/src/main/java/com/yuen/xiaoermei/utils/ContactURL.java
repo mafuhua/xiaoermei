@@ -100,4 +100,30 @@ public class ContactURL {
      * 添加手机号
      */
     public static String SHOP_ADD_TEL = BASE_URL + "shop/store_add_tel";
+    /**
+     * 我的头像
+     */
+    public static String SHOP_STORE_TOU = BASE_URL + "shop/store_tou/user_id/";
+    /**
+     * 修改我的头像
+     */
+    public static String SHOP_EDIT_TOU = BASE_URL + "shop/store_add_tou";
+    /**
+     * 店铺主昵称
+     */
+    public static String SHOP_GET_NICK = BASE_URL + "shop/store_shop_name/user_id/";
+    /**
+     * 店铺主昵称保存
+     */
+    public static String SHOP_ADD_NICK = BASE_URL + "shop/store_add_shop_name";
+    /**
+     * 店铺名称调取
+     */
+    public static String SHOP_GET_SHOPTITILE = BASE_URL + "shop/store_shop_title/user_id/";
+    /**
+     * 店铺名称保存
+     */
+    public static String SHOP_ADD_SHOPTITILE = BASE_URL + "shop/store_add_shop_title";
+
+
 }

@@ -11,11 +11,11 @@
         android:paddingLeft="20dp"
         android:paddingTop="40dp">
 
-        <ImageView
+        <piccutdemo.RoundImageView
             android:id="@+id/iv_user_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/w2x"
+            android:background="@drawable/tucen52x"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"/>
 

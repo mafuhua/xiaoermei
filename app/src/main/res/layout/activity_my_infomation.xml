@@ -16,13 +16,14 @@
         android:paddingLeft="20dp"
         android:paddingTop="10dp">
 
-        <ImageView
+        <piccutdemo.RoundImageView
             android:id="@+id/iv_user_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
+            android:background="@drawable/tucen52x"
+            android:layout_marginRight="40dp" />
           <!--  zhy:src="@drawable/icon"
             zhy:type="circle"-->
 
@@ -48,7 +49,6 @@
 
     <RelativeLayout
         android:id="@+id/rl_user_nickname"
-
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -68,8 +68,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
-            android:background="@null"
-            android:text="小虾米"
             android:textSize="14sp"/>
 
         <ImageView
@@ -107,8 +105,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
-            android:background="@null"
-            android:text="小虾米"
             android:textSize="14sp"/>
 
         <ImageView
@@ -146,8 +142,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp"
-            android:background="@null"
-            android:text="小虾米"
             android:textSize="14sp"/>
 
         <ImageView

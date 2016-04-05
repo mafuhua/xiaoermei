@@ -5,10 +5,11 @@ package com.yuen.xiaoermei.bean;
  */
 public class LoginBean {
 
+
     /**
      * code : 0
      * msg : 成功
-     * data : {"id":"1","name":"admin","password":"e10adc3949ba59abbe56e057f20f883e","tel":"15821972617","type":"0","state":"1","time":"1458120212"}
+     * data : {"id":"1","name":"admin","password":"e10adc3949ba59abbe56e057f20f883e","tel":"15821972617","type":"0","state":"1","time":"1458120212","shop_img":"http://192.168.2.120/xiaoermei/upload/user/201604/1459822263-72611.jpg"}
      */
 
     private String code;
@@ -21,6 +22,7 @@ public class LoginBean {
      * type : 0
      * state : 1
      * time : 1458120212
+     * shop_img : http://192.168.2.120/xiaoermei/upload/user/201604/1459822263-72611.jpg
      */
 
     private DataBean data;
@@ -57,6 +59,7 @@ public class LoginBean {
         private String type;
         private String state;
         private String time;
+        private String shop_img;
 
         public String getId() {
             return id;
@@ -112,6 +115,14 @@ public class LoginBean {
 
         public void setTime(String time) {
             this.time = time;
+        }
+
+        public String getShop_img() {
+            return shop_img;
+        }
+
+        public void setShop_img(String shop_img) {
+            this.shop_img = shop_img;
         }
     }
 }
