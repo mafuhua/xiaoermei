@@ -48,6 +48,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private String commodityid;
     private ImageOptions options;
     private TextView mTvCommodityDecContent;
+    private LinearLayout mLlPointGroup;
 
     private void assignViews() {
         context = this;
@@ -56,6 +57,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         mTvCommodityDecContent = (TextView) findViewById(R.id.tv_commodity_dec_content);
         mGvCommoditydec = (GridView) findViewById(R.id.gv_commoditydec);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
+        mLlPointGroup = (LinearLayout) findViewById(R.id.ll_point_group);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
@@ -83,8 +85,38 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         commodityid = intent.getStringExtra("commodityid");
         assignViews();
         getCommodityList();
+        regListener();
     }
 
+    private void addPoints() {
+        for(int i = 0;i<commodityImageList.size();i++){
+            // 动态添加指示点
+            ImageView point = new ImageView(this);
+            point.setBackgroundResource(R.drawable.point_bg); // 设置背景
+
+            // 默认让第一个点是选中状态
+            if(i == 0){
+                point.setEnabled(true);
+            }else{
+                point.setEnabled(false);
+            }
+
+            // 布局参数 : 当布局添加子view 时， 布局参数一定要和布局的类型 匹配
+            // 向线性布局中，添加子view时，一定要指定线性布局的布局参数
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, -2);
+
+            layoutParams.leftMargin = 10; // 左边距，10象素
+            layoutParams.topMargin = 5; // 上边距 ,5 象素
+
+            mLlPointGroup.addView(point,layoutParams); // 添加至页面中之前准备好的布局
+
+
+        }
+    }
+    /**
+     * 页面改变时，上一个页面的下标
+     */
+    private int lastPosition;
     public void getCommodityList() {
         RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
         x.http().get(params, new Callback.CommonCallback<String>() {
@@ -101,7 +133,6 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 List<CommodityDecBean.DataBean.ProImgBean> proImg = commodityDecBeanData.getPro_img();
                 for (int i = 0; i < proImg.size(); i++) {
                     CommodityDecBean.DataBean.ProImgBean proImgBean = proImg.get(i);
-
                     commodityImageList.add(proImgBean.getImg());
                 }
                 mVpCommodityDec.setAdapter(myPagerAdapter);
@@ -158,6 +189,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 mTvCommodityDecContent.setText(pro_content);
                 adapter = new MyAdapter();
                 mGvCommoditydec.setAdapter(adapter);
+                addPoints();
             }
 
             @Override
@@ -176,7 +208,47 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
+    private void regListener() {
+        //给viewPager 添加页面改变的监听
+        mVpCommodityDec.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
+            @Override
+            /**
+             *  当页面选择发生改变时，调用此方法
+             *  @param position 新选择的页面的下标
+             */
+            public void onPageSelected(int position) {
+
+              /*  position = position % imageList.size(); // 防止集合下标越界
+
+                //改变描述文字
+                tvDesc.setText(imageDescriptions[position]);*/
+
+                // 改变指示点
+
+                // 上一个页面，灰点
+                mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
+
+                // 找到对应下标的point ，并改变显示
+                mLlPointGroup.getChildAt(position).setEnabled(true);
+
+                lastPosition = position;// 为上一个页面赋值
+
+            }
+
+            @Override
+            // 当页面滑动时，调用此方法
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+            }
+
+            @Override
+            // 当页面的滑动状态发生改变时，
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
