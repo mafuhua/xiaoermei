@@ -55,6 +55,7 @@ public class SettingActivity extends BaseActivity {
         mLvSetting.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             private Intent intent;
 
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
