@@ -229,7 +229,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.iv_btn_add:
-                Intent intent1 = new Intent(context, CommodityEditDecActivity.class);
+                Intent intent1 = new Intent(context, CommodityEditADDDecActivity.class);
                 intent1.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent1);
                 break;

@@ -151,6 +151,7 @@ public class SettingActivity extends BaseActivity {
                 Intent intent = new Intent(context, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
+                MainActivity.slidingMenu.toggle();
                 finish();
 
             }

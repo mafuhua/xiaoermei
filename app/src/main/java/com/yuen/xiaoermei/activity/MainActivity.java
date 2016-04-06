@@ -3,7 +3,6 @@ package com.yuen.xiaoermei.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -21,7 +20,7 @@ public class MainActivity extends SlidingFragmentActivity {
     public static String userid;
     public static String shop_imgs;
     public SharedPreferences sharedPreferences;
-    private SlidingMenu slidingMenu;
+    public static SlidingMenu slidingMenu;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,7 @@ public class MainActivity extends SlidingFragmentActivity {
 
 //        this.toggle();//真是调用slidingMenu.toggle();
         //分割线
-        //  slidingMenu.setShadowDrawable(R.drawable.shadow);
+          slidingMenu.setShadowDrawable(R.drawable.shadow);
 //        slidingMenu.setShadowWidthRes(200);//错误
         //  slidingMenu.setShadowWidthRes(R.dimen.shadow_width);
         //左边的菜单
@@ -73,8 +72,10 @@ public class MainActivity extends SlidingFragmentActivity {
     protected void onResume() {
         super.onResume();
         shop_imgs = sharedPreferences.getString("show_img", "");
-        Log.d("mafuhua", "shop_imgs"+shop_imgs);
+
     }
+
+
 
     @Override
     protected void onRestart() {

@@ -137,7 +137,7 @@ public class CommoditySearchListActivity extends AppCompatActivity implements Vi
                 finish();
                 break;
             case R.id.iv_btn_add:
-                Intent intent = new Intent(context, CommodityEditDecActivity.class);
+                Intent intent = new Intent(context, CommodityEditADDDecActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 break;

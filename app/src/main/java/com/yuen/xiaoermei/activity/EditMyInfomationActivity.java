@@ -43,6 +43,7 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mBtnEditInfoOk.setOnClickListener(this);
+        mIvBtnBack.setOnClickListener(this);
         mIvBtnAdd.setVisibility(View.GONE);
         mTvTitleDec.setText(name);
     }
@@ -72,6 +73,9 @@ public class EditMyInfomationActivity extends AppCompatActivity implements View.
                     setAddInfo(info, ContactURL.SHOP_ADD_SHOPTITILE, "shop_title");
                 }
 
+                break;
+            case R.id.iv_btn_back:
+                finish();
                 break;
         }
     }

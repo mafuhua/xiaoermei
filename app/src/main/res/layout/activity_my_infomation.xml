@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="我的头像"
-            android:textSize="20sp"/>
+            android:textSize="18sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="我的昵称"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/et_user_nickname"
@@ -89,7 +89,7 @@
         android:id="@+id/rl_user_shop_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="我的店铺名"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/et_user_shop_name"
@@ -126,7 +126,7 @@
         android:id="@+id/rl_user_num"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="我的账号"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/et_user_num"

@@ -96,6 +96,9 @@
             android:label="@string/title_activity_open_shop_notice">
         </activity>
         <activity
+            android:name=".activity.CommodityEditADDDecActivity"
+            android:label="@string/title_activity_commodity_edit_dec">
+        </activity> <activity
             android:name=".activity.CommodityEditDecActivity"
             android:label="@string/title_activity_commodity_edit_dec">
         </activity>

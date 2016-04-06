@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,6 +42,7 @@
                     android:id="@+id/cb_commodity_up"
                     android:layout_width="0dp"
                     android:text="上架"
+                    android:textColor="@color/grey"
                     android:layout_weight="1"
                     android:checked="true"
                     android:layout_height="wrap_content"/>
@@ -49,6 +50,7 @@
                     android:id="@+id/cb_commodity_down"
                     android:layout_width="0dp"
                     android:text="下架"
+                    android:textColor="@color/grey"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"/>
 
@@ -66,6 +68,7 @@
                 <Spinner
                     android:id="@+id/spinner0"
                     android:layout_width="0dp"
+                    android:textColor="@color/grey"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
@@ -86,21 +89,20 @@
                     android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_weight="3"
-                    android:background="@drawable/yuanjiaojuxing">
+                    android:background="@drawable/yujiaojuxing2">
 
                     <GridView
                         android:id="@+id/gv_selector_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:numColumns="3"/>
 
                     <ImageView
                         android:id="@+id/iv_btn_add_selector_image"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
                         android:background="@drawable/jiahao2x"/>
                 </RelativeLayout>
 
@@ -118,6 +120,7 @@
                 <Spinner
                     android:id="@+id/spinner1"
                     android:layout_width="0dp"
+                    android:textColor="@color/grey"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="3"
@@ -306,7 +309,7 @@
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_weight="3"
-                    android:background="@drawable/yuanjiaojuxing"/>
+                    android:background="@drawable/yujiaojuxing2"/>
 
             </LinearLayout>
 

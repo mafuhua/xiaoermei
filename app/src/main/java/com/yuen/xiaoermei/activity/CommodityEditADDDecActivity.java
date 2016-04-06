@@ -52,7 +52,7 @@ import zhy.imageloader.SelectorImageActivity;
 /**
  * 商品详情编辑
  */
-public class CommodityEditDecActivity extends AppCompatActivity implements View.OnClickListener {
+public class CommodityEditADDDecActivity extends AppCompatActivity implements View.OnClickListener {
     private String[] ShopBrand;
     private String[] ShopType;
     private EditText mEtProductName;
@@ -458,7 +458,6 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.iv_btn_back:
                 finish();
                 break;

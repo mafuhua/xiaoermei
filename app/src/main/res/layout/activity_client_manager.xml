@@ -14,13 +14,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@drawable/jucing2x">
 
         <ImageView
             android:id="@+id/iv_zongkehu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_margin="15dp"
             android:background="@drawable/zongkehu2x"/>
@@ -29,9 +29,9 @@
             android:id="@+id/tv_zongkehu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_zongkehu"
             android:padding="5dp"
+            android:layout_marginTop="10dp"
             android:text="目前总客户"
             android:textSize="18sp"/>
 
@@ -39,11 +39,11 @@
             android:id="@+id/tv_client_now_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/iv_zongkehu"
+            android:layout_below="@id/tv_zongkehu"
             android:padding="5dp"
             android:text="300"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
     </RelativeLayout>
 
     <TextView
@@ -55,13 +55,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:background="@drawable/jucing2x">
 
         <ImageView
             android:id="@+id/iv_zongkehu2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_margin="15dp"
             android:background="@drawable/xinzengkehu2x"/>
@@ -70,7 +70,7 @@
             android:id="@+id/tv_zongkehu2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+           android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/iv_zongkehu2"
             android:padding="5dp"
             android:text="目前总客户"
@@ -80,10 +80,10 @@
             android:id="@+id/tv_client_new_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+          android:layout_below="@id/tv_zongkehu2"
             android:layout_toRightOf="@id/iv_zongkehu2"
             android:padding="5dp"
             android:text="300"
-            android:textSize="18sp"/>
+            android:textSize="16sp"/>
     </RelativeLayout>
 </LinearLayout>
