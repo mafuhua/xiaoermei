@@ -91,6 +91,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         footerView = layoutInflater.inflate(R.layout.refresh_footer, null);
         mGvCommoditylist.addFooterView(footerView);
+        footerView.setVisibility(View.GONE);
         adapter = new MyAdapter();
         mGvCommoditylist.setAdapter(adapter);
         mGvCommoditylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {

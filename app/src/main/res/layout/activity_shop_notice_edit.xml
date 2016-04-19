@@ -35,6 +35,7 @@
             android:textSize="18sp"/>
 
         <EditText
+            android:cursorVisible="false"
             android:background="@drawable/dajuxing22x"
             android:id="@+id/et_shop_notice_content"
             android:layout_width="match_parent"

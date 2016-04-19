@@ -63,7 +63,6 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvTitleDec.setText("商品详情");
-        myPagerAdapter = new MyPagerAdapter();
         mIvBtnAdd.setBackgroundResource(R.drawable.iconfontbianji2x);
         myPagerAdapter = new MyPagerAdapter();
         mVpCommodityDec.setAdapter(myPagerAdapter);

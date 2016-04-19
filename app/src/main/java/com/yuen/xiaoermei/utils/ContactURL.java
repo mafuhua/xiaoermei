@@ -4,10 +4,12 @@ package com.yuen.xiaoermei.utils;
  * Created by Administrator on 2016/3/24.
  */
 public class ContactURL {
+
     /**
      * BaseURL
+     *
      */
-    public static String BASE_URL = "http://192.168.2.120/xiaoermei/";
+    public static String BASE_URL = "http://192.168.2.116/xiaoermei/";
     /**
      * 登陆
      */

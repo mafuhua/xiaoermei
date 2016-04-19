@@ -220,9 +220,13 @@ public class SelectorImageActivity extends AppCompatActivity implements ListImag
                         imageFloder.setDir(dirPath);
                         imageFloder.setFirstImagePath(path);
                     }
-
+                    if(parentFile.list()==null)continue;
                     int picSize = parentFile.list(new FilenameFilter() {
                         @Override
+
+
+
+
                         public boolean accept(File dir, String filename) {
                             if (filename.endsWith(".jpg")
                                     || filename.endsWith(".png")

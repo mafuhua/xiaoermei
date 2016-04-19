@@ -186,9 +186,9 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 spinner3.setVisibility(View.VISIBLE);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList2.get(pos - 1), 2);
                 type_id = "";
-                type_id2 = type_id1+","+ShopTypeFirstIDList2.get(pos - 1);
+                type_id2 = type_id1 + "," + ShopTypeFirstIDList2.get(pos - 1);
                 type_id = type_id2;
-                Log.d("mafuhua",  "你点击的是:" + type_id);
+                Log.d("mafuhua", "你点击的是:" + type_id);
             }
 
             @Override
@@ -203,8 +203,8 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 if (pos == 0) return;
                 Log.d("mafuhua", ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1) + "你点击的是:" + pos);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1), 3);
-                type_id = type_id2+","+ShopTypeFirstIDList3.get(pos - 1);
-                Log.d("mafuhua",  "你点击的是:" + type_id);
+                type_id = type_id2 + "," + ShopTypeFirstIDList3.get(pos - 1);
+                Log.d("mafuhua", "你点击的是:" + type_id);
             }
 
             @Override
@@ -375,13 +375,15 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
 
             sendimg(ImageList.get(i));
         }
+        mypDialog.dismiss();
+        finish();
     }
 
     private void sendimg(String path) {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String url = ContactURL.BASE_URL+"/shop/add_img";
+        String url = ContactURL.BASE_URL + "/shop/add_img";
 
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
@@ -400,17 +402,16 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Log.d("mafuhua", "responseBody"+response);
+                Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
                 CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
                 int status = commodityAddImagBean.getStatus();
-                    mypDialog.dismiss();
+
 
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-
             }
 
 
@@ -490,7 +491,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                     Toast.makeText(context, "商品名称,价格不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (ImageList.size()<1){
+                if (ImageList.size() < 1) {
                     Toast.makeText(context, "至少选择一张图片", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -499,9 +500,11 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 HashMap<String, String> map = new HashMap<String, String>();
                 if (TextUtils.isEmpty(pro_brand)) {
                     pro_brand = "";
-                }if (TextUtils.isEmpty(pro_shelves)) {
+                }
+                if (TextUtils.isEmpty(pro_shelves)) {
                     type_id = "";
-                }if (TextUtils.isEmpty(type_id)) {
+                }
+                if (TextUtils.isEmpty(type_id)) {
                     type_id = "";
                 }
                 map.put("pro_name", pro_name);
@@ -559,6 +562,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 break;
         }
     }
+
     private void addcommoditydia() {
         mypDialog = new ProgressDialog(context);
         //实例化
@@ -569,12 +573,14 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
         //设置ProgressDialog 提示信息
         mypDialog.setIndeterminate(false);
         //设置ProgressDialog 的进度条是否不明确
-        mypDialog.setCancelable(true);
+        mypDialog.setCancelable(false);
         //设置ProgressDialog 是否可以按退回按键取消
+        mypDialog.setCanceledOnTouchOutside(false);
         mypDialog.show();
         //让ProgressDialog显示
 
     }
+
     class MyAdapter extends BaseAdapter {
 
         @Override

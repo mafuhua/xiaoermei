@@ -7,15 +7,17 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/dajuxing22x"
         android:padding="15dp">
 
         <EditText
             android:id="@+id/et_setting_opnion_content"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:background="@drawable/dajuxing22x"
-            android:padding="20dp"/>
+            android:layout_height="wrap_content"
+            android:background="@null"
+            />
     </LinearLayout>
 
     <ImageView
