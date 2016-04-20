@@ -47,7 +47,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import zhy.imageloader.SelectorImageActivity;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * 商品详情编辑
@@ -371,11 +373,10 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
     }
 
     public void sendComPic() {
-        for (int i = 0; i < mySelectedImage.size(); i++) {
+        for (int i = 0; i < mPhotoList.size(); i++) {
 
             sendimg(ImageList.get(i));
         }
-        mypDialog.dismiss();
         finish();
     }
 
@@ -407,11 +408,12 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
                 int status = commodityAddImagBean.getStatus();
 
-
+                mypDialog.dismiss();
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                mypDialog.dismiss();
             }
 
 
@@ -455,9 +457,39 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
             }
         }).start();
     }
+    private final int REQUEST_CODE_GALLERY = 1001;
+    private List<String> mPhotoList = new ArrayList<>();
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+            mPhotoList.clear();
+            if (resultList != null) {
+                for (int i = 0; i < resultList.size(); i++) {
+                    PhotoInfo photoInfo = resultList.get(i);
+                    String photoPath = photoInfo.getPhotoPath();
+                    mPhotoList.add(photoPath);
+                    Log.d("mafuhua", "mPhotoList:" + photoPath);
+                }
+                mGvSelectorImage.setAdapter(new MyAdapter());
+                for (int i = 0; i < mPhotoList.size(); i++) {
+                    ImageList.add(destDir.toString() + "/" + i + ".jpg");
+                    Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
+                    Compresspic(ImageList.get(i), mPhotoList.get(i));
+                }
+                // mChoosePhotoListAdapter.notifyDataSetChanged();
+
+            }
+        }
+
+        @Override
+        public void onHanlderFailure(int requestCode, String errorMsg) {
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         switch (v.getId()) {
             case R.id.iv_btn_back:
                 finish();
@@ -475,7 +507,6 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:
-                addcommoditydia();
                 String pro_name = mEtProductName.getText().toString().trim();
                 String pro_price = mEtProductPrice.getText().toString().trim();
                 String pro_h_price = mEtProductActivePrice.getText().toString().trim();
@@ -487,13 +518,17 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 String pro_color = mEtProductColor.getText().toString().trim();
                 String pro_ml = mEtProductVolume.getText().toString().trim();
                 String pro_content = mEtProductDec.getText().toString().trim();
+                if (Integer.parseInt(pro_inventory)<1) {
+                    Toast.makeText(context, "库存不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 if (TextUtils.isEmpty(pro_name) || TextUtils.isEmpty(pro_price)) {
                     Toast.makeText(context, "商品名称,价格不能为空", Toast.LENGTH_SHORT).show();
-                    return;
+                    break;
                 }
                 if (ImageList.size() < 1) {
                     Toast.makeText(context, "至少选择一张图片", Toast.LENGTH_SHORT).show();
-                    return;
+                    break;
                 }
 
 
@@ -507,6 +542,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 if (TextUtils.isEmpty(type_id)) {
                     type_id = "";
                 }
+                addcommoditydia();
                 map.put("pro_name", pro_name);
                 map.put("pro_shelves", pro_shelves);
                 map.put("brand_id", pro_brand);
@@ -523,18 +559,15 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 map.put("pro_color", pro_color);
                 map.put("pro_ml", pro_ml);
                 map.put("pro_content", pro_content);
-                XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
 
+                XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         Log.d("mafuhua", "result" + result.toString());
                         resultid = result.toString();
                         if (resultid != null) {
                             sendComPic();
-
                         }
-
-
                     }
 
                     @Override
@@ -556,9 +589,14 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 // finish();
                 break;
             case R.id.iv_btn_add_selector_image:
-                Intent intent = new Intent(context, SelectorImageActivity.class);
+             /*   Intent intent = new Intent(context, SelectorImageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, 100);*/
+                //带配置
+                FunctionConfig config = new FunctionConfig.Builder()
+                        .setMutiSelectMaxSize(6)
+                        .build();
+                GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
                 break;
         }
     }
@@ -585,7 +623,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
 
         @Override
         public int getCount() {
-            return mySelectedImage == null ? 0 : mySelectedImage.size();
+            return mPhotoList == null ? 0 : mPhotoList.size();
         }
 
         @Override
@@ -608,7 +646,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            String imag = mySelectedImage.get(position);
+            String imag = mPhotoList.get(position);
             if (imag != null) {
 
                 x.image().bind(viewHolder.iditemimage, new File(imag).toURI().toString(), options);
