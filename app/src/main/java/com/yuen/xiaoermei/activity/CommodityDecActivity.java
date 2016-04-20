@@ -257,8 +257,9 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.iv_btn_add:
-                Intent intent = new Intent(context, CommodityEditADDDecActivity.class);
+                Intent intent = new Intent(context, CommodityEditDecActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                intent.putExtra("commodityid", commodityid);
                 startActivity(intent);
                 break;
         }

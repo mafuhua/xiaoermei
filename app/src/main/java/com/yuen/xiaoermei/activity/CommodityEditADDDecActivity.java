@@ -55,6 +55,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
  * 商品详情编辑
  */
 public class CommodityEditADDDecActivity extends AppCompatActivity implements View.OnClickListener {
+    private final int REQUEST_CODE_GALLERY = 1001;
     private String[] ShopBrand;
     private String[] ShopType;
     private EditText mEtProductName;
@@ -99,6 +100,34 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
     private String type_id;
     private String resultid;
     private ProgressDialog mypDialog;
+    private List<String> mPhotoList = new ArrayList<>();
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+            mPhotoList.clear();
+            if (resultList != null) {
+                for (int i = 0; i < resultList.size(); i++) {
+                    PhotoInfo photoInfo = resultList.get(i);
+                    String photoPath = photoInfo.getPhotoPath();
+                    mPhotoList.add(photoPath);
+                    Log.d("mafuhua", "mPhotoList:" + photoPath);
+                }
+                mGvSelectorImage.setAdapter(new MyAdapter());
+                for (int i = 0; i < mPhotoList.size(); i++) {
+                    ImageList.add(destDir.toString() + "/" + i + ".jpg");
+                    Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
+                    Compresspic(ImageList.get(i), mPhotoList.get(i));
+                }
+                // mChoosePhotoListAdapter.notifyDataSetChanged();
+
+            }
+        }
+
+        @Override
+        public void onHanlderFailure(int requestCode, String errorMsg) {
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void assignViews() {
         context = this;
@@ -242,7 +271,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_commodity_edit_dec);
+        setContentView(R.layout.activity_commodity_add_dec);
         SysExitUtil.activityList.add(this);
         assignViews();
         getSHOP_BRAND();
@@ -377,7 +406,10 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
 
             sendimg(ImageList.get(i));
         }
-        finish();
+        if (mypDialog.isShowing()) {
+            mypDialog.dismiss();
+        }
+        // finish();
     }
 
     private void sendimg(String path) {
@@ -389,7 +421,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
         File file = new File(path);
-        Log.d("mafuhua", path + "**************");
+        Log.d("mafuhuax", path + "**************");
         try {
             rp.put("img", file);
             rp.add("id", resultid);
@@ -403,17 +435,20 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Log.d("mafuhua", "responseBody" + response);
+                Log.d("mafuhuax", "responseBody----s" + response);
                 Gson gson = new Gson();
                 CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
                 int status = commodityAddImagBean.getStatus();
 
-                mypDialog.dismiss();
+
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-                mypDialog.dismiss();
+                Log.d("mafuhuax", "responseBody----f" + error);
+                if (mypDialog.isShowing()) {
+                    mypDialog.dismiss();
+                }
             }
 
 
@@ -457,39 +492,9 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
             }
         }).start();
     }
-    private final int REQUEST_CODE_GALLERY = 1001;
-    private List<String> mPhotoList = new ArrayList<>();
-    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
-        @Override
-        public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-            mPhotoList.clear();
-            if (resultList != null) {
-                for (int i = 0; i < resultList.size(); i++) {
-                    PhotoInfo photoInfo = resultList.get(i);
-                    String photoPath = photoInfo.getPhotoPath();
-                    mPhotoList.add(photoPath);
-                    Log.d("mafuhua", "mPhotoList:" + photoPath);
-                }
-                mGvSelectorImage.setAdapter(new MyAdapter());
-                for (int i = 0; i < mPhotoList.size(); i++) {
-                    ImageList.add(destDir.toString() + "/" + i + ".jpg");
-                    Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
-                    Compresspic(ImageList.get(i), mPhotoList.get(i));
-                }
-                // mChoosePhotoListAdapter.notifyDataSetChanged();
-
-            }
-        }
-
-        @Override
-        public void onHanlderFailure(int requestCode, String errorMsg) {
-            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_btn_back:
                 finish();
@@ -518,7 +523,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 String pro_color = mEtProductColor.getText().toString().trim();
                 String pro_ml = mEtProductVolume.getText().toString().trim();
                 String pro_content = mEtProductDec.getText().toString().trim();
-                if (Integer.parseInt(pro_inventory)<1) {
+                if (Integer.parseInt(pro_inventory) < 1) {
                     Toast.makeText(context, "库存不能为空", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -547,7 +552,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 map.put("pro_shelves", pro_shelves);
                 map.put("brand_id", pro_brand);
                 map.put("type_id", type_id);
-                Log.d("mafuhua", "type_id" + type_id);
+                //  Log.d("mafuhua", "type_id" + type_id);
                 map.put("pro_price", pro_price);
                 map.put("pro_h_price", pro_h_price);
                 map.put("pro_inventory", pro_inventory);
@@ -563,16 +568,22 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("mafuhua", "result" + result.toString());
-                        resultid = result.toString();
+                        Log.d("mafuhuax", "result-----" + result);
+                        resultid = result;
                         if (resultid != null) {
                             sendComPic();
+                        } else {
+                            Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("mafuhua", "result" + isOnCallback);
+                        Log.d("mafuhuax", "result" + isOnCallback);
+                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        if (mypDialog.isShowing()) {
+                            mypDialog.dismiss();
+                        }
                     }
 
                     @Override

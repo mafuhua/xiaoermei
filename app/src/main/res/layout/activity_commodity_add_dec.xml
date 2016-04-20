@@ -1,0 +1,324 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品名:"/>
+
+                <EditText
+                    android:id="@+id/et_product_name"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text=""/>
+
+                <CheckBox
+                    android:id="@+id/cb_commodity_up"
+                    android:layout_width="0dp"
+                    android:text="上架"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:layout_height="wrap_content"/>
+                <CheckBox
+                    android:id="@+id/cb_commodity_down"
+                    android:layout_width="0dp"
+                    android:text="下架"
+                    android:textColor="@color/grey"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="品牌:"/>
+
+                <Spinner
+                    android:id="@+id/spinner0"
+                    android:layout_width="0dp"
+                    android:textColor="@color/grey"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品图片:"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/yujiaojuxing2">
+
+                    <GridView
+                        android:id="@+id/gv_selector_image"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:numColumns="3"/>
+
+                    <ImageView
+                        android:id="@+id/iv_btn_add_selector_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/jiahao2x"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品分类:"/>
+
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="0dp"
+                    android:textColor="@color/grey"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text=""/>
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text=""/>
+
+                <Spinner
+                    android:id="@+id/spinner3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+
+                    />
+
+            </LinearLayout>
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品价格:"/>
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_product_price"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="活动价格:"/>
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_product_active_price"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品库存:"/>
+
+                <EditText
+                    android:inputType="number"
+                    android:id="@+id/et_product_inventory"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品味道:"/>
+
+                <EditText
+                    android:id="@+id/et_product_taste"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品重量:"/>
+
+                <EditText
+                    android:inputType="number"
+                    android:hint="单位:kg"
+                    android:id="@+id/et_product_weight"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品产地:"/>
+
+                <EditText
+                    android:id="@+id/et_product_address"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品尺寸:"/>
+
+                <EditText
+                    android:id="@+id/et_product_size"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品颜色:"/>
+
+                <EditText
+                    android:id="@+id/et_product_color"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品容量:"/>
+
+                <EditText
+                    android:hint="单位:ml"
+                    android:inputType="number"
+                    android:id="@+id/et_product_volume"
+                    style="@style/ShopDecEv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/ShopDecLL">
+
+                <TextView
+                    style="@style/ShopDecTv"
+                    android:layout_weight="1"
+                    android:text="产品详情:"/>
+
+                <EditText
+                    android:id="@+id/et_product_dec"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/yujiaojuxing2"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_btn_product_tijiao"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/tijiao"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

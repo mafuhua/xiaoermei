@@ -29,11 +29,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.bean.CommodityAddImagBean;
+import com.yuen.xiaoermei.bean.CommodityEditDecBean;
 import com.yuen.xiaoermei.bean.ShopBrandBean;
 import com.yuen.xiaoermei.bean.ShopTypeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
-import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -97,6 +97,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     private String type_id;
     private String resultid;
     private ProgressDialog mypDialog;
+    private String commodityid;
 
     private void assignViews() {
         context = this;
@@ -186,9 +187,9 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 spinner3.setVisibility(View.VISIBLE);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList2.get(pos - 1), 2);
                 type_id = "";
-                type_id2 = type_id1+","+ShopTypeFirstIDList2.get(pos - 1);
+                type_id2 = type_id1 + "," + ShopTypeFirstIDList2.get(pos - 1);
                 type_id = type_id2;
-                Log.d("mafuhua",  "你点击的是:" + type_id);
+                Log.d("mafuhua", "你点击的是:" + type_id);
             }
 
             @Override
@@ -203,8 +204,8 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 if (pos == 0) return;
                 Log.d("mafuhua", ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1) + "你点击的是:" + pos);
                 getSHOP_TYPE(ContactURL.SHOP_TYPE + ShopTypeFirstIDList3.get(pos - 1), 3);
-                type_id = type_id2+","+ShopTypeFirstIDList3.get(pos - 1);
-                Log.d("mafuhua",  "你点击的是:" + type_id);
+                type_id = type_id2 + "," + ShopTypeFirstIDList3.get(pos - 1);
+                Log.d("mafuhua", "你点击的是:" + type_id);
             }
 
             @Override
@@ -242,9 +243,54 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commodity_edit_dec);
         SysExitUtil.activityList.add(this);
+        Intent intent = getIntent();
+        commodityid = intent.getStringExtra("commodityid");
+        getCommodityDec();
         assignViews();
         getSHOP_BRAND();
         getSHOP_TYPE(ContactURL.SHOP_TYPE + "0", 0);
+    }
+
+    private void getCommodityDec() {
+        org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(ContactURL.SHOP_EDIT_COMMODITY);
+        params.addBodyParameter("product_id", commodityid);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "SHOP_EDIT_COMMODITY------" + result);
+                Gson gson = new Gson();
+                CommodityEditDecBean commodityEditDecBean = gson.fromJson(result, CommodityEditDecBean.class);
+                CommodityEditDecBean.DataBean commodityEditDecBeanData = commodityEditDecBean.getData();
+                mEtProductName.setText(commodityEditDecBeanData.getPro_name());
+                mEtProductPrice.setText(commodityEditDecBeanData.getPro_price());
+                mEtProductActivePrice.setText(commodityEditDecBeanData.getPro_h_price());
+                mEtProductInventory.setText(commodityEditDecBeanData.getPro_inventory());
+                mEtProductTaste.setText(commodityEditDecBeanData.getPro_taste());
+                mEtProductWeight.setText(commodityEditDecBeanData.getPro_kg());
+                mEtProductAddress.setText(commodityEditDecBeanData.getPro_origin());
+                mEtProductSize.setText(commodityEditDecBeanData.getPro_size());
+                mEtProductColor.setText(commodityEditDecBeanData.getPro_color());
+                mEtProductVolume.setText(commodityEditDecBeanData.getPro_ml());
+                mEtProductDec.setText(commodityEditDecBeanData.getPro_content());
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void getSHOP_BRAND() {
@@ -381,7 +427,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        String url = ContactURL.BASE_URL+"/shop/add_img";
+        String url = ContactURL.BASE_URL + "/shop/add_img";
 
         com.loopj.android.http.RequestParams rp = new com.loopj.android.http.RequestParams();
 
@@ -400,11 +446,11 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Log.d("mafuhua", "responseBody"+response);
+                Log.d("mafuhua", "responseBody" + response);
                 Gson gson = new Gson();
                 CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
                 int status = commodityAddImagBean.getStatus();
-                    mypDialog.dismiss();
+                mypDialog.dismiss();
 
             }
 
@@ -487,22 +533,24 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 String pro_color = mEtProductColor.getText().toString().trim();
                 String pro_ml = mEtProductVolume.getText().toString().trim();
                 String pro_content = mEtProductDec.getText().toString().trim();
-                if (TextUtils.isEmpty(pro_name) || TextUtils.isEmpty(pro_price)) {
+               /* if (TextUtils.isEmpty(pro_name) || TextUtils.isEmpty(pro_price)) {
                     Toast.makeText(context, "商品名称,价格不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (ImageList.size()<1){
+                if (ImageList.size() < 1) {
                     Toast.makeText(context, "至少选择一张图片", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }*/
 
 
                 HashMap<String, String> map = new HashMap<String, String>();
                 if (TextUtils.isEmpty(pro_brand)) {
                     pro_brand = "";
-                }if (TextUtils.isEmpty(pro_shelves)) {
+                }
+                if (TextUtils.isEmpty(pro_shelves)) {
                     type_id = "";
-                }if (TextUtils.isEmpty(type_id)) {
+                }
+                if (TextUtils.isEmpty(type_id)) {
                     type_id = "";
                 }
                 map.put("pro_name", pro_name);
@@ -521,7 +569,8 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 map.put("pro_color", pro_color);
                 map.put("pro_ml", pro_ml);
                 map.put("pro_content", pro_content);
-                XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
+                Log.d("mafuhua", "map:" + map);
+               /* XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
 
                     @Override
                     public void onSuccess(String result) {
@@ -549,7 +598,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                     public void onFinished() {
 
                     }
-                });
+                });*/
                 //sendComPic();
                 // finish();
                 break;
@@ -560,6 +609,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 break;
         }
     }
+
     private void addcommoditydia() {
         mypDialog = new ProgressDialog(context);
         //实例化
@@ -576,6 +626,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         //让ProgressDialog显示
 
     }
+
     class MyAdapter extends BaseAdapter {
 
         @Override

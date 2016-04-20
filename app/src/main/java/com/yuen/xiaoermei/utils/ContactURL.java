@@ -9,7 +9,7 @@ public class ContactURL {
      * BaseURL
      *
      */
-    public static String BASE_URL = "http://192.168.2.116/xiaoermei/";
+    public static String BASE_URL = "http://192.168.2.128/xiaoermei/";
     /**
      * 登陆
      */
@@ -125,7 +125,10 @@ public class ContactURL {
     /**
      * 店铺名称保存
      */
-    public static String SHOP_ADD_SHOPTITILE = BASE_URL + "shop/store_add_shop_title";
+    public static String SHOP_ADD_SHOPTITILE = BASE_URL + "shop/store_add_shop_title"; /**
+     * 编辑商品
+     */
+    public static String SHOP_EDIT_COMMODITY = BASE_URL + "shop/product_sava_detail/";
 
 
 }
