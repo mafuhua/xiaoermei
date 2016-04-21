@@ -541,9 +541,9 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 if (TextUtils.isEmpty(pro_brand)) {
                     pro_brand = "";
                 }
-                if (TextUtils.isEmpty(pro_shelves)) {
+             /*   if (TextUtils.isEmpty(pro_shelves)) {
                     type_id = "";
-                }
+                }*/
                 if (TextUtils.isEmpty(type_id)) {
                     type_id = "";
                 }

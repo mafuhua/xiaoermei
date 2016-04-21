@@ -161,6 +161,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
         proSheLvesList.clear();
         page = 0;
         getCommodityList();
+        mGvCommoditylist.setSelection(0);
     }
 
     public void getCommodityList() {

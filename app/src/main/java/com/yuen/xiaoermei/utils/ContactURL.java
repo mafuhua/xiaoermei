@@ -7,7 +7,6 @@ public class ContactURL {
 
     /**
      * BaseURL
-     *
      */
     public static String BASE_URL = "http://192.168.2.128/xiaoermei/";
     /**
@@ -54,6 +53,13 @@ public class ContactURL {
      * 添加产品
      */
     public static String SHOP_ADD_PRO = BASE_URL + "shop/add_product";
+    /**
+     * 修改产品
+     */
+    public static String SHOP_EDIT_PRO = BASE_URL + "shop/save_product"; /**
+     * 删除产品
+     */
+    public static String SHOP_DEL_PRO = BASE_URL + "shop/del_pro";
     /**
      * 配送距离调取
      */
@@ -125,10 +131,11 @@ public class ContactURL {
     /**
      * 店铺名称保存
      */
-    public static String SHOP_ADD_SHOPTITILE = BASE_URL + "shop/store_add_shop_title"; /**
+    public static String SHOP_ADD_SHOPTITILE = BASE_URL + "shop/store_add_shop_title";
+    /**
      * 编辑商品
      */
-    public static String SHOP_EDIT_COMMODITY = BASE_URL + "shop/product_sava_detail/";
+    public static String SHOP_EDIT_COMMODITY = BASE_URL + "shop/product_save_detail/";
 
 
 }

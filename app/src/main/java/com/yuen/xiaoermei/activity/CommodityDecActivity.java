@@ -17,12 +17,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
-import com.yuen.xiaoermei.bean.CommodityDecBean;
+import com.yuen.xiaoermei.bean.CommodityEditDecBean;
 import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -50,6 +49,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
     private ImageOptions options;
     private TextView mTvCommodityDecContent;
     private LinearLayout mLlPointGroup;
+    private CommodityEditDecBean.DataBean commodityDecBeanData;
 
     private void assignViews() {
         context = this;
@@ -84,9 +84,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         commodityid = intent.getStringExtra("commodityid");
+        Log.d("mafuhua", "commodityid"+commodityid);
         assignViews();
-        getCommodityList();
-        regListener();
+        getCommodityList(commodityid);
+       // regListener();
     }
 
     private void addPoints() {
@@ -114,26 +115,24 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
 
         }
     }
-    /**
-     * 页面改变时，上一个页面的下标
-     */
-    private int lastPosition;
-    public void getCommodityList() {
-        RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
+    public void getCommodityList(String commodity) {
+       // RequestParams params = new RequestParams(ContactURL.COMMODITY_DEC+commodityid);
+        org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(ContactURL.SHOP_EDIT_COMMODITY);
+        params.addBodyParameter("product_id", commodity);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-              //  Log.d("mafuhua", result.toString());
+                Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
-                CommodityDecBean commodityDecBean = gson.fromJson(res, CommodityDecBean.class);
-                CommodityDecBean.DataBean commodityDecBeanData = commodityDecBean.getData();
+                CommodityEditDecBean commodityDecBean = gson.fromJson(res, CommodityEditDecBean.class);
+                commodityDecBeanData = commodityDecBean.getData();
                 //  CommodityDecBean.DataBean commodityDecBeanData = commodityDecBean.;
                 String pro_color = commodityDecBeanData.getPro_color();
                 String pro_h_price = commodityDecBeanData.getPro_h_price();
-                List<CommodityDecBean.DataBean.ProImgBean> proImg = commodityDecBeanData.getPro_img();
+                List<CommodityEditDecBean.DataBean.ProImgsBean> proImg = commodityDecBeanData.getPro_imgs();
                 for (int i = 0; i < proImg.size(); i++) {
-                    CommodityDecBean.DataBean.ProImgBean proImgBean = proImg.get(i);
+                    CommodityEditDecBean.DataBean.ProImgsBean proImgBean = proImg.get(i);
                     commodityImageList.add(proImgBean.getImg());
                 }
                 mVpCommodityDec.setAdapter(myPagerAdapter);
@@ -209,47 +208,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
             }
         });
     }
-    private void regListener() {
-        //给viewPager 添加页面改变的监听
-        mVpCommodityDec.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            @Override
-            /**
-             *  当页面选择发生改变时，调用此方法
-             *  @param position 新选择的页面的下标
-             */
-            public void onPageSelected(int position) {
-
-              /*  position = position % imageList.size(); // 防止集合下标越界
-
-                //改变描述文字
-                tvDesc.setText(imageDescriptions[position]);*/
-
-                // 改变指示点
-
-                // 上一个页面，灰点
-                mLlPointGroup.getChildAt(lastPosition).setEnabled(false);
-
-                // 找到对应下标的point ，并改变显示
-                mLlPointGroup.getChildAt(position).setEnabled(true);
-
-                lastPosition = position;// 为上一个页面赋值
-
-            }
-
-            @Override
-            // 当页面滑动时，调用此方法
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-            }
-
-            @Override
-            // 当页面的滑动状态发生改变时，
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -260,6 +219,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 Intent intent = new Intent(context, CommodityEditDecActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra("commodityid", commodityid);
+                intent.putExtra("data",commodityDecBeanData);
                 startActivity(intent);
                 break;
         }

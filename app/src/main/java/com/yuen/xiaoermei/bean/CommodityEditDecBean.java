@@ -1,11 +1,12 @@
 package com.yuen.xiaoermei.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/4/20.
  */
-public class CommodityEditDecBean {
+public class CommodityEditDecBean implements Serializable {
 
     /**
      * code : 0
@@ -68,7 +69,7 @@ public class CommodityEditDecBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         private String id;
         private String brand_id;
         private String type_id;
@@ -290,7 +291,7 @@ public class CommodityEditDecBean {
             this.pro_imgs = pro_imgs;
         }
 
-        public static class ProImgsBean {
+        public static class ProImgsBean implements Serializable{
             private String img;
 
             public String getImg() {

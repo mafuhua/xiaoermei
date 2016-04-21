@@ -1,7 +1,9 @@
 package com.yuen.xiaoermei.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -28,12 +31,12 @@ import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yuen.xiaoermei.R;
-import com.yuen.xiaoermei.bean.CommodityAddImagBean;
 import com.yuen.xiaoermei.bean.CommodityEditDecBean;
 import com.yuen.xiaoermei.bean.ShopBrandBean;
 import com.yuen.xiaoermei.bean.ShopTypeBean;
 import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
+import com.yuen.xiaoermei.utils.XUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
@@ -47,12 +50,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import zhy.imageloader.SelectorImageActivity;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * 商品详情编辑
  */
 public class CommodityEditDecActivity extends AppCompatActivity implements View.OnClickListener {
+    private final int REQUEST_CODE_GALLERY = 1001;
     private String[] ShopBrand;
     private String[] ShopType;
     private EditText mEtProductName;
@@ -68,7 +74,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     private EditText mEtProductDec;
     private LinearLayout mLayoutTitleBar;
     private ImageView mIvBtnBack;
-    private ImageView mIvBtnProductTiJiao;
+    private Button mIvBtnProductTiJiao;
     private TextView mTvTitleDec;
     private ImageView mIvBtnAdd;
     private Context context;
@@ -98,6 +104,38 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     private String resultid;
     private ProgressDialog mypDialog;
     private String commodityid;
+    private TextView mTvNowType;
+    private TextView mTvNowBrand;
+    private List<String> mPhotoList = new ArrayList<>();
+    private GalleryFinal.OnHanlderResultCallback mOnHanlderResultCallback = new GalleryFinal.OnHanlderResultCallback() {
+        @Override
+        public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+            mPhotoList.clear();
+            if (resultList != null) {
+                for (int i = 0; i < resultList.size(); i++) {
+                    PhotoInfo photoInfo = resultList.get(i);
+                    String photoPath = photoInfo.getPhotoPath();
+                    mPhotoList.add(photoPath);
+                    Log.d("mafuhua", "mPhotoList:" + photoPath);
+                }
+                mGvSelectorImage.setAdapter(new MyAdapter());
+                for (int i = 0; i < mPhotoList.size(); i++) {
+                    ImageList.add(destDir.toString() + "/" + i + ".jpg");
+                    Log.d("mafuhua", destDir.toString() + "/" + i + ".jpg");
+                    Compresspic(ImageList.get(i), mPhotoList.get(i));
+                }
+                // mChoosePhotoListAdapter.notifyDataSetChanged();
+
+            }
+        }
+
+        @Override
+        public void onHanlderFailure(int requestCode, String errorMsg) {
+            Toast.makeText(context, errorMsg, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private CommodityEditDecBean.DataBean data;
+    private Button mBtnProductShanChu;
 
     private void assignViews() {
         context = this;
@@ -116,8 +154,11 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         mCbCommodityUp = (CheckBox) findViewById(R.id.cb_commodity_up);
         mCbCommodityDown = (CheckBox) findViewById(R.id.cb_commodity_down);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
+        mTvNowBrand = (TextView) findViewById(R.id.tv_now_brand);
+        mTvNowType = (TextView) findViewById(R.id.tv_now_type);
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
-        mIvBtnProductTiJiao = (ImageView) findViewById(R.id.iv_btn_product_tijiao);
+        mIvBtnProductTiJiao = (Button) findViewById(R.id.iv_btn_product_tijiao);
+        mBtnProductShanChu = (Button) findViewById(R.id.btn_product_shanchu);
         mEtProductName = (EditText) findViewById(R.id.et_product_name);
         mEtProductPrice = (EditText) findViewById(R.id.et_product_price);
         mEtProductActivePrice = (EditText) findViewById(R.id.et_product_active_price);
@@ -136,6 +177,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         mIvBtnBack.setOnClickListener(this);
         mIvBtnAddSelectorImage.setOnClickListener(this);
         mCbCommodityUp.setOnClickListener(this);
+        mBtnProductShanChu.setOnClickListener(this);
         mCbCommodityDown.setOnClickListener(this);
         mIvBtnProductTiJiao.setOnClickListener(this);
         spinner0 = (Spinner) findViewById(R.id.spinner0);
@@ -245,52 +287,37 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         SysExitUtil.activityList.add(this);
         Intent intent = getIntent();
         commodityid = intent.getStringExtra("commodityid");
-        getCommodityDec();
+        data = (CommodityEditDecBean.DataBean) intent.getSerializableExtra("data");
         assignViews();
         getSHOP_BRAND();
         getSHOP_TYPE(ContactURL.SHOP_TYPE + "0", 0);
+        getCommodityDec(data);
+        sendmap.put("pro_img", "");
     }
 
-    private void getCommodityDec() {
-        org.xutils.http.RequestParams params = new org.xutils.http.RequestParams(ContactURL.SHOP_EDIT_COMMODITY);
-        params.addBodyParameter("product_id", commodityid);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("mafuhua", "SHOP_EDIT_COMMODITY------" + result);
-                Gson gson = new Gson();
-                CommodityEditDecBean commodityEditDecBean = gson.fromJson(result, CommodityEditDecBean.class);
-                CommodityEditDecBean.DataBean commodityEditDecBeanData = commodityEditDecBean.getData();
-                mEtProductName.setText(commodityEditDecBeanData.getPro_name());
-                mEtProductPrice.setText(commodityEditDecBeanData.getPro_price());
-                mEtProductActivePrice.setText(commodityEditDecBeanData.getPro_h_price());
-                mEtProductInventory.setText(commodityEditDecBeanData.getPro_inventory());
-                mEtProductTaste.setText(commodityEditDecBeanData.getPro_taste());
-                mEtProductWeight.setText(commodityEditDecBeanData.getPro_kg());
-                mEtProductAddress.setText(commodityEditDecBeanData.getPro_origin());
-                mEtProductSize.setText(commodityEditDecBeanData.getPro_size());
-                mEtProductColor.setText(commodityEditDecBeanData.getPro_color());
-                mEtProductVolume.setText(commodityEditDecBeanData.getPro_ml());
-                mEtProductDec.setText(commodityEditDecBeanData.getPro_content());
+    private void getCommodityDec(CommodityEditDecBean.DataBean data) {
 
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+        mEtProductName.setText(data.getPro_name());
+        mEtProductPrice.setText(data.getPro_price());
+        mEtProductActivePrice.setText(data.getPro_h_price());
+        mEtProductInventory.setText(data.getPro_inventory());
+        mEtProductTaste.setText(data.getPro_taste());
+        mEtProductWeight.setText(data.getPro_kg());
+        mEtProductAddress.setText(data.getPro_origin());
+        mEtProductSize.setText(data.getPro_size());
+        mEtProductColor.setText(data.getPro_color());
+        mEtProductVolume.setText(data.getPro_ml());
+        mEtProductDec.setText(data.getPro_content());
+        mTvNowBrand.setText(data.getBrand_name());
+        if (data.getType0() != null) {
+            mTvNowType.setText(data.getType0());
+        }
+        if (data.getType1() != null) {
+            mTvNowType.setText(data.getType0() + data.getType1());
+        }
+        if (data.getType2() != null) {
+            mTvNowType.setText(data.getType0() + data.getType1() + data.getType2());
+        }
     }
 
     private void getSHOP_BRAND() {
@@ -417,9 +444,12 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
     }
 
     public void sendComPic() {
-        for (int i = 0; i < mySelectedImage.size(); i++) {
+        for (int i = 0; i < mPhotoList.size(); i++) {
 
             sendimg(ImageList.get(i));
+        }
+        if (mypDialog.isShowing()) {
+            mypDialog.dismiss();
         }
     }
 
@@ -435,7 +465,9 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         Log.d("mafuhua", path + "**************");
         try {
             rp.put("img", file);
-            rp.add("id", resultid);
+            rp.add("id", commodityid);
+            Log.d("mafuhua", "**************"+commodityid + "**************");
+           // rp.add("pro_img", data.getPro_img());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -446,17 +478,19 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Log.d("mafuhua", "responseBody" + response);
-                Gson gson = new Gson();
+                Log.d("mafuhua", "responseBody-------------" + response);
+             /*   Gson gson = new Gson();
                 CommodityAddImagBean commodityAddImagBean = gson.fromJson(response, CommodityAddImagBean.class);
-                int status = commodityAddImagBean.getStatus();
-                mypDialog.dismiss();
+                int status = commodityAddImagBean.getStatus();*/
 
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-
+                Log.d("mafuhuax", "responseBody----f" + error);
+                if (mypDialog.isShowing()) {
+                    mypDialog.dismiss();
+                }
             }
 
 
@@ -500,6 +534,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             }
         }).start();
     }
+    HashMap<String, String> sendmap = new HashMap<String, String>();
 
     @Override
     public void onClick(View v) {
@@ -521,7 +556,6 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:
-                addcommoditydia();
                 String pro_name = mEtProductName.getText().toString().trim();
                 String pro_price = mEtProductPrice.getText().toString().trim();
                 String pro_h_price = mEtProductActivePrice.getText().toString().trim();
@@ -533,60 +567,67 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 String pro_color = mEtProductColor.getText().toString().trim();
                 String pro_ml = mEtProductVolume.getText().toString().trim();
                 String pro_content = mEtProductDec.getText().toString().trim();
-               /* if (TextUtils.isEmpty(pro_name) || TextUtils.isEmpty(pro_price)) {
-                    Toast.makeText(context, "商品名称,价格不能为空", Toast.LENGTH_SHORT).show();
-                    return;
+               /* if (Integer.parseInt(pro_inventory) < 1) {
+                    Toast.makeText(context, "库存不能为空", Toast.LENGTH_SHORT).show();
+                    break;
                 }
-                if (ImageList.size() < 1) {
-                    Toast.makeText(context, "至少选择一张图片", Toast.LENGTH_SHORT).show();
-                    return;
-                }*/
+                if (TextUtils.isEmpty(pro_name) || TextUtils.isEmpty(pro_price)) {
+                    Toast.makeText(context, "商品名称,价格不能为空", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                */
 
-
-                HashMap<String, String> map = new HashMap<String, String>();
                 if (TextUtils.isEmpty(pro_brand)) {
                     pro_brand = "";
                 }
-                if (TextUtils.isEmpty(pro_shelves)) {
+               /* if (TextUtils.isEmpty(pro_shelves)) {
                     type_id = "";
-                }
+                }*/
                 if (TextUtils.isEmpty(type_id)) {
                     type_id = "";
                 }
-                map.put("pro_name", pro_name);
-                map.put("pro_shelves", pro_shelves);
-                map.put("brand_id", pro_brand);
-                map.put("type_id", type_id);
-                Log.d("mafuhua", "type_id" + type_id);
-                map.put("pro_price", pro_price);
-                map.put("pro_h_price", pro_h_price);
-                map.put("pro_inventory", pro_inventory);
-                map.put("pro_taste", pro_taste);
-                map.put("shop_userid", MainActivity.userid);
-                map.put("pro_kg", pro_kg);
-                map.put("pro_origin", pro_origin);
-                map.put("pro_size", pro_size);
-                map.put("pro_color", pro_color);
-                map.put("pro_ml", pro_ml);
-                map.put("pro_content", pro_content);
-                Log.d("mafuhua", "map:" + map);
-               /* XUtils.xUtilsPost(ContactURL.SHOP_ADD_PRO, map, new Callback.CommonCallback<String>() {
+                addcommoditydia();
+                sendmap.put("pro_name", pro_name);
+                sendmap.put("id", data.getId());
+                sendmap.put("pro_shelves", pro_shelves);
+                sendmap.put("brand_id", pro_brand);
+                sendmap.put("type_id", type_id);
+             //   Log.d("mafuhua", "type_id" + type_id);
+                sendmap.put("pro_price", pro_price);
+                sendmap.put("pro_h_price", pro_h_price);
+                sendmap.put("pro_inventory", pro_inventory);
+                sendmap.put("pro_taste", pro_taste);
+                sendmap.put("shop_userid", MainActivity.userid);
+                sendmap.put("pro_kg", pro_kg);
+                sendmap.put("pro_origin", pro_origin);
+                sendmap.put("pro_size", pro_size);
+                sendmap.put("pro_color", pro_color);
+                sendmap.put("pro_ml", pro_ml);
+                sendmap.put("pro_content", pro_content);
+                Log.d("mafuhua", "map:" + sendmap);
+                XUtils.xUtilsPost(ContactURL.SHOP_EDIT_PRO, sendmap, new Callback.CommonCallback<String>() {
 
                     @Override
                     public void onSuccess(String result) {
-                        Log.d("mafuhua", "result" + result.toString());
-                        resultid = result.toString();
+                        Log.d("mafuhuax", "result-----" + result);
+                        resultid = result;
                         if (resultid != null) {
                             sendComPic();
-
+                        } else {
+                            Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
                         }
-
-
+                        if (mypDialog.isShowing()) {
+                            mypDialog.dismiss();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("mafuhua", "result" + isOnCallback);
+                        Log.d("mafuhuax", "result" + isOnCallback);
+                        Toast.makeText(context, "上传失败", Toast.LENGTH_SHORT).show();
+                        if (mypDialog.isShowing()) {
+                            mypDialog.dismiss();
+                        }
                     }
 
                     @Override
@@ -598,14 +639,63 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                     public void onFinished() {
 
                     }
-                });*/
+                });
                 //sendComPic();
                 // finish();
                 break;
             case R.id.iv_btn_add_selector_image:
-                Intent intent = new Intent(context, SelectorImageActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivityForResult(intent, 100);
+                sendmap.put("pro_img", data.getPro_img());
+                //带配置
+                FunctionConfig config = new FunctionConfig.Builder()
+                        .setMutiSelectMaxSize(6)
+                        .build();
+                GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, config, mOnHanlderResultCallback);
+                break;
+            case R.id.btn_product_shanchu:
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("确认删除吗？");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        HashMap<String,String> map = new HashMap<String, String>();
+                        map.put("shop_user_id",data.getShop_user_id());
+                        map.put("id",data.getId());
+                        XUtils.xUtilsPost(ContactURL.SHOP_DEL_PRO, map, new Callback.CommonCallback<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                Log.d("mafuhua", "SHOP_DEL_PRO-------------" + result);
+
+                            }
+
+                            @Override
+                            public void onError(Throwable ex, boolean isOnCallback) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(CancelledException cex) {
+
+                            }
+
+                            @Override
+                            public void onFinished() {
+                                Intent intent = new Intent(context, CommodityListActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                            }
+                        });
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                    }
+                });
+                builder.create().show();
                 break;
         }
     }
@@ -620,8 +710,9 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         //设置ProgressDialog 提示信息
         mypDialog.setIndeterminate(false);
         //设置ProgressDialog 的进度条是否不明确
-        mypDialog.setCancelable(true);
+        mypDialog.setCancelable(false);
         //设置ProgressDialog 是否可以按退回按键取消
+        mypDialog.setCanceledOnTouchOutside(false);
         mypDialog.show();
         //让ProgressDialog显示
 
@@ -631,7 +722,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
         @Override
         public int getCount() {
-            return mySelectedImage == null ? 0 : mySelectedImage.size();
+            return mPhotoList == null ? 0 : mPhotoList.size();
         }
 
         @Override
@@ -654,7 +745,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            String imag = mySelectedImage.get(position);
+            String imag = mPhotoList.get(position);
             if (imag != null) {
 
                 x.image().bind(viewHolder.iditemimage, new File(imag).toURI().toString(), options);
@@ -672,5 +763,6 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             }
         }
     }
+
 
 }
