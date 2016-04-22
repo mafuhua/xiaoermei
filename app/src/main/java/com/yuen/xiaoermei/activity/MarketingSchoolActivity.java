@@ -9,9 +9,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.bean.HelpBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 /**
  * 开店须知
@@ -53,8 +60,36 @@ public class MarketingSchoolActivity extends BaseActivity {
         SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
-    }
+        getContent();
 
+    }
+    public void getContent(){
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP + "营销学院");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                HelpBean helpBean = gson.fromJson(result, HelpBean.class);
+                mTvShopNoticeTitle.setText(helpBean.getData().getPage_name());
+                mTvShopNoticeContent.setText(helpBean.getData().getContent());
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK&&event.getAction()== MotionEvent.ACTION_UP) {

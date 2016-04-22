@@ -221,6 +221,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra("commodityid", commodityid);
                 intent.putExtra("data",commodityDecBeanData);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

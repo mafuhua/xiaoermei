@@ -59,6 +59,7 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
  */
 public class CommodityEditDecActivity extends AppCompatActivity implements View.OnClickListener {
     private final int REQUEST_CODE_GALLERY = 1001;
+    HashMap<String, String> sendmap = new HashMap<String, String>();
     private String[] ShopBrand;
     private String[] ShopType;
     private EditText mEtProductName;
@@ -466,8 +467,8 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         try {
             rp.put("img", file);
             rp.add("id", commodityid);
-            Log.d("mafuhua", "**************"+commodityid + "**************");
-           // rp.add("pro_img", data.getPro_img());
+            Log.d("mafuhua", "**************" + commodityid + "**************");
+            // rp.add("pro_img", data.getPro_img());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -534,7 +535,6 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
             }
         }).start();
     }
-    HashMap<String, String> sendmap = new HashMap<String, String>();
 
     @Override
     public void onClick(View v) {
@@ -592,7 +592,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 sendmap.put("pro_shelves", pro_shelves);
                 sendmap.put("brand_id", pro_brand);
                 sendmap.put("type_id", type_id);
-             //   Log.d("mafuhua", "type_id" + type_id);
+                //   Log.d("mafuhua", "type_id" + type_id);
                 sendmap.put("pro_price", pro_price);
                 sendmap.put("pro_h_price", pro_h_price);
                 sendmap.put("pro_inventory", pro_inventory);
@@ -658,9 +658,9 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        HashMap<String,String> map = new HashMap<String, String>();
-                        map.put("shop_user_id",data.getShop_user_id());
-                        map.put("id",data.getId());
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("shop_user_id", data.getShop_user_id());
+                        map.put("id", data.getId());
                         XUtils.xUtilsPost(ContactURL.SHOP_DEL_PRO, map, new Callback.CommonCallback<String>() {
                             @Override
                             public void onSuccess(String result) {
@@ -683,9 +683,10 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                                 Intent intent = new Intent(context, CommodityListActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intent);
+                                finish();
                             }
                         });
-                        finish();
+
                     }
                 });
                 builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

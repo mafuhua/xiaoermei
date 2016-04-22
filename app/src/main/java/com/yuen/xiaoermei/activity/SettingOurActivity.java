@@ -1,6 +1,7 @@
 package com.yuen.xiaoermei.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -9,13 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.bean.HelpBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
 
-/**
- * 开店须知
- */
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+
 public class SettingOurActivity extends BaseActivity {
     private TextView mTvShopNoticeTitle;
     private TextView mTvShopNoticeContent;
@@ -35,7 +41,6 @@ public class SettingOurActivity extends BaseActivity {
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvShopNoticeTitle = (TextView) findViewById(R.id.tv_shop_notice_title);
         mTvShopNoticeContent = (TextView) findViewById(R.id.tv_shop_notice_content);
-        mTvTitleDec.setText("关于我们");
         mIvBtnAdd.setBackgroundResource(R.drawable.iconfontbianji2x);
         mIvBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,14 +50,44 @@ public class SettingOurActivity extends BaseActivity {
         });
         mIvBtnAdd.setVisibility(View.GONE);
     }
+    public void getContent(String url){
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP + url);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                HelpBean helpBean = gson.fromJson(result, HelpBean.class);
+                mTvShopNoticeTitle.setText(helpBean.getData().getPage_name());
+                mTvShopNoticeContent.setText(helpBean.getData().getContent());
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_notice);
         SysExitUtil.activityList.add(this);
         toNext();
+        Intent intent = getIntent();
+        String flag = intent.getStringExtra("flag");
         assignViews();
+        mTvTitleDec.setText(flag);
+        getContent(flag);
     }
 
     @Override

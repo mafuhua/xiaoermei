@@ -56,7 +56,8 @@ public class ContactURL {
     /**
      * 修改产品
      */
-    public static String SHOP_EDIT_PRO = BASE_URL + "shop/save_product"; /**
+    public static String SHOP_EDIT_PRO = BASE_URL + "shop/save_product";
+    /**
      * 删除产品
      */
     public static String SHOP_DEL_PRO = BASE_URL + "shop/del_pro";
@@ -136,6 +137,10 @@ public class ContactURL {
      * 编辑商品
      */
     public static String SHOP_EDIT_COMMODITY = BASE_URL + "shop/product_save_detail/";
+    /**
+     * 帮助中心,关于我们，营销学院
+     */
+    public static String SHOP_GET_HELP = BASE_URL + "shop/page_s/page_name/";
 
 
 }
