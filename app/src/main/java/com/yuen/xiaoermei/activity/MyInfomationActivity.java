@@ -66,7 +66,7 @@ public class MyInfomationActivity extends AppCompatActivity implements View.OnCl
 
     private void assignViews() {
         context = this;
-        sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);

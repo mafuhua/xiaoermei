@@ -34,8 +34,8 @@ public class XUtils {
         while (iter.hasNext()) {
             Map.Entry<?, ?> entry = (Map.Entry<?, ?>) iter.next();
             String key = entry.getKey().toString();
-          //  Log.d("mafuhua", key);
             String val = entry.getValue().toString();
+          //  Log.d("mafuhua","xUtilsPost-----"+ key+"------"+val);
             params.addBodyParameter(key, val);
         }
 

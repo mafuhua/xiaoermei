@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.utils.SysExitUtil;
 
 public class SettingActivity extends BaseActivity {
     private String[] settingString = new String[]{"意见反馈", "检查更新", "清除缓存", "帮助中心", "关于我们", "退出"};
@@ -33,9 +34,10 @@ public class SettingActivity extends BaseActivity {
     private Context context;
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
+
     private void assignViews() {
         context = this;
-        sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         mLayoutTitleBar = (LinearLayout) findViewById(R.id.layout_title_bar);
         mIvBtnBack = (ImageView) findViewById(R.id.iv_btn_back);
         mTvTitleDec = (TextView) findViewById(R.id.tv_title_dec);
@@ -155,6 +157,7 @@ public class SettingActivity extends BaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 MainActivity.slidingMenu.toggle();
+                SysExitUtil.exit();
                 finish();
 
             }

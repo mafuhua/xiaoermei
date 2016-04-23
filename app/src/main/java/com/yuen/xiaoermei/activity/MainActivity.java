@@ -15,7 +15,6 @@ import com.yuen.xiaoermei.utils.SysExitUtil;
  * 主页面
  */
 public class MainActivity extends SlidingFragmentActivity {
-
     public static String username;
     public static String userid;
     public static String shop_imgs;
@@ -53,17 +52,6 @@ public class MainActivity extends SlidingFragmentActivity {
         username = sharedPreferences.getString("username", "");
         userid = sharedPreferences.getString("id", "");
         shop_imgs = sharedPreferences.getString("show_img", "");
-      /*  Log.d("mafuhua", shop_imgs);
-        Log.d("mafuhua", userid);
-        Log.d("mafuhua", username);*/
-      /*  while (true) { //循环条件中直接为TRUE
-            //循环内容
-            if (shop_imgs!=null) { //直到符合条件后跳出本循环 否则一直循环下去
-                shop_imgs = sharedPreferences.getString("shop_imgs", "");
-                Log.d("mafuhua", "shop_imgs"+shop_imgs);
-                break;
-            }
-        }*/
 
         SysExitUtil.activityList.add(this);
     }
