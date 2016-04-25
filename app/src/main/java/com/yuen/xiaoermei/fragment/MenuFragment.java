@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.ClientManagerActivity;
@@ -52,10 +51,8 @@ public class MenuFragment extends BaseFragment {
         mIvUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  Toast.makeText(getActivity(), "点我干嘛", Toast.LENGTH_SHORT).show();
             }
         });
-       // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
         options = new ImageOptions.Builder()
                 //设置使用缓存
                 .setUseMemCache(true)
@@ -76,7 +73,6 @@ public class MenuFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Toast.makeText(getActivity(), menuItem[position], Toast.LENGTH_SHORT).show();
                 switch (position){
                     case 0:
                         intent = new Intent(getActivity(), ShopManagerActivity.class);
@@ -163,8 +159,6 @@ public class MenuFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
-            View view;
             if (convertView == null) {
                 convertView = View.inflate(getActivity(), R.layout.layout_menu_list_item, null);
             }

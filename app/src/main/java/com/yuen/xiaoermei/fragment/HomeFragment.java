@@ -3,7 +3,6 @@ package com.yuen.xiaoermei.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.CommodityListActivity;
@@ -51,7 +50,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
         Intent intent;
         switch (v.getId()){
             case R.id.iv_btn_menu:
-                Toast.makeText(getActivity(), "123456", Toast.LENGTH_SHORT).show();
                 context.showMenu();
                 break;
             case R.id.iv_btn_commodity:

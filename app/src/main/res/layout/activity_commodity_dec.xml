@@ -49,7 +49,7 @@
         <TextView
             android:id="@+id/tv_commodity_dec_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="15dp"
             android:text="5d465f4sd45"/>
     </ScrollView>

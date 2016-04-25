@@ -8,7 +8,7 @@
         <GridView
             android:id="@+id/gv_commoditylist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:numColumns="2"/>
 
