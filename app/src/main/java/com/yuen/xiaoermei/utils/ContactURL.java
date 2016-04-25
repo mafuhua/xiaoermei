@@ -141,6 +141,17 @@ public class ContactURL {
      * 帮助中心,关于我们，营销学院
      */
     public static String SHOP_GET_HELP = BASE_URL + "shop/page_s/page_name/";
-
+    /**
+     * 获取验证码
+     */
+    public static String SHOP_GET_YANZHENGMA = BASE_URL + "shop/yan";
+    /**
+     * 重新设置密码
+     */
+    public static String SHOP_SAVE_MIMA = BASE_URL + "shop/save_mima";
+    /**
+     * 编辑商品
+     */
+   // public static String SHOP_EDIT_COMMODITY = BASE_URL + "shop/product_save_detail/";
 
 }

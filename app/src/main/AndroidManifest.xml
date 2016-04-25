@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="com.yuen.xiaoermei"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.yuen.xiaoermei"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -9,9 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-
-
-   <application
+    <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -51,9 +48,10 @@
         <activity android:name="zhy.imageloader.SelectorImageActivity"/>
         <activity android:name=".activity.SettingActivity"/>
         <activity android:name=".activity.EditMyInfomationActivity"/>
-
-
-
+        <activity android:name=".activity.ForgetPSWActivity">
+        </activity>
+        <activity android:name=".activity.ForgetPSWFINISHActivity">
+        </activity>
     </application>
 
 </manifest>

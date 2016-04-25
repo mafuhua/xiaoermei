@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/jucing2x"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/et_foregetpswfinish_psw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@null"
+            android:hint="请输入密码"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/jucing2x"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/et_foregetpswfinish_pswd"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@null"
+            android:hint="请确认密码"
+            android:inputType="textPassword"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/iv_btn_foregetpswfinish_finish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/titlebar_bg"
+        android:layout_marginTop="50dp"
+        android:text="确定"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+
+</LinearLayout>

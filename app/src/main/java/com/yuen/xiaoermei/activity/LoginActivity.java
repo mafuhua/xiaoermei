@@ -101,7 +101,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                 break;
             case R.id.tv_login_forget_password:
-
+                Intent intent = new Intent(LoginActivity.this, ForgetPSWActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
                 break;
         }
     }

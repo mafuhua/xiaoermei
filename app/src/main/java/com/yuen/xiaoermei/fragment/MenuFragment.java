@@ -52,7 +52,7 @@ public class MenuFragment extends BaseFragment {
         mIvUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "点我干嘛", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "点我干嘛", Toast.LENGTH_SHORT).show();
             }
         });
        // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);

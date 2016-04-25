@@ -42,8 +42,6 @@ public class MyApplication extends Application {
                 .setCheckSelectedColor(getResources().getColor(R.color.titlebar_bg))
                 .build();
 
-
-
       /*  ThemeConfig theme = new ThemeConfig.Builder()
                 .build();*/
         //配置功能
