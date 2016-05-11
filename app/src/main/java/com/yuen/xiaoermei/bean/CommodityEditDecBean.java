@@ -69,7 +69,7 @@ public class CommodityEditDecBean implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         private String id;
         private String brand_id;
         private String type_id;
@@ -92,6 +92,7 @@ public class CommodityEditDecBean implements Serializable {
         private String type0;
         private String type1;
         private String type2;
+        private String type3;
         private String brand_name;
         /**
          * img : http://192.168.2.128/xiaoermei/upload/product/201604/1460346615-89747.jpg
@@ -275,6 +276,14 @@ public class CommodityEditDecBean implements Serializable {
             this.type2 = type2;
         }
 
+        public void setType3(String type3) {
+            this.type3 = type3;
+        }
+
+        public String getType3() {
+            return type3;
+        }
+
         public String getBrand_name() {
             return brand_name;
         }
@@ -291,7 +300,7 @@ public class CommodityEditDecBean implements Serializable {
             this.pro_imgs = pro_imgs;
         }
 
-        public static class ProImgsBean implements Serializable{
+        public static class ProImgsBean implements Serializable {
             private String img;
 
             public String getImg() {

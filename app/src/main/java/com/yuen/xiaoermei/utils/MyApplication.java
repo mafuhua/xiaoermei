@@ -14,6 +14,7 @@ import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import galleryfinal.GlideImageLoader;
 import galleryfinal.GlidePauseOnScrollListener;
+import io.rong.imkit.RongIM;
 
 /**
  * Created by Administrator on 2016/3/22.
@@ -23,6 +24,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        /**
+         * 初始化融云
+         */
+        RongIM.init(this);
         // 初始化
         context = this;
         x.Ext.init(this);

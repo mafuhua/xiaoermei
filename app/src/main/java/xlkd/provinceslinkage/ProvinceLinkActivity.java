@@ -2,6 +2,7 @@ package xlkd.provinceslinkage;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class ProvinceLinkActivity extends Util {
         mIvBtnAdd = (ImageView) findViewById(R.id.iv_btn_add);
         mTvTitleDec.setText("店铺地址");
         mIvBtnAdd.setVisibility(View.GONE);
+        mBtnShopQuedingAddress.setTextColor(Color.WHITE);
         mBtnShopQuedingAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +96,6 @@ public class ProvinceLinkActivity extends Util {
                 ShopAddressBean shopAddressBean = gson.fromJson(res, ShopAddressBean.class);
                 String shop_address = shopAddressBean.getData();
                 if (shop_address != null) {
-
                     mTvShopAddress.setText("店铺地址:"+shop_address);
                 }
             }

@@ -8,7 +8,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.2.109/xiaoermei/";
+    public static String BASE_URL = "http://192.168.2.115/xiaoermei/";
     /**
      * 登陆
      */

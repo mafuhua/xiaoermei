@@ -15,7 +15,6 @@ import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.ClientManagerActivity;
 import com.yuen.xiaoermei.activity.DataManagerActivity;
 import com.yuen.xiaoermei.activity.MainActivity;
-import com.yuen.xiaoermei.activity.MessagerMangerActivity;
 import com.yuen.xiaoermei.activity.MoneyManagerActivity;
 import com.yuen.xiaoermei.activity.OrderManagerActivity;
 import com.yuen.xiaoermei.activity.SettingActivity;
@@ -24,16 +23,17 @@ import com.yuen.xiaoermei.activity.ShopManagerActivity;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import io.rong.imkit.RongIM;
 import piccutdemo.RoundImageView;
 
 /**
  * Created by Administrator on 2016/3/18.
  */
 public class MenuFragment extends BaseFragment {
-    private String[] menuItem = new String[]{"店铺管理", "订单管理", "财务管理", "客户管理", "数据统计", "消息","设置"};
+    private String[] menuItem = new String[]{"店铺管理", "订单管理", "财务管理", "客户管理", "数据统计", "消息", "设置"};
     private Integer[] menuIcon = new Integer[]{R.drawable.iconfontshangpi, R.drawable.iconfontdingdan2x,
             R.drawable.iconfontcaiwu2x, R.drawable.iconfontkehuguanli2x, R.drawable.iconfonttongji2x,
-            R.drawable.iconfontxiaoxi2x,R.drawable.iconfontshezhi2x};
+            R.drawable.iconfontxiaoxi2x, R.drawable.iconfontshezhi2x};
     private RoundImageView mIvUserIcon;
     private TextView mTvUserName;
     private ListView mLvLeftMenu;
@@ -73,7 +73,7 @@ public class MenuFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         intent = new Intent(getActivity(), ShopManagerActivity.class);
                         /**
@@ -108,10 +108,21 @@ public class MenuFragment extends BaseFragment {
 
                         break;
                     case 5:
-                        intent = new Intent(getActivity(), MessagerMangerActivity.class);
+
+
+                        /**
+                         * 启动单聊
+                         * context - 应用上下文。
+                         * targetUserId - 要与之聊天的用户 Id。
+                         * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
+                         */
+                        if (RongIM.getInstance() != null) {
+                            RongIM.getInstance().startPrivateChat(getActivity(), "456", "hello");
+                        }
+                       /* intent = new Intent(getActivity(), MessagerMangerActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
-
+*/
                         break;
                     case 6:
                         intent = new Intent(getActivity(), SettingActivity.class);
@@ -135,8 +146,8 @@ public class MenuFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-       // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
-        x.image().bind(mIvUserIcon, MainActivity.shop_imgs,options);
+        // Log.d("mafuhua", "MainActivity.shop_imgs" + MainActivity.shop_imgs);
+        x.image().bind(mIvUserIcon, MainActivity.shop_imgs, options);
     }
 
     class MyAdapter extends BaseAdapter {

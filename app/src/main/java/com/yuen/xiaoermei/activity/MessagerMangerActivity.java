@@ -16,6 +16,8 @@ public class MessagerMangerActivity extends BaseActivity {
         setContentView(R.layout.activity_messager_manger);
         toNext();
         SysExitUtil.activityList.add(this);
+
+
     }
 
     @Override

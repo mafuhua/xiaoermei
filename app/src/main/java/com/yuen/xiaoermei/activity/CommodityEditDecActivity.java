@@ -311,13 +311,13 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
         mEtProductDec.setText(data.getPro_content());
         mTvNowBrand.setText(data.getBrand_name());
         if (data.getType0() != null) {
-            mTvNowType.setText(data.getType0());
+            mTvNowType.setText(data.getType1());
         }
         if (data.getType1() != null) {
-            mTvNowType.setText(data.getType0() + data.getType1());
+            mTvNowType.setText(data.getType1() + data.getType2());
         }
         if (data.getType2() != null) {
-            mTvNowType.setText(data.getType0() + data.getType1() + data.getType2());
+            mTvNowType.setText(data.getType1() + data.getType2() + data.getType3());
         }
     }
 
