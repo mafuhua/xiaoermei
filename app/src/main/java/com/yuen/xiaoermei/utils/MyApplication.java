@@ -25,10 +25,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        /**
-         * 初始化融云
-         */
-        RongIM.init(this);
+        // 初始化
+        context = this;
         /**
          *
          * OnCreate 会被多个进程重入，这段保护代码，确保只有您需要使用 RongIM 的进程和 Push 进程执行了 init。
@@ -41,7 +39,6 @@ public class MyApplication extends Application {
              * IMKit SDK调用第一步 初始化
              */
             RongIM.init(this);
-
         }
 
 
@@ -51,8 +48,7 @@ public class MyApplication extends Application {
 
 
 
-        // 初始化
-        context = this;
+
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(true);
