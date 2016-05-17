@@ -59,6 +59,16 @@ public class LoginBean {
         private String type;
         private String state;
         private String time;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        private String token;
         private String shop_img;
 
         public String getId() {

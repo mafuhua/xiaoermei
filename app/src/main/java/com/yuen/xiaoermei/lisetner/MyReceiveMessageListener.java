@@ -1,9 +1,28 @@
 package com.yuen.xiaoermei.lisetner;
 
+import android.app.Activity;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.yuen.xiaoermei.activity.MainActivity;
+import com.yuen.xiaoermei.bean.FriendBean;
+import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.Friend;
+import com.yuen.xiaoermei.utils.XUtils;
+
+import org.xutils.common.Callback;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 
-public class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageListener {
+public class MyReceiveMessageListener extends Activity implements RongIMClient.OnReceiveMessageListener {
+
+    public static String targetId;
+    public static List<Friend> userIdList = new ArrayList<>();
+    public  List<String> IdList = new ArrayList<>();
 
     /**
      * 收到消息的处理。
@@ -14,7 +33,54 @@ public class MyReceiveMessageListener implements RongIMClient.OnReceiveMessageLi
      */
     @Override
     public boolean onReceived(Message message, int left) {
-        //开发者根据自己需求自行处理
-        return false;
+        Log.d("mafuhua", "------------南方就是罚款");
+        MainActivity.initNotify();
+      /*  TextMessage content = (TextMessage) message.getContent();
+        content.getContent();*/
+        targetId = message.getTargetId();
+
+        Log.d("mafuhua", "message**:" + message.getTargetId());
+        XUtils.xUtilsGet(ContactURL.GET_FRIEND_INFO + targetId, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "-----GET_FRIEND_INFO-----" + result);
+                Gson gson = new Gson();
+                FriendBean friendBean = gson.fromJson(result, FriendBean.class);
+                FriendBean.DataBean data = friendBean.getData();
+                Friend friend = new Friend();
+                if (userIdList.size() < 1) {
+                    friend.setUserId(MainActivity.userid);
+                    friend.setUserName(MainActivity.username);
+                    friend.setPortraitUri(MainActivity.shop_imgs);
+                    userIdList.add(friend);
+                }
+                if (IdList.contains(targetId)){
+
+                }else {
+                    userIdList.add(new Friend(data.getUid(),data.getNickname(),data.getImg()));
+                }
+                //  userIdList.add(new Friend("359", "移动", "http://img02.tooopen.com/Download/2010/5/22/20100522103223994012.jpg"));
+                IdList.add(targetId);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+
+        return true;
     }
+
 }

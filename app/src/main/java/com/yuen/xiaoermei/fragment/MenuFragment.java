@@ -116,9 +116,12 @@ public class MenuFragment extends BaseFragment {
                          * targetUserId - 要与之聊天的用户 Id。
                          * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
                          */
-                        if (RongIM.getInstance() != null) {
+                       /* if (RongIM.getInstance() != null) {
                             RongIM.getInstance().startPrivateChat(getActivity(), "456", "hello");
-                        }
+                        }*/
+
+                        if (RongIM.getInstance() != null)
+                            RongIM.getInstance().startConversationList(getActivity());
                        /* intent = new Intent(getActivity(), MessagerMangerActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);

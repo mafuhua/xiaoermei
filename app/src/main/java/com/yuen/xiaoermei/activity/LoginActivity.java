@@ -141,6 +141,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             .putString("password", password)
                             .putString("tel", dataBean.getTel())
                             .putString("id", dataBean.getId())
+                            .putString("token", dataBean.getToken())
                             .putString("show_img", dataBean.getShop_img())
                             .apply();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
