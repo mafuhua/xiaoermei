@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -73,7 +74,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 //设置使用缓存
                 .setUseMemCache(true)
                 // 图片缩放模式
-                .setImageScaleType(ImageView.ScaleType.FIT_XY)
+                .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 .build();
     }
 
@@ -89,7 +90,29 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         getCommodityList(commodityid);
        // regListener();
     }
+    public void setListViewHeightBasedOnChildren(GridView listView) {
+        // 获取ListView对应的Adapter
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
 
+        int totalHeight = 0;
+        for (int i = 0, len = listAdapter.getCount(); i < len / 2 + 1; i++) {
+            // listAdapter.getCount()返回数据项的数目
+            View listItem = listAdapter.getView(i, null, listView);
+            // 计算子项View 的宽高
+            listItem.measure(0, 0);
+            // 统计所有子项的总高度
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;//+ (listView.getHeight() * (listAdapter.getCount() - 1));
+        // listView.getDividerHeight()获取子项间分隔符占用的高度
+        // params.height最后得到整个ListView完整显示需要的高度
+        listView.setLayoutParams(params);
+    }
     private void addPoints() {
         for(int i = 0;i<commodityImageList.size();i++){
             // 动态添加指示点
@@ -122,7 +145,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("mafuhua", result.toString());
+                Log.d("mafuhua", "-----SHOP_EDIT_COMMODITY-----"+result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 CommodityEditDecBean commodityDecBean = gson.fromJson(res, CommodityEditDecBean.class);
@@ -189,6 +212,7 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 mTvCommodityDecContent.setText(pro_content);
                 adapter = new MyAdapter();
                 mGvCommoditydec.setAdapter(adapter);
+                setListViewHeightBasedOnChildren(mGvCommoditydec);
                 addPoints();
             }
 

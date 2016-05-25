@@ -1,5 +1,6 @@
 package com.yuen.xiaoermei.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,9 +35,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private SharedPreferences sharedPreferences;
     private String username;
     private String password;
-
+    private Context context;
 
     private void assignViews() {
+        context = this;
         sharedPreferences = getSharedPreferences("userinfo", MODE_PRIVATE);
         mEtLoginUsername = (EditText) findViewById(R.id.et_login_username);
         mEtLoginPassword = (EditText) findViewById(R.id.et_login_password);
@@ -121,41 +123,46 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 String res = result.toString();
                 Gson gson = new Gson();
                 LoginBean loginBean = gson.fromJson(res, LoginBean.class);
-                LoginBean.DataBean dataBean = loginBean.getData();
-                /**
-                 *
-                 * getcode
-                 * 店铺是0,品牌是1
-                 */
-                if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
-                    if (!mCbLoginRememberPassword.isChecked()) {
-                        sharedPreferences.edit().putBoolean("rempsw", false).putString("lgusername", "")
-                                .putString("lgpassword", "").apply();
-                    } else {
-                        sharedPreferences.edit().putBoolean("rempsw", true).apply();
-                    }
-                    sharedPreferences.edit()
-                            .putString("lgusername", userName)
-                            .putString("lgpassword", password)
-                            .putString("username", userName)
-                            .putString("password", password)
-                            .putString("tel", dataBean.getTel())
-                            .putString("id", dataBean.getId())
-                            .putString("token", dataBean.getToken())
-                            .putString("show_img", dataBean.getShop_img())
-                            .apply();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                    finish();
-                }
-                if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    startActivity(intent);
-                    finish();
+                String code = loginBean.getCode();
+                if (code.equals("1")) {
+                    Toast.makeText(LoginActivity.this, loginBean.getMsg(), Toast.LENGTH_SHORT).show();
                 } else {
+                    LoginBean.DataBean dataBean = loginBean.getData();
+                    /**
+                     *
+                     * getcode
+                     * 店铺是0,品牌是1
+                     */
+                 //   if (loginBean.getCode().equals("0") && loginBean.getMsg().equals("成功")) {
+                        if (!mCbLoginRememberPassword.isChecked()) {
+                            sharedPreferences.edit().putBoolean("rempsw", false).putString("lgusername", "")
+                                    .putString("lgpassword", "").apply();
+                        } else {
+                            sharedPreferences.edit().putBoolean("rempsw", true).apply();
+                        }
+                        sharedPreferences.edit()
+                                .putString("lgusername", userName)
+                                .putString("lgpassword", password)
+                                .putString("username", userName)
+                                .putString("password", password)
+                                .putString("tel", dataBean.getTel())
+                                .putString("id", dataBean.getId())
+                                .putString("token", dataBean.getToken())
+                                .putString("show_img", dataBean.getShop_img())
+                                .apply();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                        finish();
+                   // }
+                  /*  if (loginBean.getCode().equals("1") && loginBean.getMsg().equals("成功")) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                        finish();
+                    } else {
 
+                    }*/
                 }
 
             }

@@ -5,53 +5,61 @@
 
     <include layout="@layout/layout_title_bar"/>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_commodity_dec"
-            android:layout_width="fill_parent"
-            android:layout_height="220dp"/>
-
-        <LinearLayout
-            android:id="@+id/ll_point_group"
-            android:background="@color/grey_line"
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:layout_alignBottom="@id/vp_commodity_dec"
-            android:orientation="horizontal">
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_commodity_dec"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textSize="14sp"/>
-
-
-    <GridView
-        android:id="@+id/gv_commoditydec"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:numColumns="2"/>
-
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="vertical">
 
-        <TextView
-            android:id="@+id/tv_commodity_dec_content"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="15dp"
-            android:text="5d465f4sd45"/>
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_commodity_dec"
+                    android:layout_width="fill_parent"
+                    android:layout_height="220dp"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_point_group"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@id/vp_commodity_dec"
+                    android:background="@color/grey_line"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_commodity_dec"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textSize="14sp"/>
+
+
+            <GridView
+                android:id="@+id/gv_commoditydec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:numColumns="2"/>
+
+
+            <TextView
+                android:id="@+id/tv_commodity_dec_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp"
+                android:text="5d465f4sd45"/>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

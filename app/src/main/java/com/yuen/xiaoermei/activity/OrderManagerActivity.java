@@ -48,6 +48,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         mLvOrderList = (ListView) findViewById(R.id.lv_order_list);
         mIvBtnAdd.setVisibility(View.GONE);
         line_order_right.setVisibility(View.GONE);
+        mTvTitleDec.setText("订单管理");
         tv_order_left.setTextColor(getResources().getColor(R.color.titlebar_bg));
         line_order_left.setBackgroundColor(getResources().getColor(R.color.titlebar_bg));
         mLlBtnOrderUnsend.setOnClickListener(this);
