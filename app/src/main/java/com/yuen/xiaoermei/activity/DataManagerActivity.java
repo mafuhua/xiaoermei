@@ -2,6 +2,7 @@ package com.yuen.xiaoermei.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.bean.OrderNumBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
+import com.yuen.xiaoermei.utils.XUtils;
+
+import org.xutils.common.Callback;
 
 /**
  * 数据管理
@@ -34,6 +41,7 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_data_right;
     private View line_data_right;
     private LinearLayout mLlBtnDataDay;
+    private OrderNumBean orderNumBean;
 
     private void assignViews() {
         tv_data_left = (TextView) findViewById(R.id.tv_data_left);
@@ -68,7 +76,32 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
         SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
+        XUtils.xUtilsGet(ContactURL.GET_ORDERNUM + MainActivity.userid, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "------GET_ORDERNUM------" + result);
+                Log.d("mafuhua", "------GET_ORDERNUM------" + ContactURL.GET_ORDERNUM + MainActivity.userid);
+                Gson gson = new Gson();
+                orderNumBean = gson.fromJson(result, OrderNumBean.class);
+                mTvDataOrderNum.setText(orderNumBean.getJin_num());
+                mTvDataOrderBusinessMoney.setText(orderNumBean.getJin_price());
+            }
 
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
@@ -88,12 +121,18 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_btn_data_day:
                 setLeft();
+                mTvDataOrderNum.setText(orderNumBean.getJin_num());
+                mTvDataOrderBusinessMoney.setText(orderNumBean.getJin_price());
                 break;
             case R.id.ll_btn_data_week:
                 setCenter();
+                mTvDataOrderNum.setText(orderNumBean.getBz_num());
+                mTvDataOrderBusinessMoney.setText(orderNumBean.getBz_price());
                 break;
             case R.id.ll_btn_data_month:
                 setRight();
+                mTvDataOrderNum.setText(orderNumBean.getBy_num());
+                mTvDataOrderBusinessMoney.setText(orderNumBean.getBy_price());
                 break;
 
         }

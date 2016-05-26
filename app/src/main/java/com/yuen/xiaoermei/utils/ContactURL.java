@@ -8,7 +8,7 @@ public class ContactURL {
     /**
      * BaseURL
      */
-    public static String BASE_URL = "http://192.168.2.117/xiaoermei/";
+    public static String BASE_URL = "http://192.168.2.136/xiaoermei/";
     /**
      * 登陆
      */
@@ -153,6 +153,20 @@ public class ContactURL {
      * 获得聊天对象的信息
      */
     public static String GET_FRIEND_INFO = BASE_URL + "shop/get_name/uid/";
+    /**
+     * 31.订单列表
+     */
+    public static String GET_ORDER_LIST = BASE_URL + "shop/order_list/shop_id/";
+    /**
+     * 发货
+     */
+    public static String SEND_ORDER = BASE_URL + "shop/fa_order/order_id/";  /**
+     * 发货
+     */
+    public static String GET_CLENT = BASE_URL + "shop/kehu/shop_id/"; /**
+     * 发货
+     */
+    public static String GET_ORDERNUM = BASE_URL + "shop/order_num/shop_id/";
     /**
      * 编辑商品
      */

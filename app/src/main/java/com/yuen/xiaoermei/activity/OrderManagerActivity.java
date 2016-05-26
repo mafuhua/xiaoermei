@@ -3,21 +3,39 @@ package com.yuen.xiaoermei.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.baseclass.BaseHolder;
+import com.yuen.xiaoermei.baseclass.DefaultAdapter;
+import com.yuen.xiaoermei.bean.BaseBean;
+import com.yuen.xiaoermei.bean.OrderListBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
+import com.yuen.xiaoermei.utils.XUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderManagerActivity extends BaseActivity implements View.OnClickListener {
+    private static int typepos = 0;
+    private static List<Integer> typeposList = new ArrayList<>();
+    int bot;
     private LinearLayout mLlBtnOrderUnsend;
     private LinearLayout mLlBtnOrderSend;
     private ListView mLvOrderList;
@@ -31,7 +49,8 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_order_right;
     private View line_order_right;
     private Context context;
-
+    private List<OrderListBean.DataBean> orderListBeanData;
+    private List<OrderListBean.DataBean.ProBean> orderList = new ArrayList<>();
 
     private void assignViews() {
         context = this;
@@ -54,8 +73,6 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         mLlBtnOrderUnsend.setOnClickListener(this);
         mLlBtnOrderSend.setOnClickListener(this);
         mIvBtnBack.setOnClickListener(this);
-        myAdapter = new MyAdapter();
-        mLvOrderList.setAdapter(myAdapter);
     }
 
     @Override
@@ -65,6 +82,62 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         SysExitUtil.activityList.add(this);
         assignViews();
         toNext();
+        getOrderList("/type/2");
+
+    }
+
+    private void getOrderList(String type) {
+        XUtils.xUtilsGet(ContactURL.GET_ORDER_LIST + MainActivity.userid + type, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "----GET_ORDER_LIST-----" + result);
+                Log.d("mafuhua", "----GET_ORDER_LIST-----" + ContactURL.GET_ORDER_LIST + MainActivity.userid + "/type/2");
+
+                if (orderListBeanData != null) {
+                    orderListBeanData.clear();
+                }
+                typeposList.clear();
+                orderList.clear();
+                Gson gson = new Gson();
+                OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
+                if (orderListBean.getCode().equals("1")) {
+                    Toast.makeText(OrderManagerActivity.this,"没有订单了", Toast.LENGTH_SHORT).show();
+                    myAdapter.notifyDataSetChanged();
+                }else {
+                    orderListBeanData = orderListBean.getData();
+                    typepos = 0;
+                    typeposList.add(typepos);
+                    for (int i = 0; i < orderListBeanData.size(); i++) {
+                        OrderListBean.DataBean dataBean = orderListBeanData.get(i);
+                        List<OrderListBean.DataBean.ProBean> proBeanList = dataBean.getPro();
+                        typepos = typepos + proBeanList.size();
+                        typeposList.add(typepos);
+                        for (int j = 0; j < proBeanList.size(); j++) {
+                            OrderListBean.DataBean.ProBean proBean = proBeanList.get(j);
+                            orderList.add(proBean);
+                            myAdapter = new MyAdapter(orderList);
+                            mLvOrderList.setAdapter(myAdapter);
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
@@ -85,9 +158,11 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ll_btn_order_unsend:
                 setUnSend();
+                getOrderList("/type/2");
                 break;
             case R.id.ll_btn_order_send:
                 setSend();
+                getOrderList("/type/3");
                 break;
         }
     }
@@ -108,70 +183,132 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         line_order_right.setVisibility(View.VISIBLE);
     }
 
-    class MyAdapter extends BaseAdapter {
+    private void sendOrder(String order_id) {
+        Log.d("mafuhua", "----SEND_ORDER-----" + ContactURL.SEND_ORDER + order_id);
+        XUtils.xUtilsGet(ContactURL.SEND_ORDER + order_id, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "----SEND_ORDER-----" + result);
 
-        @Override
-        public int getCount() {
-            return 10;
+                Gson gson = new Gson();
+                BaseBean baseBean = gson.fromJson(result, BaseBean.class);
+                Toast.makeText(OrderManagerActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    class MyAdapter extends DefaultAdapter {
+        public MyAdapter(List datas) {
+            super(datas);
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
+        public BaseHolder getHolder() {
+            return new ViewHolder();
+        }
+    }
+
+    public class ViewHolder extends BaseHolder<OrderListBean.DataBean.ProBean> {
+        public TextView tvorderlistunsend;
+        public TextView tvorderlisttime;
+        public ImageView ivordershopimage;
+        public TextView tvorderlistshopname;
+        public TextView tvorderlistclass;
+        public TextView tvorderlistclassname;
+        public TextView tvorderlistpresentprice;
+        public TextView tvorderlistcurrentprice;
+        public TextView tvorderlistcount;
+        public TextView tvorderlistpeople;
+        public TextView tvorderlistpeoplename;
+        public TextView tvorderlistphone;
+        public TextView tvorderlistaddress;
+        public TextView tvorderlistpeopleaddress;
+        public LinearLayout lv_bottom;
+        public RelativeLayout lv_title;
+        public RelativeLayout add;
+        public Button btn_send;
+
+        OrderListBean.DataBean dataBean;
+
+        @Override
+        public View initView() {
+            View root = View.inflate(context, R.layout.layout_order_list_item, null);
+            tvorderlistunsend = (TextView) root.findViewById(R.id.tv_order_list_unsend);
+            lv_bottom = (LinearLayout) root.findViewById(R.id.lv_bottom);
+            lv_title = (RelativeLayout) root.findViewById(R.id.lv_title);
+            btn_send = (Button) root.findViewById(R.id.btn_send);
+            tvorderlisttime = (TextView) root.findViewById(R.id.tv_order_list_time);
+            ivordershopimage = (ImageView) root.findViewById(R.id.iv_order_shop_image);
+            tvorderlistshopname = (TextView) root.findViewById(R.id.tv_order_list_shopname);
+            tvorderlistclass = (TextView) root.findViewById(R.id.tv_order_list_class);
+            tvorderlistclassname = (TextView) root.findViewById(R.id.tv_order_list_classname);
+            tvorderlistpresentprice = (TextView) root.findViewById(R.id.tv_order_list_presentprice);
+            tvorderlistcurrentprice = (TextView) root.findViewById(R.id.tv_order_list_currentprice);
+            tvorderlistcount = (TextView) root.findViewById(R.id.tv_order_list_count);
+            tvorderlistpeople = (TextView) root.findViewById(R.id.tv_order_list_people);
+            tvorderlistpeoplename = (TextView) root.findViewById(R.id.tv_order_list_peoplename);
+            tvorderlistphone = (TextView) root.findViewById(R.id.tv_order_list_phone);
+            tvorderlistaddress = (TextView) root.findViewById(R.id.tv_order_list_address);
+            tvorderlistpeopleaddress = (TextView) root.findViewById(R.id.tv_order_list_peopleaddress);
+
+            return root;
         }
 
         @Override
-        public long getItemId(int position) {
-            return 0;
-        }
+        public void refreshView(OrderListBean.DataBean.ProBean data, int position) {
+            tvorderlistshopname.setText(data.getName());
+            tvorderlistcount.setText(data.getNum());
+            tvorderlistpresentprice.setText(data.getPrice());
+            x.image().bind(ivordershopimage, data.getImage());
+            Log.d("mafuhua", "typeposList:" + typeposList);
+            if (typeposList.contains(position)) {
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.layout_order_list_item, null);
-                viewHolder = new ViewHolder(convertView);
-                convertView.setTag(viewHolder);
+                int i = typeposList.indexOf(position);
+                dataBean = orderListBeanData.get(i);
+                tvorderlisttime.setText(dataBean.getTime());
+                tvorderlistunsend.setText("订单号:" + dataBean.getOrder_id());
+                tvorderlistpeoplename.setText(dataBean.getName());
+                tvorderlistphone.setText(dataBean.getTel());
+                tvorderlistpeopleaddress.setText(dataBean.getAdd() + dataBean.getAdds());
+                lv_bottom.setVisibility(View.VISIBLE);
+                Log.d("mafuhua", "position11:" + position);
+           /*     bot = typeposList.get(i + 1) - 1;
+                Log.d("mafuhua", "position:" + position + "***" + i + "----" + bot);*/
             } else {
-                viewHolder = (ViewHolder) convertView.getTag();
+                lv_bottom.setVisibility(View.GONE);
+                Log.d("mafuhua", "position:" + position);
             }
-            return convertView;
-        }
+          /*  Log.d("mafuhua", "bot:" + bot);
+            if (position == bot&&typeposList.contains(position)) {
+                int i = typeposList.indexOf(position);
+                OrderListBean.DataBean dataBean = orderListBeanData.get(i);
 
-        public class ViewHolder {
-            public final TextView tvorderlistunsend;
-            public final TextView tvorderlisttime;
-            public final ImageView ivordershopimage;
-            public final TextView tvorderlistshopname;
-            public final TextView tvorderlistclass;
-            public final TextView tvorderlistclassname;
-            public final TextView tvorderlistpresentprice;
-            public final TextView tvorderlistcurrentprice;
-            public final TextView tvorderlistcount;
-            public final TextView tvorderlistpeople;
-            public final TextView tvorderlistpeoplename;
-            public final TextView tvorderlistphone;
-            public final TextView tvorderlistaddress;
-            public final TextView tvorderlistpeopleaddress;
-            public final View root;
+                 lv_bottom.setVisibility(View.VISIBLE);
+                Log.d("mafuhua", "position:" + position + "***显示" + "----" + bot);
+            }*/
+            btn_send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendOrder(dataBean.getOrder_id());
+                }
 
-            public ViewHolder(View root) {
-                this.root = root;
-                tvorderlistunsend = (TextView) root.findViewById(R.id.tv_order_list_unsend);
-                tvorderlisttime = (TextView) root.findViewById(R.id.tv_order_list_time);
-                ivordershopimage = (ImageView) root.findViewById(R.id.iv_order_shop_image);
-                tvorderlistshopname = (TextView) root.findViewById(R.id.tv_order_list_shopname);
-                tvorderlistclass = (TextView) root.findViewById(R.id.tv_order_list_class);
-                tvorderlistclassname = (TextView) root.findViewById(R.id.tv_order_list_classname);
-                tvorderlistpresentprice = (TextView) root.findViewById(R.id.tv_order_list_presentprice);
-                tvorderlistcurrentprice = (TextView) root.findViewById(R.id.tv_order_list_currentprice);
-                tvorderlistcount = (TextView) root.findViewById(R.id.tv_order_list_count);
-                tvorderlistpeople = (TextView) root.findViewById(R.id.tv_order_list_people);
-                tvorderlistpeoplename = (TextView) root.findViewById(R.id.tv_order_list_peoplename);
-                tvorderlistphone = (TextView) root.findViewById(R.id.tv_order_list_phone);
-                tvorderlistaddress = (TextView) root.findViewById(R.id.tv_order_list_address);
-                tvorderlistpeopleaddress = (TextView) root.findViewById(R.id.tv_order_list_peopleaddress);
-            }
+            });
         }
     }
 }

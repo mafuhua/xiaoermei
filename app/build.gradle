@@ -36,4 +36,5 @@ dependencies {
     compile 'cn.finalteam:galleryfinal:1.4.8.7'
     compile files('libs/AMap_Location_V2.4.1_20160414.jar')
     compile project(':IMKit')
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

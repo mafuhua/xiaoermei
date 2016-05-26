@@ -1,6 +1,7 @@
 package com.yuen.xiaoermei.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -8,9 +9,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
+import com.yuen.xiaoermei.bean.ClientBean;
+import com.yuen.xiaoermei.utils.ContactURL;
 import com.yuen.xiaoermei.utils.SysExitUtil;
+import com.yuen.xiaoermei.utils.XUtils;
+
+import org.xutils.common.Callback;
 
 /**
  * 客户管理
@@ -49,6 +56,35 @@ public class ClientManagerActivity extends BaseActivity {
         SysExitUtil.activityList.add(this);
         initView();
         toNext();
+        getClient();
+    }
+
+    private void getClient() {
+        XUtils.xUtilsGet(ContactURL.GET_CLENT + MainActivity.userid, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("mafuhua", "------GET_CLENT------"+result);
+                Gson gson = new Gson();
+                ClientBean clientBean = gson.fromJson(result, ClientBean.class);
+                tv_client_now_count.setText(clientBean.getZong()+"人");
+                tv_client_new_add.setText(clientBean.getZuo()+"人");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override
