@@ -35,6 +35,9 @@ import java.util.List;
 public class OrderManagerActivity extends BaseActivity implements View.OnClickListener {
     private static int typepos = 0;
     private static List<Integer> typeposList = new ArrayList<>();
+    private static int botpos = 0;
+    private static List<Integer> botposList = new ArrayList<>();
+    public boolean btnsend = false;
     int bot;
     private LinearLayout mLlBtnOrderUnsend;
     private LinearLayout mLlBtnOrderSend;
@@ -82,6 +85,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         SysExitUtil.activityList.add(this);
         assignViews();
         toNext();
+        btnsend = true;
         getOrderList("/type/2");
 
     }
@@ -96,14 +100,15 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
                 if (orderListBeanData != null) {
                     orderListBeanData.clear();
                 }
+                botposList.clear();
                 typeposList.clear();
                 orderList.clear();
                 Gson gson = new Gson();
                 OrderListBean orderListBean = gson.fromJson(result, OrderListBean.class);
                 if (orderListBean.getCode().equals("1")) {
-                    Toast.makeText(OrderManagerActivity.this,"没有订单了", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderManagerActivity.this, "没有订单了", Toast.LENGTH_SHORT).show();
                     myAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     orderListBeanData = orderListBean.getData();
                     typepos = 0;
                     typeposList.add(typepos);
@@ -111,6 +116,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
                         OrderListBean.DataBean dataBean = orderListBeanData.get(i);
                         List<OrderListBean.DataBean.ProBean> proBeanList = dataBean.getPro();
                         typepos = typepos + proBeanList.size();
+                        botposList.add(typepos - 1);
                         typeposList.add(typepos);
                         for (int j = 0; j < proBeanList.size(); j++) {
                             OrderListBean.DataBean.ProBean proBean = proBeanList.get(j);
@@ -157,10 +163,12 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.ll_btn_order_unsend:
+                btnsend = true;
                 setUnSend();
                 getOrderList("/type/2");
                 break;
             case R.id.ll_btn_order_send:
+                btnsend = false;
                 setSend();
                 getOrderList("/type/3");
                 break;
@@ -243,6 +251,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
         public RelativeLayout lv_title;
         public RelativeLayout add;
         public Button btn_send;
+        public LinearLayout hhr;
 
         OrderListBean.DataBean dataBean;
 
@@ -253,6 +262,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
             lv_bottom = (LinearLayout) root.findViewById(R.id.lv_bottom);
             lv_title = (RelativeLayout) root.findViewById(R.id.lv_title);
             btn_send = (Button) root.findViewById(R.id.btn_send);
+            hhr = (LinearLayout) root.findViewById(R.id.hhr);
             tvorderlisttime = (TextView) root.findViewById(R.id.tv_order_list_time);
             ivordershopimage = (ImageView) root.findViewById(R.id.iv_order_shop_image);
             tvorderlistshopname = (TextView) root.findViewById(R.id.tv_order_list_shopname);
@@ -277,31 +287,33 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
             tvorderlistpresentprice.setText(data.getPrice());
             x.image().bind(ivordershopimage, data.getImage());
             Log.d("mafuhua", "typeposList:" + typeposList);
+            Log.d("mafuhua", "botposList:" + botposList);
             if (typeposList.contains(position)) {
-
                 int i = typeposList.indexOf(position);
                 dataBean = orderListBeanData.get(i);
                 tvorderlisttime.setText(dataBean.getTime());
                 tvorderlistunsend.setText("订单号:" + dataBean.getOrder_id());
+                lv_bottom.setVisibility(View.VISIBLE);
+            } else {
+                lv_bottom.setVisibility(View.GONE);
+            }
+
+            if (botposList.contains(position)) {
+                int i = botposList.indexOf(position);
+                Log.d("mafuhua", "position---------:" + (position));
+                dataBean = orderListBeanData.get(i);
                 tvorderlistpeoplename.setText(dataBean.getName());
                 tvorderlistphone.setText(dataBean.getTel());
                 tvorderlistpeopleaddress.setText(dataBean.getAdd() + dataBean.getAdds());
-                lv_bottom.setVisibility(View.VISIBLE);
-                Log.d("mafuhua", "position11:" + position);
-           /*     bot = typeposList.get(i + 1) - 1;
-                Log.d("mafuhua", "position:" + position + "***" + i + "----" + bot);*/
+                hhr.setVisibility(View.VISIBLE);
             } else {
-                lv_bottom.setVisibility(View.GONE);
-                Log.d("mafuhua", "position:" + position);
+                hhr.setVisibility(View.GONE);
             }
-          /*  Log.d("mafuhua", "bot:" + bot);
-            if (position == bot&&typeposList.contains(position)) {
-                int i = typeposList.indexOf(position);
-                OrderListBean.DataBean dataBean = orderListBeanData.get(i);
-
-                 lv_bottom.setVisibility(View.VISIBLE);
-                Log.d("mafuhua", "position:" + position + "***显示" + "----" + bot);
-            }*/
+            if (btnsend){
+                btn_send.setVisibility(View.VISIBLE);
+            }else {
+                btn_send.setVisibility(View.GONE);
+            }
             btn_send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
