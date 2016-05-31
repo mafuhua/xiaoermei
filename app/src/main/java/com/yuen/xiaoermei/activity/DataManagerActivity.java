@@ -76,6 +76,10 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
         SysExitUtil.activityList.add(this);
         toNext();
         assignViews();
+        getData();
+    }
+
+    private void getData() {
         XUtils.xUtilsGet(ContactURL.GET_ORDERNUM + MainActivity.userid, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

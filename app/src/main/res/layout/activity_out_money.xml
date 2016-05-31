@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_title_bar"/>
+
+    <LinearLayout
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="1"
+            android:text="当前账户:"/>
+
+        <TextView
+            android:id="@+id/tv_out_name"
+            style="@style/ShopDecTv"
+            android:layout_weight="2"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="1"
+            android:text="支付宝账号:"/>
+
+        <EditText
+            android:id="@+id/ed_zfb_num"
+            style="@style/ShopDecEv"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="1"
+            android:text="支付宝姓名:"/>
+
+        <EditText
+            android:id="@+id/ed_zfb_name"
+            style="@style/ShopDecEv"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/ShopDecLL">
+
+        <TextView
+            style="@style/ShopDecTv"
+            android:layout_weight="1"
+            android:text="提现金额:"/>
+
+        <EditText
+            android:id="@+id/ed_zfb_money"
+            style="@style/ShopDecEv"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textColor="@android:color/holo_red_light"
+        android:padding="5dp"
+        android:text="请确保您的支付宝账号和支付宝姓名是同一账户,否则将会提现失败!"/>
+
+    <Button
+        android:id="@+id/btn_getmoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/titlebar_bg"
+        android:text="提现"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

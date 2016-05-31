@@ -20,6 +20,17 @@ public class MyUtils {
             // 图片缩放模式
             .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
             .build();
+
+
+
+    public static ImageOptions options2 = new ImageOptions.Builder()
+            .setRadius(20)
+    // 是否忽略GIF格式的图片
+    .setIgnoreGif(false)
+    // 图片缩放模式
+    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+
+    .build();
     private static Toast toast = null;
 
     /**
