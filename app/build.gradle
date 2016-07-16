@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        keystore {
+            keyAlias 'mafuhua'
+            keyPassword '123456'
+            storeFile file('C:/Users/Administrator/AndroidStudioProjects/xiaoermei/app/src/keystore.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "com.yuen.xiaoermei"
         minSdkVersion 15

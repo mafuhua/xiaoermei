@@ -503,12 +503,12 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 mCbCommodityUp.setChecked(true);
                 mCbCommodityDown.setChecked(false);
                 pro_shelves = "0";
-                Toast.makeText(context, "上架", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "上架", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cb_commodity_down:
                 mCbCommodityUp.setChecked(false);
                 mCbCommodityDown.setChecked(true);
-                Toast.makeText(context, "下架", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "下架", Toast.LENGTH_SHORT).show();
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:
@@ -523,7 +523,7 @@ public class CommodityEditADDDecActivity extends AppCompatActivity implements Vi
                 String pro_color = mEtProductColor.getText().toString().trim();
                 String pro_ml = mEtProductVolume.getText().toString().trim();
                 String pro_content = mEtProductDec.getText().toString().trim();
-                if (Integer.parseInt(pro_inventory) < 1) {
+                if (TextUtils.isEmpty(pro_inventory)) {
                     Toast.makeText(context, "库存不能为空", Toast.LENGTH_SHORT).show();
                     break;
                 }

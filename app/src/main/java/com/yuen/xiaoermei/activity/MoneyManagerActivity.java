@@ -64,6 +64,7 @@ public class MoneyManagerActivity extends BaseActivity implements View.OnClickLi
         mIvBtnAdd.setVisibility(View.GONE);
         tv_tixian.setVisibility(View.VISIBLE);
         mRlMoneyOut.setOnClickListener(this);
+        tv_tixian.setOnClickListener(this);
         mIvBtnBack.setOnClickListener(this);
         mIvBtnBack.setOnClickListener(this);
 
@@ -129,6 +130,7 @@ public class MoneyManagerActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.tv_tixian:
+                Log.d("mafuhua", "OutMoneyListActivity");
                 intent = new Intent(MoneyManagerActivity.this, OutMoneyListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);

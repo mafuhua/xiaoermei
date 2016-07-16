@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,7 +52,7 @@ public class OpenShopNoticeActivity extends AppCompatActivity implements View.On
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                // Log.d("mafuhua", result.toString());
+                 Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 ShopNoticeBean shopNoticeBean = gson.fromJson(res, ShopNoticeBean.class);
@@ -89,7 +90,7 @@ public class OpenShopNoticeActivity extends AppCompatActivity implements View.On
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                // Log.d("mafuhua", result.toString());
+                 Log.d("mafuhua", result.toString());
                 String res = result.toString();
                 Gson gson = new Gson();
                 ShopNoticeBean shopNoticeBean = gson.fromJson(res, ShopNoticeBean.class);
@@ -97,8 +98,8 @@ public class OpenShopNoticeActivity extends AppCompatActivity implements View.On
                 RightAnList = new ArrayList<String>();
                 RightQuesList = new ArrayList<String>();
                 for (int i = 0; i < data.size(); i++) {
-                    RightAnList.add(i, data.get(i).getQ());
-                    RightQuesList.add(i, data.get(i).getA());
+                    RightAnList.add(i, data.get(i).getA());
+                    RightQuesList.add(i, data.get(i).getQ());
                 }
                 myAdapter = new MyAdapter(RightQuesList,RightAnList);
                 mLvOpenShopnoticeContent.setAdapter(myAdapter);
@@ -225,6 +226,7 @@ public class OpenShopNoticeActivity extends AppCompatActivity implements View.On
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.tvopennoticequestion.setText(qlist.get(position));
+            Log.d("mafuhua", "qlist.get(position)"+qlist.get(position));
             viewHolder.tvopennoticerequest.setText(alist.get(position));
             return convertView;
         }

@@ -118,10 +118,11 @@ public class RecievePhoneActivity extends BaseActivity implements View.OnClickLi
                 String shopPhoneNumSuccBeanMsg = shopPhoneNumSuccBean.getCode();
                 if (shopPhoneNumSuccBeanMsg.equals("0")) {
                     Toast.makeText(context, "提交成功", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(context, "提交失败", Toast.LENGTH_SHORT).show();
                 }
-
+                finish();
             }
 
             @Override

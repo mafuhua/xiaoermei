@@ -547,12 +547,12 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                 mCbCommodityUp.setChecked(true);
                 mCbCommodityDown.setChecked(false);
                 pro_shelves = "0";
-                Toast.makeText(context, "上架", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(context, "上架", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cb_commodity_down:
                 mCbCommodityUp.setChecked(false);
                 mCbCommodityDown.setChecked(true);
-                Toast.makeText(context, "下架", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(context, "下架", Toast.LENGTH_SHORT).show();
                 pro_shelves = "1";
                 break;
             case R.id.iv_btn_product_tijiao:

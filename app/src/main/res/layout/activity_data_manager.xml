@@ -114,7 +114,6 @@
            android:layout_below="@id/tv_data_order"
             android:layout_toRightOf="@id/iv_zongkehu"
             android:padding="5dp"
-            android:text="300"
             android:textSize="16sp"/>
     </RelativeLayout>
 
@@ -150,7 +149,6 @@
             android:layout_below="@id/tv_data_order_business"
             android:layout_toRightOf="@id/iv_zongkehu2"
             android:padding="5dp"
-            android:text="300"
             android:textSize="16sp"/>
     </RelativeLayout>
 </LinearLayout>

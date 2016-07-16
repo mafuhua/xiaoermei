@@ -125,18 +125,27 @@ public class DataManagerActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_btn_data_day:
                 setLeft();
-                mTvDataOrderNum.setText(orderNumBean.getJin_num());
-                mTvDataOrderBusinessMoney.setText(orderNumBean.getJin_price());
+                if(orderNumBean!=null){
+                    mTvDataOrderNum.setText(orderNumBean.getJin_num());
+                    mTvDataOrderBusinessMoney.setText(orderNumBean.getJin_price());
+                }
+
                 break;
             case R.id.ll_btn_data_week:
                 setCenter();
-                mTvDataOrderNum.setText(orderNumBean.getBz_num());
-                mTvDataOrderBusinessMoney.setText(orderNumBean.getBz_price());
+                if(orderNumBean!=null){
+                    mTvDataOrderNum.setText(orderNumBean.getBz_num());
+                    mTvDataOrderBusinessMoney.setText(orderNumBean.getBz_price());
+                }
+
                 break;
             case R.id.ll_btn_data_month:
                 setRight();
-                mTvDataOrderNum.setText(orderNumBean.getBy_num());
-                mTvDataOrderBusinessMoney.setText(orderNumBean.getBy_price());
+                if(orderNumBean!=null){
+                    mTvDataOrderNum.setText(orderNumBean.getBy_num());
+                    mTvDataOrderBusinessMoney.setText(orderNumBean.getBy_price());
+                }
+
                 break;
 
         }

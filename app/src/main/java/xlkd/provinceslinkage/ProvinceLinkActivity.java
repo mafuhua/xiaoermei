@@ -142,8 +142,9 @@ public class ProvinceLinkActivity extends Util {
                 if (shop_address != null) {
 
                     mTvShopAddress.setText("店铺地址:"+shop_address);
-                }
 
+                }
+                finish();
 
             }
 

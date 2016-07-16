@@ -3,6 +3,7 @@ package com.yuen.xiaoermei.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.CommodityListActivity;
@@ -16,15 +17,15 @@ import com.yuen.xiaoermei.activity.OpenShopNoticeActivity;
 public class HomeFragment extends BaseFragment implements View.OnClickListener{
     private MainActivity context;
     private ImageView mIvBtnMenu;
-    private ImageView mIvBtnCommodity;
-    private ImageView mIvBtnShopnotice;
-    private ImageView mIvBtnMarketing;
+    private LinearLayout mIvBtnCommodity;
+    private LinearLayout mIvBtnShopnotice;
+    private LinearLayout mIvBtnMarketing;
 
     private void assignViews(View view) {
         mIvBtnMenu = (ImageView) view.findViewById(R.id.iv_btn_menu);
-        mIvBtnCommodity = (ImageView) view.findViewById(R.id.iv_btn_commodity);
-        mIvBtnShopnotice = (ImageView) view.findViewById(R.id.iv_btn_shopnotice);
-        mIvBtnMarketing = (ImageView) view.findViewById(R.id.iv_btn_marketing);
+        mIvBtnCommodity = (LinearLayout) view.findViewById(R.id.iv_btn_commodity);
+        mIvBtnShopnotice = (LinearLayout) view.findViewById(R.id.iv_btn_shopnotice);
+        mIvBtnMarketing = (LinearLayout) view.findViewById(R.id.iv_btn_marketing);
         mIvBtnMenu.setOnClickListener(this);
         mIvBtnCommodity.setOnClickListener(this);
         mIvBtnShopnotice.setOnClickListener(this);

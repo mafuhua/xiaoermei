@@ -111,7 +111,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
 
             @Override
             public void onRefresh() {
-                Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "正在刷新", Toast.LENGTH_SHORT).show();
                 new Thread(new Runnable() {
                     @Override
 
@@ -184,7 +184,7 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
                     Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
                     footerView.setVisibility(View.GONE);
                     return;
-                }else {
+                }else if (commodityListBeanData.size()>18){
                     footerView.setVisibility(View.VISIBLE);
                 }
                 for (int i = 0; i < commodityListBeanData.size(); i++) {
