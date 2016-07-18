@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -449,9 +450,12 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
 
             sendimg(ImageList.get(i));
         }
+        SystemClock.sleep(1500);
+        Toast.makeText(context, "添加商品成功", Toast.LENGTH_SHORT).show();
         if (mypDialog.isShowing()) {
             mypDialog.dismiss();
         }
+        finish();
     }
 
     private void sendimg(String path) {
@@ -665,6 +669,7 @@ public class CommodityEditDecActivity extends AppCompatActivity implements View.
                             @Override
                             public void onSuccess(String result) {
                                 Log.d("mafuhua", "SHOP_DEL_PRO-------------" + result);
+                                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
 
                             }
 

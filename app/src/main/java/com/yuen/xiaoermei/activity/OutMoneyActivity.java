@@ -122,6 +122,7 @@ public class OutMoneyActivity extends AppCompatActivity implements View.OnClickL
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                 Toast.makeText(OutMoneyActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

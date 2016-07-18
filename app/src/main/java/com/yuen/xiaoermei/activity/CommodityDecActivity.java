@@ -171,10 +171,10 @@ public class CommodityDecActivity extends AppCompatActivity implements View.OnCl
                 String pro_content = commodityDecBeanData.getPro_content();
                 mTvCommodityDec.setText(pro_name);
 
-                if (pro_h_price.length() > 0) {
+           /*     if (pro_h_price.length() > 0) {
                     commodityDecKey.add("活动价:");
                     commodityDecValue.add(pro_h_price);
-                }
+                }*/
                 if (pro_price.length() > 0) {
                     commodityDecKey.add("原价:");
                     commodityDecValue.add(pro_price);

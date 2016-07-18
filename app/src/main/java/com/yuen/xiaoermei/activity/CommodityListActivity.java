@@ -153,6 +153,14 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
+
+        getCommodityList();
+        mGvCommoditylist.setSelection(0);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         proNameList.clear();
         proImageList.clear();
         proPriceList.clear();
@@ -160,8 +168,6 @@ public class CommodityListActivity extends AppCompatActivity implements View.OnC
         proIDList.clear();
         proSheLvesList.clear();
         page = 0;
-        getCommodityList();
-        mGvCommoditylist.setSelection(0);
     }
 
     public void getCommodityList() {

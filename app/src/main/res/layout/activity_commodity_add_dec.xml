@@ -179,6 +179,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 style="@style/ShopDecLL">
 
                 <TextView
