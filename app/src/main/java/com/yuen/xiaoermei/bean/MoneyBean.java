@@ -7,14 +7,15 @@ import java.io.Serializable;
  */
 public class MoneyBean implements Serializable{
 
+
     /**
-     * zong : 133185.00
-     * yu : 133184
-     * price_num : 1.00
+     * zong : 0.01
+     * yu : 0.01
+     * price_num : 0.00
      */
 
     private String zong;
-    private int yu;
+    private String yu;
     private String price_num;
 
     public String getZong() {
@@ -25,11 +26,11 @@ public class MoneyBean implements Serializable{
         this.zong = zong;
     }
 
-    public int getYu() {
+    public String getYu() {
         return yu;
     }
 
-    public void setYu(int yu) {
+    public void setYu(String yu) {
         this.yu = yu;
     }
 

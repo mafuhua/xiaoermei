@@ -222,11 +222,12 @@
                 <EditText
                     android:id="@+id/et_product_price"
                     style="@style/ShopDecEv"
-                    android:inputType="number"/>
+                    android:inputType=""/>
 
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 style="@style/ShopDecLL">
 
                 <TextView

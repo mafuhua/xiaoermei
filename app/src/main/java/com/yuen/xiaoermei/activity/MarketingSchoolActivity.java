@@ -64,8 +64,9 @@ public class MarketingSchoolActivity extends BaseActivity {
 
     }
     public void getContent(){
-        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP + "营销学院");
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP);
+        params.addBodyParameter("page_name","营销学院");
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();

@@ -51,8 +51,9 @@ public class SettingOurActivity extends BaseActivity {
         mIvBtnAdd.setVisibility(View.GONE);
     }
     public void getContent(String url){
-        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP + url);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(ContactURL.SHOP_GET_HELP);
+        params.addBodyParameter("page_name",url);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();

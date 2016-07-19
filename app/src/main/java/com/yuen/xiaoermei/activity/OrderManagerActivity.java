@@ -201,6 +201,7 @@ public class OrderManagerActivity extends BaseActivity implements View.OnClickLi
                 Gson gson = new Gson();
                 BaseBean baseBean = gson.fromJson(result, BaseBean.class);
                 Toast.makeText(OrderManagerActivity.this, baseBean.getMsg(), Toast.LENGTH_SHORT).show();
+                getOrderList("/type/2");
 
             }
 

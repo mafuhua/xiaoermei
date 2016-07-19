@@ -97,8 +97,8 @@ public class OutMoneyActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "提现金额不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        int i = Integer.parseInt(money);
-        if (i> moneyBean.getYu()) {
+        Double i = Double.parseDouble(money);
+        if (i> Double.parseDouble(moneyBean.getYu())) {
             Toast.makeText(this, "余额不足", Toast.LENGTH_SHORT).show();
             return;
         } else {

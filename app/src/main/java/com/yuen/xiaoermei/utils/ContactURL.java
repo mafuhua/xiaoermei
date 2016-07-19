@@ -140,7 +140,7 @@ public class ContactURL {
     /**
      * 帮助中心,关于我们，营销学院
      */
-    public static String SHOP_GET_HELP = BASE_URL + "shop/page_s/page_name/";
+    public static String SHOP_GET_HELP = BASE_URL + "shop/page_s/";
     /**
      * 获取验证码
      */
