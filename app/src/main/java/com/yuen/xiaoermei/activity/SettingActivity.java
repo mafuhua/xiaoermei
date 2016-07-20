@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.baseclass.BaseActivity;
@@ -66,7 +67,8 @@ public class SettingActivity extends BaseActivity {
                         context.startActivity(intent);
                         break;
                     case 1:
-                        checkUpdateAPK();
+                        Toast.makeText(context, "已经是最新版本了", Toast.LENGTH_SHORT).show();
+                    //    checkUpdateAPK();
                         break;
                     case 2:
                         clearDialog();
@@ -132,6 +134,7 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                Toast.makeText(context, "清除成功", Toast.LENGTH_SHORT).show();
 
             }
         });

@@ -20,6 +20,7 @@
             android:background="@drawable/shoujihao2x"
             android:id="@+id/et_shop_notice_title"
             android:layout_width="match_parent"
+            android:cursorVisible="false"
             android:layout_height="50dp"/>
     </LinearLayout>
 
@@ -40,14 +41,15 @@
             android:id="@+id/et_shop_notice_content"
             android:layout_width="match_parent"
             android:padding="10dp"
+            android:gravity="top"
             android:layout_height="200dp"/>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_btn_shopnotice_tijiao"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:src="@drawable/tijiao"/>
+        android:background="@drawable/tijiao"/>
 </LinearLayout>

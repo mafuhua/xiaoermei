@@ -1,6 +1,7 @@
 package com.yuen.xiaoermei.activity;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -67,6 +68,7 @@ public class SettingOpinionEditActivity extends BaseActivity {
         iv_btn_setting_opnion_tijiao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 submit();
             }
         });
@@ -79,6 +81,8 @@ public class SettingOpinionEditActivity extends BaseActivity {
             Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        SystemClock.sleep(1000);
+        Toast.makeText(SettingOpinionEditActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
         finish();
     }
 }
