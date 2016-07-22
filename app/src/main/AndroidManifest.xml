@@ -171,7 +171,7 @@
 
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="0vnjpoadn9dhz"/>
+            android:value="e5t4ouvpthpma"/>
 
         <activity
             android:name=".activity.ConvertalkActivity"
@@ -189,6 +189,8 @@
         <activity android:name=".activity.OutMoneyActivity">
         </activity>
         <activity android:name=".activity.OutMoneyListActivity">
+        </activity>
+        <activity android:name=".activity.MyConversationList">
         </activity>
     </application>
 

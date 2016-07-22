@@ -4,7 +4,7 @@ package com.yuen.xiaoermei.utils;
  * Created by Administrator on 2016/3/24.
  */
 public class ContactURL {
-
+    public static String BASEIMG_URL = "http://114.215.210.112/xiaoermei/upload/";
     /**
      * BaseURL
      */
@@ -180,6 +180,7 @@ public class ContactURL {
      * 提现记录
      */
     public static String OUT_MONEYLIST = BASE_URL + "shop/ti_list/shop_id/";
+    public static String XIAO_UID = BASE_URL + "shop/xiao_uid";
     /**
      * 编辑商品
      */

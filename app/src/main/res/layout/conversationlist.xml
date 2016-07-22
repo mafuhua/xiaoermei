@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-
+    <include layout="@layout/layout_title_bar"/>
     <fragment
         android:id="@+id/conversationlist"
         android:name="io.rong.imkit.fragment.ConversationListFragment"

@@ -3,6 +3,7 @@ package com.yuen.xiaoermei.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.ClientManagerActivity;
 import com.yuen.xiaoermei.activity.DataManagerActivity;
@@ -19,11 +21,20 @@ import com.yuen.xiaoermei.activity.MoneyManagerActivity;
 import com.yuen.xiaoermei.activity.OrderManagerActivity;
 import com.yuen.xiaoermei.activity.SettingActivity;
 import com.yuen.xiaoermei.activity.ShopManagerActivity;
+import com.yuen.xiaoermei.bean.ConversationListBean;
+import com.yuen.xiaoermei.utils.ContactURL;
+import com.yuen.xiaoermei.utils.XUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.HashMap;
+import java.util.List;
+
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIMClientWrapper;
+import io.rong.imlib.model.Conversation;
 import piccutdemo.RoundImageView;
 
 /**
@@ -40,7 +51,8 @@ public class MenuFragment extends BaseFragment {
     private MyAdapter myAdapter;
     private SharedPreferences sharedPreferences;
     private ImageOptions options;
-
+    public static List<ConversationListBean.DataBean> conversationListBeanData;
+    private List<Conversation> conversationList;
     private void assignViews(View view) {
         sharedPreferences = getActivity().getSharedPreferences("userinfo", Context.MODE_PRIVATE);
         mIvUserIcon = (RoundImageView) view.findViewById(R.id.iv_user_icon);
@@ -116,25 +128,23 @@ public class MenuFragment extends BaseFragment {
                          * targetUserId - 要与之聊天的用户 Id。
                          * title - 聊天的标题，如果传入空值，则默认显示与之聊天的用户名称。
                          */
-                       /* if (RongIM.getInstance() != null) {
+                      /*  if (RongIM.getInstance() != null) {
                             RongIM.getInstance().startPrivateChat(getActivity(), "456", "hello");
-                        }*/
-
+                        }
+*/
                         if (RongIM.getInstance() != null)
                             RongIM.getInstance().startConversationList(getActivity());
-                       /* intent = new Intent(getActivity(), MessagerMangerActivity.class);
+                      /*  intent = new Intent(getActivity(), MyConversationList.class);
+                       intent.putExtra("data", (Serializable) conversationListBeanData);
+                       intent.putParcelableArrayListExtra("conver", (ArrayList<? extends Parcelable>) conversationList);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        getActivity().startActivity(intent);
-*/
+                        getActivity().startActivity(intent);*/
                         break;
                     case 6:
                         intent = new Intent(getActivity(), SettingActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         getActivity().startActivity(intent);
-
                         break;
-
-
                 }
             }
         });
@@ -143,7 +153,42 @@ public class MenuFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        RongIMClientWrapper rongIMClient = RongIM.getInstance().getRongIMClient();
+        conversationList = rongIMClient.getConversationList();
+        String ids = "";
+        for (int i = 0; i < conversationList.size(); i++) {
+            String targetId = conversationList.get(i).getTargetId();
+            ids = ids + targetId + ",";
+        }
+        String substring = ids.substring(0, ids.length() - 1);
+        Log.d("MyConversationList", "---XIAO---" + substring);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", substring);
+        XUtils.xUtilsPost(ContactURL.XIAO_UID, map, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("MyConversationList", "---XIAO_UID00---" + result);
+                Gson gson = new Gson();
+                ConversationListBean conversationListBean = gson.fromJson(result, ConversationListBean.class);
+                conversationListBeanData = conversationListBean.getData();
 
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     @Override

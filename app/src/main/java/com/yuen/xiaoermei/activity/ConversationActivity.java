@@ -3,11 +3,16 @@ package com.yuen.xiaoermei.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.utils.MyApplication;
+import com.yuen.xiaoermei.utils.SPUtil;
 import com.yuen.xiaoermei.utils.SysExitUtil;
 
 import java.util.Locale;
@@ -21,12 +26,13 @@ import io.rong.imkit.widget.provider.InputProvider;
 import io.rong.imkit.widget.provider.TextInputProvider;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Bob on 15/8/18.
  * 会话页面
  */
-public class ConversationActivity extends FragmentActivity {
+public class ConversationActivity extends ActionBarActivity implements RongIM.UserInfoProvider {
 
     private String mTargetId;
 
@@ -35,11 +41,17 @@ public class ConversationActivity extends FragmentActivity {
      * 会话类型
      */
     private Conversation.ConversationType mConversationType;
+    private ImageView iv_btn_back;
+    private TextView tv_title_dec;
+    private ImageView iv_btn_add;
+    private TextView tv_tixian;
+    private LinearLayout layout_title_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversation);
+        initView();
         SysExitUtil.activityList.add(this);
 
         TextInputProvider textInputProvider = new TextInputProvider(RongContext.getInstance());
@@ -107,8 +119,6 @@ public class ConversationActivity extends FragmentActivity {
     private void isReconnect(Intent intent) {
 
 
-
-
         //push或通知过来
         if (intent != null && intent.getData() != null && intent.getData().getScheme().equals("rong")) {
 
@@ -130,8 +140,6 @@ public class ConversationActivity extends FragmentActivity {
             }
         }
     }
-
-
 
 
     /**
@@ -170,5 +178,27 @@ public class ConversationActivity extends FragmentActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public UserInfo getUserInfo(String s) {
+        return new UserInfo(SPUtil.getString("username"), SPUtil.getString("id"), Uri.parse(SPUtil.getString("show_img")));
+    }
+
+    private void initView() {
+        iv_btn_back = (ImageView) findViewById(R.id.iv_btn_back);
+        tv_title_dec = (TextView) findViewById(R.id.tv_title_dec);
+        iv_btn_add = (ImageView) findViewById(R.id.iv_btn_add);
+        tv_tixian = (TextView) findViewById(R.id.tv_tixian);
+        layout_title_bar = (LinearLayout) findViewById(R.id.layout_title_bar);
+        iv_btn_add.setVisibility(View.GONE);
+        tv_title_dec.setText("小而美");
+        iv_btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ConversationActivity", "关闭");
+                finish();
+            }
+        });
     }
 }

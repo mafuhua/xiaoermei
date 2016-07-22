@@ -48,6 +48,7 @@ public class MainActivity extends SlidingFragmentActivity  {
     public static int notifyId = 100;
     public SharedPreferences sharedPreferences;
 
+
     /**
      * 初始化通知栏
      */
@@ -143,6 +144,7 @@ public class MainActivity extends SlidingFragmentActivity  {
                 Log.e("MainActivity", "——onError— -" + errorCode);
             }
         });
+
 
 
     }
