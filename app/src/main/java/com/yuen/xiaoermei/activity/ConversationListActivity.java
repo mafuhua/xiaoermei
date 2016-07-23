@@ -124,7 +124,9 @@ public class ConversationListActivity extends FragmentActivity  implements RongI
 
     @Override
     public UserInfo getUserInfo(String userId) {
-      //  return new UserInfo(SPUtil.getString("username"), SPUtil.getString("id"), Uri.parse(SPUtil.getString("show_img")));
+        /**
+         * todo 头像
+         */
         for (Friend i : MyReceiveMessageListener.userIdList) {
             if (i.getUserId().equals(userId)) {
                 Log.e("mafuhua", i.getPortraitUri());

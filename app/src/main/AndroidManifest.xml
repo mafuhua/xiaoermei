@@ -73,6 +73,7 @@
         </activity>
         <activity android:name=".activity.ForgetPSWFINISHActivity">
         </activity>
+        <!-- android:launchMode="singleTask"-->
         <activity
             android:name=".activity.ConversationActivity"
             android:launchMode="singleTask">

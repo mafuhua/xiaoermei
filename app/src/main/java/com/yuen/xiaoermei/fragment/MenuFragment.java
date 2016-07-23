@@ -3,7 +3,6 @@ package com.yuen.xiaoermei.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.activity.ClientManagerActivity;
 import com.yuen.xiaoermei.activity.DataManagerActivity;
@@ -22,18 +20,13 @@ import com.yuen.xiaoermei.activity.OrderManagerActivity;
 import com.yuen.xiaoermei.activity.SettingActivity;
 import com.yuen.xiaoermei.activity.ShopManagerActivity;
 import com.yuen.xiaoermei.bean.ConversationListBean;
-import com.yuen.xiaoermei.utils.ContactURL;
-import com.yuen.xiaoermei.utils.XUtils;
 
-import org.xutils.common.Callback;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
-import java.util.HashMap;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIMClientWrapper;
 import io.rong.imlib.model.Conversation;
 import piccutdemo.RoundImageView;
 
@@ -153,7 +146,7 @@ public class MenuFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        RongIMClientWrapper rongIMClient = RongIM.getInstance().getRongIMClient();
+      /*  RongIMClientWrapper rongIMClient = RongIM.getInstance().getRongIMClient();
         conversationList = rongIMClient.getConversationList();
         String ids = "";
         for (int i = 0; i < conversationList.size(); i++) {
@@ -188,7 +181,7 @@ public class MenuFragment extends BaseFragment {
             public void onFinished() {
 
             }
-        });
+        });*/
     }
 
     @Override

@@ -33,8 +33,8 @@ public class MyReceiveMessageListener extends Activity implements RongIMClient.O
      */
     @Override
     public boolean onReceived(Message message, int left) {
-        Log.d("mafuhua", "------------南方就是罚款");
         targetId = message.getTargetId();
+        Log.d("mafuhua", "------------南方就是罚款------"+targetId);
         MainActivity.initNotify();
       /*  TextMessage content = (TextMessage) message.getContent();
         content.getContent();*/

@@ -2,6 +2,7 @@ package com.yuen.xiaoermei.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.yuen.xiaoermei.R;
 import com.yuen.xiaoermei.lisetner.MyReceiveMessageListener;
@@ -25,6 +26,7 @@ public class ConvertalkActivity extends AppCompatActivity {
 
         if (RongIM.getInstance() != null) {
             RongIM.getInstance().startPrivateChat(this, MyReceiveMessageListener.targetId, "");
+            Log.d("mafuhua","MyReceiveMessageListener.targetId"+ MyReceiveMessageListener.targetId);
         }
         finish();
     }
