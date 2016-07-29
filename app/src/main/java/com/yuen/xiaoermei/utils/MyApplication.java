@@ -41,14 +41,6 @@ public class MyApplication extends Application {
             RongIM.init(this);
         }
 
-
-
-
-
-
-
-
-
         x.Ext.init(this);
         // 设置是否输出debug
         x.Ext.setDebug(true);

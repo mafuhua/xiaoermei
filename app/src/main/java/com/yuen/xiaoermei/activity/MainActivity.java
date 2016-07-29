@@ -146,7 +146,6 @@ public class MainActivity extends SlidingFragmentActivity  {
         });
 
 
-
     }
 
     @Override
